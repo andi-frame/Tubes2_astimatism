@@ -3,9 +3,11 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly"
 )
@@ -15,7 +17,7 @@ func getElementType(index int) models.ElementType {
 	case 1:
 		return models.Starting
 	case 2:
-		// Table[2] is special, we skip it (Ruins/Archeologist)
+		// Skip (Ruins/Archeologist)
 		return ""
 	case 3:
 		return models.Tier1
@@ -77,7 +79,7 @@ func ScrapeHandler(ctx *gin.Context) {
 			}
 
 			elementCounter++
-			fmt.Printf("\nElement[%v]: %-10s | %s\n", elementCounter, element, elementType)
+			// fmt.Printf("\nElement[%v]: %-10s | %s\n", elementCounter, element, elementType)
 
 			// each recipe to the element generated
 			h.ForEach("td:nth-of-type(2) li", func(_ int, li *colly.HTMLElement) {
@@ -129,5 +131,21 @@ func ScrapeHandler(ctx *gin.Context) {
 		fmt.Print(err.Error())
 	}
 
+	// Save to JSON file
+	if err := os.MkdirAll("data", 0755); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create data directory"})
+		return
+	}
+
+	filePath := "data/recipes.json"
+	if err := os.WriteFile(filePath, utils.ToJSON(recipes), 0644); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save recipes"})
+		return
+	}
+
+	// Set cookie for 1 day
+	ctx.SetCookie("scraped", "true", 86400, "/", "localhost", false, true)
+
+	// Return recipes data
 	ctx.JSON(http.StatusOK, gin.H{"data": recipes})
 }
