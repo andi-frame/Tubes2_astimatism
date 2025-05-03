@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/andi-frame/Tubes2_astimatism/backend/internal/server/routes"
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/routes"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
