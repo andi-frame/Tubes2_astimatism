@@ -5,77 +5,48 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly"
 )
 
-type ElementType string
-
-const (
-	Starting ElementType = "Starting"
-	Tier1    ElementType = "Tier1"
-	Tier2    ElementType = "Tier2"
-	Tier3    ElementType = "Tier3"
-	Tier4    ElementType = "Tier4"
-	Tier5    ElementType = "Tier5"
-	Tier6    ElementType = "Tier6"
-	Tier7    ElementType = "Tier7"
-	Tier8    ElementType = "Tier8"
-	Tier9    ElementType = "Tier9"
-	Tier10   ElementType = "Tier10"
-	Tier11   ElementType = "Tier11"
-	Tier12   ElementType = "Tier12"
-	Tier13   ElementType = "Tier13"
-	Tier14   ElementType = "Tier14"
-	Tier15   ElementType = "Tier15"
-)
-
-type RecipeType struct {
-	Element     string
-	ImgUrl1     string
-	ImgUrl2     string
-	Ingredient1 string
-	Ingredient2 string
-	Type        ElementType
-}
-
-func getElementType(index int) ElementType {
+func getElementType(index int) models.ElementType {
 	switch index {
 	case 1:
-		return Starting
+		return models.Starting
 	case 2:
 		// Table[2] is special, we skip it (Ruins/Archeologist)
 		return ""
 	case 3:
-		return Tier1
+		return models.Tier1
 	case 4:
-		return Tier2
+		return models.Tier2
 	case 5:
-		return Tier3
+		return models.Tier3
 	case 6:
-		return Tier4
+		return models.Tier4
 	case 7:
-		return Tier5
+		return models.Tier5
 	case 8:
-		return Tier6
+		return models.Tier6
 	case 9:
-		return Tier7
+		return models.Tier7
 	case 10:
-		return Tier8
+		return models.Tier8
 	case 11:
-		return Tier9
+		return models.Tier9
 	case 12:
-		return Tier10
+		return models.Tier10
 	case 13:
-		return Tier11
+		return models.Tier11
 	case 14:
-		return Tier12
+		return models.Tier12
 	case 15:
-		return Tier13
+		return models.Tier13
 	case 16:
-		return Tier14
+		return models.Tier14
 	case 17:
-		return Tier15
+		return models.Tier15
 	default:
 		return ""
 	}
@@ -83,7 +54,7 @@ func getElementType(index int) ElementType {
 
 func ScrapeHandler(ctx *gin.Context) {
 	url := "https://little-alchemy.fandom.com/wiki/Elements_(Little_Alchemy_2)"
-	var recipes []RecipeType
+	var recipes []models.RecipeType
 
 	c := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	tableIndex := 0
@@ -126,7 +97,7 @@ func ScrapeHandler(ctx *gin.Context) {
 					return
 				}
 
-				r := RecipeType{
+				r := models.RecipeType{
 					Element:     element,
 					ImgUrl1:     imgUrl1,
 					ImgUrl2:     imgUrl2,
