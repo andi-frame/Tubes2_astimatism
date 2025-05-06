@@ -8,4 +8,5 @@ import (
 func BFSRoute(r *gin.Engine) {
 	// r.GET("/bfs-shortest-recipe", handlers.BFSShortestRecipeHandler)
 	r.GET("/bfs-tree", handlers.GraphTarget)
+	r.GET("/bfs-limited-tree", handlers.LimitedBFSTree)
 }
