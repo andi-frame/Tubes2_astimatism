@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/andi-frame/Tubes2_astimatism/backend/internal/server"
 	"fmt"
 	"net/http"
+
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/server"
 )
 
 func main() {
