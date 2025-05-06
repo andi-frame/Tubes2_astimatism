@@ -21,6 +21,7 @@ const (
 	Tier15   ElementType = "Tier15"
 )
 
+// TODO: this will be implemented to each element resulted, for its metadata
 type RecipeType struct {
 	Element     string
 	ImgUrl1     string
@@ -28,4 +29,11 @@ type RecipeType struct {
 	Ingredient1 string
 	Ingredient2 string
 	Type        ElementType
+}
+
+// TODO: implement to graph for tree
+type RecipeEdgeType struct {
+	Element     string
+	Ingredient1 string
+	Ingredient2 string
 }
