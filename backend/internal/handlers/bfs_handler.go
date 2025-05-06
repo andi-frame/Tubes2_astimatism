@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GraphTarget(ctx *gin.Context) {
+func BFSTree(ctx *gin.Context) {
 	// If user already scraped recipes
 	hasScraped, err := ctx.Cookie("scraped")
 	if err != nil || hasScraped != "true" {

@@ -2,7 +2,7 @@ package logic
 
 import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 
-func BuildBFSTree(target string, recipesGraph map[string][]models.RecipeType) *models.TreeNode {
+func BuildBFSTree(target string, elementsGraph map[string][]models.RecipeType) *models.TreeNode {
 	root := &models.TreeNode{
 		Element: target,
 	}
@@ -20,7 +20,7 @@ func BuildBFSTree(target string, recipesGraph map[string][]models.RecipeType) *m
 			continue
 		}
 
-		recipes := recipesGraph[curr.Element]
+		recipes := elementsGraph[curr.Element]
 		for _, recipe := range recipes {
 			// Group recipe
 			recipeNode := &models.TreeNode{
