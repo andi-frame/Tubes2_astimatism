@@ -57,6 +57,7 @@ func getTier(index int) int {
 func ScrapeHandler(ctx *gin.Context) {
 	url := "https://little-alchemy.fandom.com/wiki/Elements_(Little_Alchemy_2)"
 	var recipes []models.RecipeType
+	mapTier := make(map[string]int)
 
 	c := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	tableIndex := 0
@@ -84,6 +85,7 @@ func ScrapeHandler(ctx *gin.Context) {
 			}
 
 			elementCounter++
+			mapTier[element] = tier
 			fmt.Printf("\nElement[%v]: %-10s | %v\n", elementCounter, element, tier)
 
 			if element == "Earth" {
@@ -147,6 +149,26 @@ func ScrapeHandler(ctx *gin.Context) {
 		fmt.Print(err.Error())
 	}
 
+	// Filter tier
+	filteredRecipes := make([]models.RecipeType, 0, len(recipes))
+	for _, recipe := range recipes {
+		if recipe.Ingredient1 == "" && recipe.Ingredient2 == "" {
+			filteredRecipes = append(filteredRecipes, recipe)
+			continue
+		}
+
+		tier1, ok1 := mapTier[recipe.Ingredient1]
+		tier2, ok2 := mapTier[recipe.Ingredient2]
+
+		if !ok1 || !ok2 {
+			continue
+		}
+		if tier1 >= recipe.Tier || tier2 >= recipe.Tier {
+			continue
+		}
+		filteredRecipes = append(filteredRecipes, recipe)
+	}
+
 	// Save to JSON file
 	if err := os.MkdirAll("data", 0755); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create data directory"})
@@ -154,7 +176,7 @@ func ScrapeHandler(ctx *gin.Context) {
 	}
 
 	filePath := "data/recipes.json"
-	if err := os.WriteFile(filePath, utils.ToJSON(recipes), 0644); err != nil {
+	if err := os.WriteFile(filePath, utils.ToJSON(filteredRecipes), 0644); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save recipes"})
 		return
 	}
