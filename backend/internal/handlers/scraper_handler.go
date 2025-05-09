@@ -12,45 +12,45 @@ import (
 	"github.com/gocolly/colly"
 )
 
-func getElementType(index int) models.ElementType {
+func getTier(index int) int {
 	switch index {
 	case 1:
-		return models.Starting
+		return 0
 	case 2:
 		// Skip (Ruins/Archeologist)
-		return ""
+		return -1
 	case 3:
-		return models.Tier1
+		return 1
 	case 4:
-		return models.Tier2
+		return 2
 	case 5:
-		return models.Tier3
+		return 3
 	case 6:
-		return models.Tier4
+		return 4
 	case 7:
-		return models.Tier5
+		return 5
 	case 8:
-		return models.Tier6
+		return 6
 	case 9:
-		return models.Tier7
+		return 7
 	case 10:
-		return models.Tier8
+		return 8
 	case 11:
-		return models.Tier9
+		return 9
 	case 12:
-		return models.Tier10
+		return 10
 	case 13:
-		return models.Tier11
+		return 11
 	case 14:
-		return models.Tier12
+		return 12
 	case 15:
-		return models.Tier13
+		return 13
 	case 16:
-		return models.Tier14
+		return 14
 	case 17:
-		return models.Tier15
+		return 15
 	default:
-		return ""
+		return -1
 	}
 }
 
@@ -66,10 +66,15 @@ func ScrapeHandler(ctx *gin.Context) {
 	// each table (starting and tiers)
 	c.OnHTML("table.list-table", func(table *colly.HTMLElement) {
 		tableIndex++
-		elementType := getElementType(tableIndex)
-		if elementType == "" {
+		tier := getTier(tableIndex)
+		if tier < 0 || tier > 17 {
 			return
 		}
+
+		// // ? testing
+		// if elementCounter >= 10 {
+		// 	return
+		// }
 
 		// each element generated
 		table.ForEach("tbody tr", func(_ int, h *colly.HTMLElement) {
@@ -79,7 +84,17 @@ func ScrapeHandler(ctx *gin.Context) {
 			}
 
 			elementCounter++
-			// fmt.Printf("\nElement[%v]: %-10s | %s\n", elementCounter, element, elementType)
+			fmt.Printf("\nElement[%v]: %-10s | %v\n", elementCounter, element, tier)
+
+			if element == "Earth" {
+				r := models.RecipeType{
+					ElementId: elementCounter,
+					Element:   element,
+					Tier:      tier,
+				}
+				recipes = append(recipes, r)
+				return
+			}
 
 			// each recipe to the element generated
 			h.ForEach("td:nth-of-type(2) li", func(_ int, li *colly.HTMLElement) {
@@ -100,19 +115,20 @@ func ScrapeHandler(ctx *gin.Context) {
 				}
 
 				r := models.RecipeType{
+					ElementId:   elementCounter,
 					Element:     element,
 					ImgUrl1:     imgUrl1,
 					ImgUrl2:     imgUrl2,
 					Ingredient1: ingredient1,
 					Ingredient2: ingredient2,
-					Type:        elementType,
+					Tier:        tier,
 				}
 				recipes = append(recipes, r)
 
 				// Testing
-				// fmt.Printf("Recipe[%v]: %s + %s\n", recipeCounter, r.Ingredient1, r.Ingredient2)
-				// fmt.Printf("ImgUrl1: %s\n", r.ImgUrl1)
-				// fmt.Printf("ImgUrl2: %s\n", r.ImgUrl2)
+				fmt.Printf("Recipe[%v]: %s + %s\n", recipeCounter, r.Ingredient1, r.Ingredient2)
+				fmt.Printf("ImgUrl1: %s\n", r.ImgUrl1)
+				fmt.Printf("ImgUrl2: %s\n", r.ImgUrl2)
 
 			})
 		})
