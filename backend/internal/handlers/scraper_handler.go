@@ -58,6 +58,7 @@ func ScrapeHandler(ctx *gin.Context) {
 	url := "https://little-alchemy.fandom.com/wiki/Elements_(Little_Alchemy_2)"
 	var recipes []models.RecipeType
 	mapTier := make(map[string]int)
+	mapId := make(map[string]int)
 
 	c := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	tableIndex := 0
@@ -86,6 +87,7 @@ func ScrapeHandler(ctx *gin.Context) {
 
 			elementCounter++
 			mapTier[element] = tier
+			mapId[element] = elementCounter
 			fmt.Printf("\nElement[%v]: %-10s | %v\n", elementCounter, element, tier)
 
 			if element == "Earth" {
@@ -116,14 +118,29 @@ func ScrapeHandler(ctx *gin.Context) {
 					return
 				}
 
+				ingId1 := mapId[ingredient1]
+				ingId2 := mapId[ingredient2]
+				ing1 := ingredient1
+				ing2 := ingredient2
+				img1 := imgUrl1
+				img2 := imgUrl2
+
+				if ingId1 > ingId2 {
+					ingId1, ingId2 = ingId2, ingId1
+					ing1, ing2 = ing2, ing1
+					img1, img2 = img2, img1
+				}
+
 				r := models.RecipeType{
-					ElementId:   elementCounter,
-					Element:     element,
-					ImgUrl1:     imgUrl1,
-					ImgUrl2:     imgUrl2,
-					Ingredient1: ingredient1,
-					Ingredient2: ingredient2,
-					Tier:        tier,
+					ElementId:     elementCounter,
+					Element:       element,
+					ImgUrl1:       img1,
+					ImgUrl2:       img2,
+					IngredientId1: ingId1,
+					Ingredient1:   ing1,
+					IngredientId2: ingId2,
+					Ingredient2:   ing2,
+					Tier:          tier,
 				}
 				recipes = append(recipes, r)
 
