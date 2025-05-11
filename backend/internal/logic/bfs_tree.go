@@ -2,12 +2,12 @@ package logic
 
 import (
 	"slices"
+	"sync"
 
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 )
 
-func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit int) *models.TreeNode {
-
+func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit uint64) *models.TreeNode {
 	root := &models.TreeNode{
 		Element: targetId,
 		Visited: []int{targetId},
@@ -15,71 +15,124 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 
 	queue := []*models.TreeNode{root}
 
+	var mu sync.Mutex
+
 	// Visit each node
 	for len(queue) > 0 && root.PossibleRecipes < limit {
-		curr := queue[0]
-		queue = queue[1:]
+		var batch []*models.TreeNode
+		mu.Lock()
+		batchSize := min(len(queue), 10)
+		batch = queue[:batchSize]
+		queue = queue[batchSize:]
+		mu.Unlock()
 
-		if IsBaseElement(curr.Element) {
-			continue
-		}
+		// Process batch
+		var wg sync.WaitGroup
+		newNodesChan := make(chan *models.TreeNode, 100)
 
-		recipes := elementsGraph[curr.Element]
-		currTier := tierMap[curr.Element]
-
-		for _, recipe := range recipes {
-			// Check Tier
-			if currTier <= tierMap[recipe.Element1] || currTier <= tierMap[recipe.Element2] {
+		for _, curr := range batch {
+			if IsBaseElement(curr.Element) {
 				continue
 			}
 
-			// Check infinite loop
-			if slices.Contains(curr.Visited, recipe.Element1) || slices.Contains(curr.Visited, recipe.Element2) {
-				continue
-			}
+			wg.Add(1)
+			go func(currentNode *models.TreeNode) {
+				defer wg.Done()
 
-			// First ingredient
-			child1 := &models.TreeNode{
-				Parent:  curr,
-				Element: recipe.Element1,
-				Visited: append(slices.Clone(curr.Visited), recipe.Element1),
-			}
-			if IsBaseElement(recipe.Element1) {
-				child1.PossibleRecipes = 1
-			}
+				var localNewNodes []*models.TreeNode
 
-			// Second ingredient
-			child2 := &models.TreeNode{
-				Parent:  curr,
-				Element: recipe.Element2,
-				Visited: append(slices.Clone(curr.Visited), recipe.Element2),
-			}
-			if IsBaseElement(recipe.Element2) {
-				child2.PossibleRecipes = 1
-			}
+				recipes := elementsGraph[currentNode.Element]
+				currTier := tierMap[currentNode.Element]
 
-			curr.Children = append(curr.Children, &models.PairNode{
-				Element1: child1,
-				Element2: child2,
-			})
+				for _, recipe := range recipes {
+					// Check Tier
+					if currTier <= tierMap[recipe.Element1] || currTier <= tierMap[recipe.Element2] {
+						continue
+					}
 
-			isChild1Base := IsBaseElement(child1.Element)
-			isChild2Base := IsBaseElement(child2.Element)
+					// Check infinite loop
+					mu.Lock()
+					hasLoop := slices.Contains(currentNode.Visited, recipe.Element1) ||
+						slices.Contains(currentNode.Visited, recipe.Element2)
+					mu.Unlock()
 
-			if isChild1Base && isChild2Base {
-				calculatePossibleRecipes(curr)
-			} else {
-				if !isChild1Base {
-					queue = append(queue, child1)
+					if hasLoop {
+						continue
+					}
+
+					// First ingredient
+					child1 := &models.TreeNode{
+						Parent:  currentNode,
+						Element: recipe.Element1,
+						Visited: append(slices.Clone(currentNode.Visited), recipe.Element1),
+					}
+					isChild1Base := IsBaseElement(child1.Element)
+					if isChild1Base {
+						child1.PossibleRecipes = 1
+					}
+
+					// Second ingredient
+					child2 := &models.TreeNode{
+						Parent:  currentNode,
+						Element: recipe.Element2,
+						Visited: append(slices.Clone(currentNode.Visited), recipe.Element2),
+					}
+					isChild2Base := IsBaseElement(child2.Element)
+					if isChild2Base {
+						child2.PossibleRecipes = 1
+					}
+
+					// Create pair node
+					pairNode := &models.PairNode{
+						Element1: child1,
+						Element2: child2,
+					}
+
+					// Add children to current node
+					mu.Lock()
+					currentNode.Children = append(currentNode.Children, pairNode)
+					mu.Unlock()
+
+					if isChild1Base && isChild2Base {
+						mu.Lock()
+						calculatePossibleRecipes(currentNode)
+						mu.Unlock()
+					} else {
+						if !isChild1Base {
+							localNewNodes = append(localNewNodes, child1)
+						}
+						if !isChild2Base {
+							localNewNodes = append(localNewNodes, child2)
+						}
+					}
 				}
-				if !isChild2Base {
-					queue = append(queue, child2)
+
+				for _, node := range localNewNodes {
+					newNodesChan <- node
 				}
-			}
+			}(curr)
 		}
+
+		go func() {
+			wg.Wait()
+			close(newNodesChan)
+		}()
+
+		// Collect all new nodes from channel
+		var newNodes []*models.TreeNode
+		for node := range newNodesChan {
+			newNodes = append(newNodes, node)
+		}
+
+		// Add new nodes to queue
+		mu.Lock()
+		queue = append(queue, newNodes...)
+		mu.Unlock()
 	}
 
+	mu.Lock()
 	PruneTree(root)
+	mu.Unlock()
 	return root
 }
 
@@ -93,14 +146,16 @@ func calculatePossibleRecipes(node *models.TreeNode) {
 		return
 	}
 
-	total := 0
+	var total uint64 = 0
 	for _, pair := range node.Children {
 		total += pair.Element1.PossibleRecipes * pair.Element2.PossibleRecipes
 	}
 
 	node.PossibleRecipes = total
 
-	calculatePossibleRecipes(node.Parent)
+	if node.Parent != nil {
+		calculatePossibleRecipes(node.Parent)
+	}
 }
 
 func PruneTree(node *models.TreeNode) {

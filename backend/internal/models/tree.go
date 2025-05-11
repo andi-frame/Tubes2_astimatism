@@ -15,7 +15,7 @@ type TreeNode struct {
 	Element         int         `json:"element"`
 	Visited         []int       `json:"-"`
 	Children        []*PairNode `json:"children,omitempty"`
-	PossibleRecipes int         `json:"-"`
+	PossibleRecipes uint64      `json:"-"`
 }
 
 type PairNode struct {

@@ -51,7 +51,7 @@ func LimitedBFSTree(ctx *gin.Context) {
 	}
 
 	// Get limit
-	limit, err := strconv.Atoi(ctx.DefaultQuery("limit", ""))
+	limit, err := strconv.ParseUint(ctx.DefaultQuery("limit", ""), 10, 64)
 	if limit == 0 {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Limit element is required"})
 		return
