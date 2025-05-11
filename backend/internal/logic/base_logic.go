@@ -29,3 +29,13 @@ func IsBaseElement(id int) bool {
 	}
 	return base[id]
 }
+
+func BuildTierMap(recipes []models.RecipeType) map[int]int {
+	tierMap := make(map[int]int)
+
+	for _, recipe := range recipes {
+		tierMap[recipe.ElementId] = recipe.Tier
+	}
+
+	return tierMap
+}
