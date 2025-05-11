@@ -7,6 +7,8 @@ type DFSNode struct {
 	RecipeCount   int       // total jumlah resep untuk elemen ini              
 	LeftChild     *DFSNode         
 	RightChild    *DFSNode         
+	NodeCount int
+	
 }
 
 type TreeNode struct {

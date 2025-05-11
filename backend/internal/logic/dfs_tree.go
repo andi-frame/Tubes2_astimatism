@@ -9,11 +9,13 @@ func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMa
 			ElementId:   targetId,
 			RecipeIndex: -1,
 			RecipeCount: 0,
+			NodeCount:   1,
 		}
 	}
 
+	tierTarget := metaMap[targetId].Tier
+
 	for i, pair := range pairs {
-		tierTarget := metaMap[targetId].Tier
 		tier1 := metaMap[pair.Element1].Tier
 		tier2 := metaMap[pair.Element2].Tier
 
@@ -27,6 +29,7 @@ func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMa
 				RecipeCount: len(pairs),
 				LeftChild:   left,
 				RightChild:  right,
+				NodeCount:   1 + left.NodeCount + right.NodeCount,
 			}
 		}
 	}
@@ -35,11 +38,12 @@ func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMa
 		ElementId:   targetId,
 		RecipeIndex: -1,
 		RecipeCount: len(pairs),
+		NodeCount:   1,
 	}
 }
 
 
-func BuildLimitedDFSTree(targetId int,recipeGraph map[int][]models.PairElement,metaMap map[int]models.ElementMeta, limit int) []*models.DFSNode {
+func BuildLimitedDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMap map[int]models.ElementMeta, limit int) []*models.DFSNode {
 	pairs, exists := recipeGraph[targetId]
 	if !exists || len(pairs) == 0 {
 		return []*models.DFSNode{
@@ -47,6 +51,7 @@ func BuildLimitedDFSTree(targetId int,recipeGraph map[int][]models.PairElement,m
 				ElementId:   targetId,
 				RecipeIndex: -1,
 				RecipeCount: 0,
+				NodeCount:   1,
 			},
 		}
 	}
@@ -72,18 +77,19 @@ func BuildLimitedDFSTree(targetId int,recipeGraph map[int][]models.PairElement,m
 				RecipeCount: len(pairs),
 				LeftChild:   left,
 				RightChild:  right,
+				NodeCount:   1 + left.NodeCount + right.NodeCount,
 			}
 			trees = append(trees, node)
 		}
 	}
 
 	if len(trees) == 0 {
-		// Tidak ada resep valid
 		return []*models.DFSNode{
 			{
 				ElementId:   targetId,
 				RecipeIndex: -1,
 				RecipeCount: len(pairs),
+				NodeCount:   1,
 			},
 		}
 	}
