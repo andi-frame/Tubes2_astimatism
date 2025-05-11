@@ -32,6 +32,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	// Routes
 	routes.ScraperRoute(r)
 	routes.BFSRoute(r)
+	routes.DFSRoute(r)
 
 	return r
 }

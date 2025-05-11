@@ -2,6 +2,23 @@ package logic
 
 import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 
+/*
+	Graph used for Depth First Search 
+	Output is
+	map<id, vector<pair<id,id>>
+*/
+func BuildGraphDFS(recipes []models.RecipeType) map[int][]models.PairElement {
+	result := make(map[int][]models.PairElement)
+	for _, r := range recipes {
+		pair := models.PairElement{
+			Element1: r.IngredientId1,
+			Element2: r.IngredientId2,
+		}
+		result[r.ElementId] = append(result[r.ElementId], pair)
+	}
+	return result
+}
+
 // Bottom-Up Version:
 // func BuildGraph(recipes []models.RecipeType) map[models.PairElement]int {
 // 	result := make(map[models.PairElement]int)
@@ -27,6 +44,22 @@ func BuildGraph(recipes []models.RecipeType) map[int][]models.PairElement {
 	}
 	return result
 }
+
+func BuildElementMetaMap(recipes []models.RecipeType) map[int]models.ElementMeta {
+	meta := make(map[int]models.ElementMeta)
+	for _, r := range recipes {
+		if _, exists := meta[r.ElementId]; !exists {
+			meta[r.ElementId] = models.ElementMeta{
+				Name:   r.Element,
+				ImgUrl: r.ImgUrl,
+				Tier:   r.Tier,
+			}
+		}
+	}
+	return meta
+}
+
+
 
 func IsBaseElement(id int) bool {
 	base := map[int]bool{
