@@ -1,5 +1,15 @@
 package handlers
 
+import (
+	"encoding/json"
+	"net/http"
+	"os"
+	"strconv"
+
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/logic"
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+	"github.com/gin-gonic/gin"
+)
 
 func DFSTree(ctx *gin.Context) {
 	hasScraped, err := ctx.Cookie("scraped")
@@ -38,7 +48,6 @@ func DFSTree(ctx *gin.Context) {
 		"tree": tree,
 	})
 }
-
 
 func LimitedDFSTree(ctx *gin.Context) {
 	hasScraped, err := ctx.Cookie("scraped")

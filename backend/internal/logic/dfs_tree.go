@@ -17,7 +17,7 @@ func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMa
 		tier1 := metaMap[pair.Element1].Tier
 		tier2 := metaMap[pair.Element2].Tier
 
-		if tier1 <= tierTarget && tier2 <= tierTarget {
+		if tier1 < tierTarget && tier2 < tierTarget {
 			left := BuildDFSTree(pair.Element1, recipeGraph, metaMap)
 			right := BuildDFSTree(pair.Element2, recipeGraph, metaMap)
 
@@ -62,7 +62,7 @@ func BuildLimitedDFSTree(targetId int,recipeGraph map[int][]models.PairElement,m
 		tier1 := metaMap[pair.Element1].Tier
 		tier2 := metaMap[pair.Element2].Tier
 
-		if tier1 <= tierTarget && tier2 <= tierTarget {
+		if tier1 < tierTarget && tier2 < tierTarget {
 			left := BuildDFSTree(pair.Element1, recipeGraph, metaMap)
 			right := BuildDFSTree(pair.Element2, recipeGraph, metaMap)
 
