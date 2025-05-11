@@ -2808,42 +2808,6 @@
     "Tier": 4
   },
   {
-    "ElementId": 52,
-    "Element": "Gold",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/8/88/Gold_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124201",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/4/4e/Philosopher%27s_stone_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023019",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/d/df/Metal_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122017",
-    "IngredientId1": 718,
-    "Ingredient1": "Philosopher's stone",
-    "IngredientId2": 32,
-    "Ingredient2": "Metal",
-    "Tier": 4
-  },
-  {
-    "ElementId": 52,
-    "Element": "Gold",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/8/88/Gold_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124201",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Steel_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122046",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/4/4e/Philosopher%27s_stone_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023019",
-    "IngredientId1": 482,
-    "Ingredient1": "Steel",
-    "IngredientId2": 718,
-    "Ingredient2": "Philosopher's stone",
-    "Tier": 4
-  },
-  {
-    "ElementId": 52,
-    "Element": "Gold",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/8/88/Gold_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124201",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/4/4d/Quicksilver_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023020",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/4/4e/Philosopher%27s_stone_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023019",
-    "IngredientId1": 464,
-    "Ingredient1": "Quicksilver",
-    "IngredientId2": 718,
-    "Ingredient2": "Philosopher's stone",
-    "Tier": 4
-  },
-  {
     "ElementId": 53,
     "Element": "Grenade",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/e/ed/Grenade_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023013",
@@ -5088,30 +5052,6 @@
     "Tier": 5
   },
   {
-    "ElementId": 87,
-    "Element": "Island",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/07/Island_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224727",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/2/21/Maui%27s_fishhook_2.svg/revision/latest/scale-to-width-down/40?cb=20210831153627",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/8/89/Ocean_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224734",
-    "IngredientId1": 719,
-    "Ingredient1": "Maui's fishhook",
-    "IngredientId2": 93,
-    "Ingredient2": "Ocean",
-    "Tier": 5
-  },
-  {
-    "ElementId": 87,
-    "Element": "Island",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/07/Island_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224727",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/2/21/Maui%27s_fishhook_2.svg/revision/latest/scale-to-width-down/40?cb=20210831153627",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/32/Sea_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224741",
-    "IngredientId1": 719,
-    "Ingredient1": "Maui's fishhook",
-    "IngredientId2": 63,
-    "Ingredient2": "Sea",
-    "Tier": 5
-  },
-  {
     "ElementId": 88,
     "Element": "Katana",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Katana_2.svg/revision/latest/scale-to-width-down/40?cb=20210831154318",
@@ -5637,18 +5577,6 @@
     "Ingredient1": "Mummy",
     "IngredientId2": 402,
     "Ingredient2": "Container",
-    "Tier": 5
-  },
-  {
-    "ElementId": 95,
-    "Element": "Pyramid",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/01/Pyramid_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142444",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/3e/Container_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122007",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/ba/Book_of_the_dead_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142421",
-    "IngredientId1": 402,
-    "Ingredient1": "Container",
-    "IngredientId2": 720,
-    "Ingredient2": "Book of the dead",
     "Tier": 5
   },
   {
@@ -6987,18 +6915,6 @@
     "ElementId": 115,
     "Element": "Barn",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1f/Barn_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231046",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/f/f3/Babe_the_blue_ox_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231030",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/House_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132940",
-    "IngredientId1": 721,
-    "Ingredient1": "Babe the blue ox",
-    "IngredientId2": 54,
-    "Ingredient2": "House",
-    "Tier": 6
-  },
-  {
-    "ElementId": 115,
-    "Element": "Barn",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1f/Barn_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231046",
     "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/3e/Container_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122007",
     "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/c/c4/Livestock_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231126",
     "IngredientId1": 402,
@@ -7089,18 +7005,6 @@
     "Ingredient1": "Container",
     "IngredientId2": 297,
     "Ingredient2": "Goat",
-    "Tier": 6
-  },
-  {
-    "ElementId": 115,
-    "Element": "Barn",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1f/Barn_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231046",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/3e/Container_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122007",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/f/f3/Babe_the_blue_ox_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231030",
-    "IngredientId1": 402,
-    "Ingredient1": "Container",
-    "IngredientId2": 721,
-    "Ingredient2": "Babe the blue ox",
     "Tier": 6
   },
   {
@@ -8127,18 +8031,6 @@
     "ElementId": 130,
     "Element": "Jupiter",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/3/30/Jupiter_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124206",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/f/f2/Zeus_2.svg/revision/latest/scale-to-width-down/40?cb=20210831153635",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/8/8a/Planet_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224737",
-    "IngredientId1": 722,
-    "Ingredient1": "Zeus",
-    "IngredientId2": 34,
-    "Ingredient2": "Planet",
-    "Tier": 6
-  },
-  {
-    "ElementId": 130,
-    "Element": "Jupiter",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/3/30/Jupiter_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124206",
     "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/b/b5/Saturn_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124217",
     "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/0/08/Big_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224708",
     "IngredientId1": 469,
@@ -8421,30 +8313,6 @@
     "Ingredient1": "Storm",
     "IngredientId2": 7,
     "Ingredient2": "Land",
-    "Tier": 6
-  },
-  {
-    "ElementId": 133,
-    "Element": "Lightning",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/3/37/Lightning_2.svg/revision/latest/scale-to-width-down/40?cb=20210830114617",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/f/f2/Zeus_2.svg/revision/latest/scale-to-width-down/40?cb=20210831153635",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 722,
-    "Ingredient1": "Zeus",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
-    "Tier": 6
-  },
-  {
-    "ElementId": 133,
-    "Element": "Lightning",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/3/37/Lightning_2.svg/revision/latest/scale-to-width-down/40?cb=20210830114617",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/2/20/Cyclops_2.svg/revision/latest/scale-to-width-down/40?cb=20210901125742",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 723,
-    "Ingredient1": "Cyclops",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
     "Tier": 6
   },
   {
@@ -10476,18 +10344,6 @@
     "Tier": 7
   },
   {
-    "ElementId": 169,
-    "Element": "Universe",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/d/d0/Universe_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104235",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/34/Cosmic_egg_2.svg/revision/latest/scale-to-width-down/40?cb=20210904120724",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/a/af/Primordial_soup_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231225",
-    "IngredientId1": 724,
-    "Ingredient1": "Cosmic egg",
-    "IngredientId2": 94,
-    "Ingredient2": "Primordial soup",
-    "Tier": 7
-  },
-  {
     "ElementId": 170,
     "Element": "Wind turbine",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/9/9a/Wind_turbine_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104243",
@@ -11661,30 +11517,6 @@
     "Ingredient1": "Arrow",
     "IngredientId2": 156,
     "Ingredient2": "Human",
-    "Tier": 8
-  },
-  {
-    "ElementId": 189,
-    "Element": "Corpse",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/0f/Corpse_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111122",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/39/Jiangshi_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104348",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/9/9b/Mirror_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104354",
-    "IngredientId1": 725,
-    "Ingredient1": "Jiangshi",
-    "IngredientId2": 91,
-    "Ingredient2": "Mirror",
-    "Tier": 8
-  },
-  {
-    "ElementId": 189,
-    "Element": "Corpse",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/0f/Corpse_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111122",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/39/Jiangshi_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104348",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/4/4f/Peach_of_immortality_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104355",
-    "IngredientId1": 725,
-    "Ingredient1": "Jiangshi",
-    "IngredientId2": 726,
-    "Ingredient2": "Peach of immortality",
     "Tier": 8
   },
   {
@@ -13824,30 +13656,6 @@
     "Tier": 8
   },
   {
-    "ElementId": 214,
-    "Element": "Love",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/19/Love_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145954",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/1/10/Cupid_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111125",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/9/9c/Bow_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224710",
-    "IngredientId1": 727,
-    "Ingredient1": "Cupid",
-    "IngredientId2": 515,
-    "Ingredient2": "Bow",
-    "Tier": 8
-  },
-  {
-    "ElementId": 214,
-    "Element": "Love",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/19/Love_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145954",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/1/10/Cupid_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111125",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/5/5c/Arrow_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224659",
-    "IngredientId1": 727,
-    "Ingredient1": "Cupid",
-    "IngredientId2": 504,
-    "Ingredient2": "Arrow",
-    "Tier": 8
-  },
-  {
     "ElementId": 215,
     "Element": "Meat",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/59/Meat_2.svg/revision/latest/scale-to-width-down/40?cb=20210827232414",
@@ -14469,30 +14277,6 @@
     "Ingredient1": "Fabric",
     "IngredientId2": 189,
     "Ingredient2": "Corpse",
-    "Tier": 8
-  },
-  {
-    "ElementId": 218,
-    "Element": "Mummy",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/c/c2/Mummy_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142441",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/b/ba/Book_of_the_dead_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142421",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/0/0f/Corpse_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111122",
-    "IngredientId1": 720,
-    "Ingredient1": "Book of the dead",
-    "IngredientId2": 189,
-    "Ingredient2": "Corpse",
-    "Tier": 8
-  },
-  {
-    "ElementId": 218,
-    "Element": "Mummy",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/c/c2/Mummy_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142441",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/b/ba/Book_of_the_dead_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142421",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/b5/Human_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124203",
-    "IngredientId1": 720,
-    "Ingredient1": "Book of the dead",
-    "IngredientId2": 156,
-    "Ingredient2": "Human",
     "Tier": 8
   },
   {
@@ -16704,54 +16488,6 @@
     "Tier": 9
   },
   {
-    "ElementId": 251,
-    "Element": "Angel",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/Angel_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130142",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d6/Heaven_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130150",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/b5/Human_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124203",
-    "IngredientId1": 728,
-    "Ingredient1": "Heaven",
-    "IngredientId2": 156,
-    "Ingredient2": "Human",
-    "Tier": 9
-  },
-  {
-    "ElementId": 251,
-    "Element": "Angel",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/Angel_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130142",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d9/Good_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130149",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/b5/Human_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124203",
-    "IngredientId1": 729,
-    "Ingredient1": "Good",
-    "IngredientId2": 156,
-    "Ingredient2": "Human",
-    "Tier": 9
-  },
-  {
-    "ElementId": 251,
-    "Element": "Angel",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/Angel_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130142",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d9/Good_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130149",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/2f/Demon_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130144",
-    "IngredientId1": 729,
-    "Ingredient1": "Good",
-    "IngredientId2": 730,
-    "Ingredient2": "Demon",
-    "Tier": 9
-  },
-  {
-    "ElementId": 251,
-    "Element": "Angel",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/Angel_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130142",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d9/Good_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130149",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/c/c0/Deity_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130143",
-    "IngredientId1": 729,
-    "Ingredient1": "Good",
-    "IngredientId2": 731,
-    "Ingredient2": "Deity",
-    "Tier": 9
-  },
-  {
     "ElementId": 252,
     "Element": "Arctic",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/f/f7/Arctic_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224655",
@@ -16893,30 +16629,6 @@
     "Ingredient1": "Vampire",
     "IngredientId2": 153,
     "Ingredient2": "Dawn",
-    "Tier": 9
-  },
-  {
-    "ElementId": 253,
-    "Element": "Ash",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/5e/Ash_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224701",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/8/85/Vampire_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224751",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/36/Holy_grail_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224724",
-    "IngredientId1": 374,
-    "Ingredient1": "Vampire",
-    "IngredientId2": 732,
-    "Ingredient2": "Holy grail",
-    "Tier": 9
-  },
-  {
-    "ElementId": 253,
-    "Element": "Ash",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/5/5e/Ash_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224701",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/8/85/Vampire_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224751",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/4/4a/Holy_water_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224726",
-    "IngredientId1": 374,
-    "Ingredient1": "Vampire",
-    "IngredientId2": 733,
-    "Ingredient2": "Holy water",
     "Tier": 9
   },
   {
@@ -17592,54 +17304,6 @@
     "Tier": 9
   },
   {
-    "ElementId": 263,
-    "Element": "Castle",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/09/Castle_2.svg/revision/latest/scale-to-width-down/40?cb=20210828145406",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/7/7e/Paladin_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004324",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/e/eb/Stone_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104229",
-    "IngredientId1": 734,
-    "Ingredient1": "Paladin",
-    "IngredientId2": 25,
-    "Ingredient2": "Stone",
-    "Tier": 9
-  },
-  {
-    "ElementId": 263,
-    "Element": "Castle",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/09/Castle_2.svg/revision/latest/scale-to-width-down/40?cb=20210828145406",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/7/7e/Paladin_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004324",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/4/49/Wall_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104237",
-    "IngredientId1": 734,
-    "Ingredient1": "Paladin",
-    "IngredientId2": 38,
-    "Ingredient2": "Wall",
-    "Tier": 9
-  },
-  {
-    "ElementId": 263,
-    "Element": "Castle",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/09/Castle_2.svg/revision/latest/scale-to-width-down/40?cb=20210828145406",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/7/7e/Paladin_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004324",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/House_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132940",
-    "IngredientId1": 734,
-    "Ingredient1": "Paladin",
-    "IngredientId2": 54,
-    "Ingredient2": "House",
-    "Tier": 9
-  },
-  {
-    "ElementId": 263,
-    "Element": "Castle",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/09/Castle_2.svg/revision/latest/scale-to-width-down/40?cb=20210828145406",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/7/7e/Paladin_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004324",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/3e/Container_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122007",
-    "IngredientId1": 734,
-    "Ingredient1": "Paladin",
-    "IngredientId2": 402,
-    "Ingredient2": "Container",
-    "Tier": 9
-  },
-  {
     "ElementId": 264,
     "Element": "Catnip",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/d/db/Catnip_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004254",
@@ -17673,18 +17337,6 @@
     "Ingredient1": "Flower",
     "IngredientId2": 185,
     "Ingredient2": "Cat",
-    "Tier": 9
-  },
-  {
-    "ElementId": 264,
-    "Element": "Catnip",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/d/db/Catnip_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004254",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/3/3b/Baast_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004251",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/2a/Plant_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124215",
-    "IngredientId1": 735,
-    "Ingredient1": "Baast",
-    "IngredientId2": 222,
-    "Ingredient2": "Plant",
     "Tier": 9
   },
   {
@@ -18696,18 +18348,6 @@
     "Tier": 9
   },
   {
-    "ElementId": 280,
-    "Element": "Dragon",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/12/Dragon_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125320",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/6/6e/Dinosaur_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104208",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 277,
-    "Ingredient2": "Dinosaur",
-    "Tier": 9
-  },
-  {
     "ElementId": 281,
     "Element": "Duck",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/a/af/Duck_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122010",
@@ -19548,30 +19188,6 @@
     "Tier": 9
   },
   {
-    "ElementId": 292,
-    "Element": "Frankenstein's monster",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/8/81/Frankenstein%27s_monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145945",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/e/ec/Story_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111152",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 365,
-    "Ingredient2": "Story",
-    "Tier": 9
-  },
-  {
-    "ElementId": 292,
-    "Element": "Frankenstein's monster",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/8/81/Frankenstein%27s_monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145945",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/0/0f/Corpse_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111122",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 189,
-    "Ingredient2": "Corpse",
-    "Tier": 9
-  },
-  {
     "ElementId": 293,
     "Element": "Fridge",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/e/e3/Fridge_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145947",
@@ -19863,18 +19479,6 @@
     "ElementId": 296,
     "Element": "Ghost",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/4/48/Ghost_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023004",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/7/77/Graveyard_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125332",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/9/92/Curse_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023002",
-    "IngredientId1": 300,
-    "Ingredient1": "Graveyard",
-    "IngredientId2": 737,
-    "Ingredient2": "Curse",
-    "Tier": 9
-  },
-  {
-    "ElementId": 296,
-    "Element": "Ghost",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/4/48/Ghost_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023004",
     "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/9/9e/Grave_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125331",
     "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/6/60/Night_2.svg/revision/latest/scale-to-width-down/40?cb=20210828145427",
     "IngredientId1": 299,
@@ -19905,18 +19509,6 @@
     "Ingredient1": "Grave",
     "IngredientId2": 436,
     "Ingredient2": "Legend",
-    "Tier": 9
-  },
-  {
-    "ElementId": 296,
-    "Element": "Ghost",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/4/48/Ghost_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023004",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/9/9e/Grave_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125331",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/9/92/Curse_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023002",
-    "IngredientId1": 299,
-    "Ingredient1": "Grave",
-    "IngredientId2": 737,
-    "Ingredient2": "Curse",
     "Tier": 9
   },
   {
@@ -21609,18 +21201,6 @@
     "Ingredient1": "Fish",
     "IngredientId2": 240,
     "Ingredient2": "Swimmer",
-    "Tier": 9
-  },
-  {
-    "ElementId": 323,
-    "Element": "Mermaid",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/8/86/Mermaid_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142432",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/a/a4/Selkie_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142448",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/e/e6/Fish_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132933",
-    "IngredientId1": 738,
-    "Ingredient1": "Selkie",
-    "IngredientId2": 200,
-    "Ingredient2": "Fish",
     "Tier": 9
   },
   {
@@ -24792,18 +24372,6 @@
     "Tier": 9
   },
   {
-    "ElementId": 378,
-    "Element": "Werewolf",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/3/35/Werewolf_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142451",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/32/Wolf_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111156",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 247,
-    "Ingredient2": "Wolf",
-    "Tier": 9
-  },
-  {
     "ElementId": 379,
     "Element": "Wheel",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1d/Wheel_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104240",
@@ -24981,18 +24549,6 @@
     "Ingredient1": "Human",
     "IngredientId2": 382,
     "Ingredient2": "Zombie",
-    "Tier": 9
-  },
-  {
-    "ElementId": 382,
-    "Element": "Zombie",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/b/bc/Zombie_2.svg/revision/latest/scale-to-width-down/40?cb=20210830150004",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/6/6f/Necromancer_2.svg/revision/latest/scale-to-width-down/40?cb=20210904141716",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/0/0f/Corpse_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111122",
-    "IngredientId1": 739,
-    "Ingredient1": "Necromancer",
-    "IngredientId2": 189,
-    "Ingredient2": "Corpse",
     "Tier": 9
   },
   {
@@ -25605,42 +25161,6 @@
     "Ingredient1": "Container",
     "IngredientId2": 269,
     "Ingredient2": "Chicken",
-    "Tier": 10
-  },
-  {
-    "ElementId": 395,
-    "Element": "Chicken coop",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/6/6e/Chicken_coop_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004309",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/5/5a/House_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132940",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 54,
-    "Ingredient2": "House",
-    "Tier": 10
-  },
-  {
-    "ElementId": 395,
-    "Element": "Chicken coop",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/6/6e/Chicken_coop_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004309",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/1/1f/Barn_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231046",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 115,
-    "Ingredient2": "Barn",
-    "Tier": 10
-  },
-  {
-    "ElementId": 395,
-    "Element": "Chicken coop",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/6/6e/Chicken_coop_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004309",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/3e/Container_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122007",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 402,
-    "Ingredient2": "Container",
     "Tier": 10
   },
   {
@@ -26445,30 +25965,6 @@
     "Ingredient1": "Story",
     "IngredientId2": 373,
     "Ingredient2": "Unicorn",
-    "Tier": 10
-  },
-  {
-    "ElementId": 414,
-    "Element": "Fairy tale",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/6/63/Fairy_tale_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111130",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/1/18/Faerie_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145931",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/e/ec/Story_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111152",
-    "IngredientId1": 741,
-    "Ingredient1": "Faerie",
-    "IngredientId2": 365,
-    "Ingredient2": "Story",
-    "Tier": 10
-  },
-  {
-    "ElementId": 414,
-    "Element": "Fairy tale",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/6/63/Fairy_tale_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111130",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/9/93/Elf_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111128",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/e/ec/Story_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111152",
-    "IngredientId1": 742,
-    "Ingredient1": "Elf",
-    "IngredientId2": 365,
-    "Ingredient2": "Story",
     "Tier": 10
   },
   {
@@ -27660,30 +27156,6 @@
     "Tier": 10
   },
   {
-    "ElementId": 431,
-    "Element": "Kaiju",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/04/Kaiju_2.svg/revision/latest/scale-to-width-down/40?cb=20210831154317",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/c/c8/City_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122002",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 119,
-    "Ingredient2": "City",
-    "Tier": 10
-  },
-  {
-    "ElementId": 431,
-    "Element": "Kaiju",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/0/04/Kaiju_2.svg/revision/latest/scale-to-width-down/40?cb=20210831154317",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/6/69/Skyscraper_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231231",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 141,
-    "Ingredient2": "Skyscraper",
-    "Tier": 10
-  },
-  {
     "ElementId": 432,
     "Element": "Lasso",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/7/70/Lasso_2.svg/revision/latest/scale-to-width-down/40?cb=20210901125743",
@@ -28257,18 +27729,6 @@
     "Ingredient1": "Cow",
     "IngredientId2": 436,
     "Ingredient2": "Legend",
-    "Tier": 10
-  },
-  {
-    "ElementId": 440,
-    "Element": "Minotaur",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/7/7e/Minotaur_2.svg/revision/latest/scale-to-width-down/40?cb=20210901142435",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/d/da/Cow_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231059",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 274,
-    "Ingredient2": "Cow",
     "Tier": 10
   },
   {
@@ -30228,210 +29688,6 @@
     "Tier": 10
   },
   {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/8/84/Troll_2.svg/revision/latest/scale-to-width-down/40?cb=20210904021109",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/c/c1/Sun_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124223",
-    "IngredientId1": 743,
-    "Ingredient1": "Troll",
-    "IngredientId2": 65,
-    "Ingredient2": "Sun",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/8/84/Troll_2.svg/revision/latest/scale-to-width-down/40?cb=20210904021109",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/9/9d/Dawn_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124155",
-    "IngredientId1": 743,
-    "Ingredient1": "Troll",
-    "IngredientId2": 153,
-    "Ingredient2": "Dawn",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/b5/Human_2.svg/revision/latest/scale-to-width-down/40?cb=20210827124203",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 156,
-    "Ingredient2": "Human",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/f/f7/Hacker_2.svg/revision/latest/scale-to-width-down/40?cb=20210829101418",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 205,
-    "Ingredient2": "Hacker",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/6/67/Engineer_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104342",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 413,
-    "Ingredient2": "Engineer",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/7/7d/Lumberjack_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231128",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 437,
-    "Ingredient2": "Lumberjack",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/4/4d/Pilot_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122023",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 457,
-    "Ingredient2": "Pilot",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/27/Sailor_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132947",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 224,
-    "Ingredient2": "Sailor",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/7/7f/Farmer_2.svg/revision/latest/scale-to-width-down/40?cb=20210828104211",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 198,
-    "Ingredient2": "Farmer",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/5/57/Firefighter_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104343",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 199,
-    "Ingredient2": "Firefighter",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/f/fc/Surfer_2.svg/revision/latest/scale-to-width-down/40?cb=20210831153633",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 239,
-    "Ingredient2": "Surfer",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/36/Astronaut_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224702",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 176,
-    "Ingredient2": "Astronaut",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/b5/Butcher_2.svg/revision/latest/scale-to-width-down/40?cb=20210828134746",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 258,
-    "Ingredient2": "Butcher",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/7/77/Doctor_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130146",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 407,
-    "Ingredient2": "Doctor",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/f/f3/Baker_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132920",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 675,
-    "Ingredient2": "Baker",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/d/da/Drunk_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125325",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 621,
-    "Ingredient2": "Drunk",
-    "Tier": 10
-  },
-  {
-    "ElementId": 480,
-    "Element": "Statue",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/1/1a/Statue_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145959",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/e/e9/Cockatrice_2.svg/revision/latest/scale-to-width-down/40?cb=20210829004314",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/9/9b/Mirror_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104354",
-    "IngredientId1": 740,
-    "Ingredient1": "Cockatrice",
-    "IngredientId2": 91,
-    "Ingredient2": "Mirror",
-    "Tier": 10
-  },
-  {
     "ElementId": 481,
     "Element": "Steam engine",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/9/92/Steam_engine_2.svg/revision/latest/scale-to-width-down/40?cb=20210827122043",
@@ -31248,30 +30504,6 @@
     "Tier": 10
   },
   {
-    "ElementId": 495,
-    "Element": "Wood",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/e/e8/Wood_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224752",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d6/Paul_bunyan_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231219",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/b/bc/Tree_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224749",
-    "IngredientId1": 744,
-    "Ingredient1": "Paul bunyan",
-    "IngredientId2": 371,
-    "Ingredient2": "Tree",
-    "Tier": 10
-  },
-  {
-    "ElementId": 495,
-    "Element": "Wood",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/e/e8/Wood_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224752",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d6/Paul_bunyan_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231219",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/a/ab/Forest_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132936",
-    "IngredientId1": 744,
-    "Ingredient1": "Paul bunyan",
-    "IngredientId2": 417,
-    "Ingredient2": "Forest",
-    "Tier": 10
-  },
-  {
     "ElementId": 496,
     "Element": "Woodpecker",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/c/c2/Woodpecker_2.svg/revision/latest/scale-to-width-down/40?cb=20210830114633",
@@ -31437,54 +30669,6 @@
     "Ingredient1": "Antarctica",
     "IngredientId2": 436,
     "Ingredient2": "Legend",
-    "Tier": 10
-  },
-  {
-    "ElementId": 498,
-    "Element": "Yeti",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/a/a7/Yeti_2.svg/revision/latest/scale-to-width-down/40?cb=20210904141726",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/3/3f/Mountain_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130156",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 33,
-    "Ingredient2": "Mountain",
-    "Tier": 10
-  },
-  {
-    "ElementId": 498,
-    "Element": "Yeti",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/a/a7/Yeti_2.svg/revision/latest/scale-to-width-down/40?cb=20210904141726",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/e/ee/Mountain_range_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130158",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 57,
-    "Ingredient2": "Mountain range",
-    "Tier": 10
-  },
-  {
-    "ElementId": 498,
-    "Element": "Yeti",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/a/a7/Yeti_2.svg/revision/latest/scale-to-width-down/40?cb=20210904141726",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/6/6b/Glacier_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231111",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 203,
-    "Ingredient2": "Glacier",
-    "Tier": 10
-  },
-  {
-    "ElementId": 498,
-    "Element": "Yeti",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/a/a7/Yeti_2.svg/revision/latest/scale-to-width-down/40?cb=20210904141726",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/5/50/Monster_2.svg/revision/latest/scale-to-width-down/40?cb=20210829125339",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/7/78/Antarctica_2.svg/revision/latest/scale-to-width-down/40?cb=20210827132914",
-    "IngredientId1": 736,
-    "Ingredient1": "Monster",
-    "IngredientId2": 175,
-    "Ingredient2": "Antarctica",
     "Tier": 10
   },
   {
@@ -31785,18 +30969,6 @@
     "Ingredient1": "Tool",
     "IngredientId2": 437,
     "Ingredient2": "Lumberjack",
-    "Tier": 11
-  },
-  {
-    "ElementId": 506,
-    "Element": "Axe",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/6/61/Axe_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231029",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/d/d6/Paul_bunyan_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231219",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 744,
-    "Ingredient1": "Paul bunyan",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
     "Tier": 11
   },
   {
@@ -32352,30 +31524,6 @@
     "Tier": 11
   },
   {
-    "ElementId": 515,
-    "Element": "Bow",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/9/9c/Bow_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224710",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/9/93/Elf_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111128",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 742,
-    "Ingredient1": "Elf",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
-    "Tier": 11
-  },
-  {
-    "ElementId": 515,
-    "Element": "Bow",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/9/9c/Bow_2.svg/revision/latest/scale-to-width-down/40?cb=20210827224710",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/1/10/Cupid_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111125",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 727,
-    "Ingredient1": "Cupid",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
-    "Tier": 11
-  },
-  {
     "ElementId": 516,
     "Element": "Broom",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/c/c9/Broom_2.svg/revision/latest/scale-to-width-down/40?cb=20210829010121",
@@ -32385,18 +31533,6 @@
     "Ingredient1": "Hay",
     "IngredientId2": 495,
     "Ingredient2": "Wood",
-    "Tier": 11
-  },
-  {
-    "ElementId": 516,
-    "Element": "Broom",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/c/c9/Broom_2.svg/revision/latest/scale-to-width-down/40?cb=20210829010121",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/f/ff/Baba_yaga_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111107",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 745,
-    "Ingredient1": "Baba yaga",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
     "Tier": 11
   },
   {
@@ -34056,18 +33192,6 @@
     "Tier": 11
   },
   {
-    "ElementId": 543,
-    "Element": "Grim reaper",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/d/d8/Grim_reaper_2.svg/revision/latest/scale-to-width-down/40?cb=20210829104347",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/c/c0/Deity_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130143",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/f/f1/Scythe_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023022",
-    "IngredientId1": 731,
-    "Ingredient1": "Deity",
-    "IngredientId2": 471,
-    "Ingredient2": "Scythe",
-    "Tier": 11
-  },
-  {
     "ElementId": 544,
     "Element": "Gust",
     "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/c/c6/Gust_2.svg/revision/latest/scale-to-width-down/40?cb=20210831023015",
@@ -34821,18 +33945,6 @@
     "Ingredient1": "Hay",
     "IngredientId2": 482,
     "Ingredient2": "Steel",
-    "Tier": 11
-  },
-  {
-    "ElementId": 566,
-    "Element": "Pitchfork",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/f/f3/Pitchfork_2.svg/revision/latest/scale-to-width-down/40?cb=20210830145956",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/2/2f/Demon_2.svg/revision/latest/scale-to-width-down/40?cb=20210827130144",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 730,
-    "Ingredient1": "Demon",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
     "Tier": 11
   },
   {
@@ -39573,18 +38685,6 @@
     "Ingredient1": "Juice",
     "IngredientId2": 500,
     "Ingredient2": "Alcohol",
-    "Tier": 12
-  },
-  {
-    "ElementId": 671,
-    "Element": "Wine",
-    "ImgUrl": "https://static.wikia.nocookie.net/little-alchemy/images/2/25/Wine_2.svg/revision/latest/scale-to-width-down/40?cb=20210828111153",
-    "ImgUrl1": "https://static.wikia.nocookie.net/little-alchemy/images/8/8e/Dionysus_2.svg/revision/latest/scale-to-width-down/40?cb=20210904141715",
-    "ImgUrl2": "https://static.wikia.nocookie.net/little-alchemy/images/2/22/Tool_2.svg/revision/latest/scale-to-width-down/40?cb=20210827231235",
-    "IngredientId1": 746,
-    "Ingredient1": "Dionysus",
-    "IngredientId2": 241,
-    "Ingredient2": "Tool",
     "Tier": 12
   },
   {

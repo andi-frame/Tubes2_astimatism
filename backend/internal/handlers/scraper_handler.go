@@ -55,19 +55,54 @@ func getTier(index int) int {
 }
 
 func ScrapeHandler(ctx *gin.Context) {
-	url := "https://little-alchemy.fandom.com/wiki/Elements_(Little_Alchemy_2)"
+	mainURL := "https://little-alchemy.fandom.com/wiki/Elements_(Little_Alchemy_2)"
+	mythsURL := "https://little-alchemy.fandom.com/wiki/Elements_(Myths_and_Monsters)"
+	
 	var recipes []models.RecipeType
 	mapTier := make(map[string]int)
 	mapId := make(map[string]int)
 	mapImgUrl := make(map[string]string)
-
-	c := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
-	tableIndex := 0
+	mapMythMonster := make(map[string]bool)
+	
 	elementCounter := 0
 	recipeCounter := 0
 
+	// Scrape Myths and Monsters
+	fmt.Println("Step 1: Scraping Myths and Monsters elements...")
+	
+	mythCollector := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
+	
+	mythCollector.OnHTML("table.list-table", func(table *colly.HTMLElement) {
+		// each element
+		table.ForEach("tbody tr", func(_ int, h *colly.HTMLElement) {
+			element := strings.TrimSpace(h.ChildText("td:first-of-type a"))
+			if element == "" {
+				return
+			}
+
+			mapMythMonster[element] = true
+			// fmt.Printf("Found Myth/Monster element: %s\n", element)
+		})
+	})
+
+	mythCollector.OnRequest(func(r *colly.Request) {
+		fmt.Print("Visiting ", r.URL)
+	})
+
+	mythCollector.OnError(func(r *colly.Response, e error) {
+		fmt.Println("Error:", e.Error())
+	})
+
+	if err := mythCollector.Visit(mythsURL); err != nil {
+		fmt.Printf("Error scraping Myths and Monsters: %s\n", err.Error())
+	}
+		
+	// STEP 2: Scrape main elements, ignore Myths and Monsters
+	mainCollector := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
+	tableIndex := 0
+
 	// each table (starting and tiers)
-	c.OnHTML("table.list-table", func(table *colly.HTMLElement) {
+	mainCollector.OnHTML("table.list-table", func(table *colly.HTMLElement) {
 		tableIndex++
 		tier := getTier(tableIndex)
 		if tier < 0 || tier > 17 {
@@ -81,6 +116,12 @@ func ScrapeHandler(ctx *gin.Context) {
 				return
 			}
 
+			// Skip Myths and Monsters
+			if mapMythMonster[element] {
+				// fmt.Printf("Skipping Myth/Monster element: %s\n", element)
+				return
+			}
+
 			elementImgUrl := ""
 			if imgTag := h.DOM.Find("td:first-of-type span img"); imgTag.Length() > 0 {
 				elementImgUrl, _ = imgTag.Attr("data-src")
@@ -90,7 +131,7 @@ func ScrapeHandler(ctx *gin.Context) {
 			mapTier[element] = tier
 			mapId[element] = elementCounter
 			mapImgUrl[element] = elementImgUrl
-			fmt.Printf("\nElement[%v]: %-10s | %v\n", elementCounter, element, tier)
+			// fmt.Printf("\nElement[%v]: %-10s | %v\n", elementCounter, element, tier)
 
 			if element == "Earth" {
 				r := models.RecipeType{
@@ -105,7 +146,6 @@ func ScrapeHandler(ctx *gin.Context) {
 
 			// each recipe to the element generated
 			h.ForEach("td:nth-of-type(2) li", func(_ int, li *colly.HTMLElement) {
-				recipeCounter++
 				aTags := li.DOM.Find("a")
 
 				if aTags.Length() < 2 {
@@ -121,6 +161,14 @@ func ScrapeHandler(ctx *gin.Context) {
 					return
 				}
 
+				// Skip Myths and Monsters
+				if mapMythMonster[ingredient1] || mapMythMonster[ingredient2] {
+					fmt.Printf("Skipping recipe with Myth/Monster ingredients: %s + %s\n", ingredient1, ingredient2)
+					return
+				}
+
+				recipeCounter++
+				
 				ingId1 := mapId[ingredient1]
 				ingId2 := mapId[ingredient2]
 				ing1 := ingredient1
@@ -149,28 +197,31 @@ func ScrapeHandler(ctx *gin.Context) {
 				recipes = append(recipes, r)
 
 				// Testing
-				fmt.Printf("Recipe[%v]: %s + %s\n", recipeCounter, r.Ingredient1, r.Ingredient2)
-				fmt.Printf("ImgUrl: %s\n", r.ImgUrl)
-				fmt.Printf("ImgUrl1: %s\n", r.ImgUrl1)
-				fmt.Printf("ImgUrl2: %s\n", r.ImgUrl2)
+				// fmt.Printf("Recipe[%v]: %s + %s\n", recipeCounter, r.Ingredient1, r.Ingredient2)
+				// fmt.Printf("ImgUrl: %s\n", r.ImgUrl)
+				// fmt.Printf("ImgUrl1: %s\n", r.ImgUrl1)
+				// fmt.Printf("ImgUrl2: %s\n", r.ImgUrl2)
 			})
 		})
 	})
 
-	c.OnRequest(func(r *colly.Request) {
+	mainCollector.OnRequest(func(r *colly.Request) {
 		fmt.Print("Visiting ", r.URL)
 	})
 
-	c.OnError(func(r *colly.Response, e error) {
+	mainCollector.OnError(func(r *colly.Response, e error) {
 		fmt.Println("Error:", e.Error())
 	})
 
-	err := c.Visit(url)
-	if err != nil {
-		fmt.Print(err.Error())
+	if err := mainCollector.Visit(mainURL); err != nil {
+		fmt.Print("Error scraping main URL: ", err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to scrape main URL"})
+		return
 	}
 
-	// Check and fix any missing ingredient IDs
+	// Fix missing ingredient IDs
+	fmt.Println("\nStep 3: Fixing missing ingredient IDs...")
+	
 	for i := range recipes {
 		// Check IngredientId1
 		if recipes[i].IngredientId1 == 0 && recipes[i].Ingredient1 != "" {
@@ -199,7 +250,7 @@ func ScrapeHandler(ctx *gin.Context) {
 		}
 	}
 
-	// Save to JSON file
+	// Save to JSON file	
 	if err := os.MkdirAll("data", 0755); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create data directory"})
 		return
@@ -215,5 +266,12 @@ func ScrapeHandler(ctx *gin.Context) {
 	ctx.SetCookie("scraped", "true", 86400, "/", "localhost", false, true)
 
 	// Return recipes data
-	ctx.JSON(http.StatusOK, gin.H{"data": recipes})
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": recipes,
+		"stats": gin.H{
+			"totalElements": elementCounter,
+			"totalRecipes":  len(recipes),
+			"mythsFiltered": len(mapMythMonster),
+		},
+	})
 }
