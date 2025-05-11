@@ -11,46 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BFSTree(ctx *gin.Context) {
-	// If user already scraped recipes
-	hasScraped, err := ctx.Cookie("scraped")
-	if err != nil || hasScraped != "true" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
-		return
-	}
-
-	// Read recipes from JSON file
-	filePath := "data/recipes.json"
-	fileBytes, err := os.ReadFile(filePath)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read recipes file"})
-		return
-	}
-
-	// Deserialize recipes
-	var recipes []models.RecipeType
-	if err := json.Unmarshal(fileBytes, &recipes); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to unmarshal recipes"})
-		return
-	}
-
-	// Build graph
-	elementsGraph := logic.GraphElements(recipes)
-
-	// Get target
-	target := ctx.DefaultQuery("target", "")
-	if target == "" {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Target element is required"})
-		return
-	}
-
-	tree := logic.BuildBFSTree(target, elementsGraph)
-
-	ctx.JSON(http.StatusOK, gin.H{
-		"tree": tree,
-	})
-}
-
 func LimitedBFSTree(ctx *gin.Context) {
 	// If user already scraped recipes
 	hasScraped, err := ctx.Cookie("scraped")
@@ -75,7 +35,10 @@ func LimitedBFSTree(ctx *gin.Context) {
 	}
 
 	// Build graph
-	elementsGraph := logic.GraphElements(recipes)
+	graph := logic.BuildGraph(recipes)
+
+	// Build Tier Map
+	tierMap := logic.BuildTierMap(recipes)
 
 	// Get target
 	target := ctx.DefaultQuery("target", "")
@@ -94,7 +57,8 @@ func LimitedBFSTree(ctx *gin.Context) {
 		return
 	}
 
-	tree := logic.BuildLimitedBFSTree(target, elementsGraph, limit)
+	// Testing id
+	tree := logic.BuildLimitedBFSTree(100, graph, tierMap, limit)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"tree": tree,
