@@ -40,12 +40,17 @@ func LimitedBFSTree(ctx *gin.Context) {
 	// Build Tier Map
 	tierMap := logic.BuildTierMap(recipes)
 
+	// Build Id Map
+	idMap := logic.BuildIdMap(recipes)
+
 	// Get target
 	target := ctx.DefaultQuery("target", "")
 	if target == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Target element is required"})
 		return
 	}
+
+	targetId := idMap[target]
 
 	// Get limit
 	limit, err := strconv.Atoi(ctx.DefaultQuery("limit", ""))
@@ -58,7 +63,7 @@ func LimitedBFSTree(ctx *gin.Context) {
 	}
 
 	// Testing id
-	tree := logic.BuildLimitedBFSTree(100, graph, tierMap, limit)
+	tree := logic.BuildLimitedBFSTree(targetId, graph, tierMap, limit)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"tree": tree,

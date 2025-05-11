@@ -39,3 +39,13 @@ func BuildTierMap(recipes []models.RecipeType) map[int]int {
 
 	return tierMap
 }
+
+func BuildIdMap(recipes []models.RecipeType) map[string]int {
+	idMap := make(map[string]int)
+
+	for _, recipe := range recipes {
+		idMap[recipe.Element] = recipe.ElementId
+	}
+
+	return idMap
+}
