@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"slices"
+
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 )
 
@@ -58,6 +60,11 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 					continue
 				}
 
+				skip := slices.Contains(currentElements, resultId)
+				if skip {
+					continue
+				}
+
 				child := &models.TreeNode{}
 				ingredient1 := findNodeById(currentNode.Elements, pair.Element1)
 				ingredient2 := findNodeById(currentNode.Elements, pair.Element2)
@@ -72,6 +79,17 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 				child.Elements = append(child.Elements, currentNode.Elements...)
 
 				if resultId == targetId {
+					alreadyExists := false
+					for _, existing := range targetTrees {
+						if isSameRecipeTree(existing, node) {
+							alreadyExists = true
+							break
+						}
+					}
+					if alreadyExists {
+						continue
+					}
+
 					targetCount++
 					targetTrees = append(targetTrees, node)
 
@@ -95,6 +113,19 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 	}
 
 	return root
+}
+
+func isSameRecipeTree(a, b *models.RecipeNode) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil || b == nil {
+		return false
+	}
+	if a.Element != b.Element {
+		return false
+	}
+	return (isSameRecipeTree(a.Ingredient1, b.Ingredient1) && isSameRecipeTree(a.Ingredient2, b.Ingredient2))
 }
 
 func findNodeById(nodes []*models.RecipeNode, id int) *models.RecipeNode {
