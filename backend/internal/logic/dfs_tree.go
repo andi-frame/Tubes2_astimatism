@@ -43,56 +43,72 @@ func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMa
 }
 
 
-func BuildLimitedDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMap map[int]models.ElementMeta, limit int) []*models.DFSNode {
-	pairs, exists := recipeGraph[targetId]
-	if !exists || len(pairs) == 0 {
-		return []*models.DFSNode{
-			{
-				ElementId:   targetId,
-				RecipeIndex: -1,
-				RecipeCount: 0,
-				NodeCount:   1,
-			},
-		}
+func BuildLimitedDFSTree(
+	targetId int,
+	recipeGraph map[int][]models.PairElement,
+	metaMap map[int]models.ElementMeta,
+	limit int,
+) *models.TreeNode {
+	return buildLimitedDFSTreeHelper(targetId, recipeGraph, metaMap, limit, []int{targetId}, nil)
+}
+
+func buildLimitedDFSTreeHelper(targetId int, recipeGraph map[int][]models.PairElement, 
+	metaMap map[int]models.ElementMeta,remainingLimit int, visited []int, parent *models.TreeNode) *models.TreeNode {
+	node := &models.TreeNode{
+		Element: targetId,
+		Parent:  parent,
 	}
 
-	var trees []*models.DFSNode
+	pairs, exists := recipeGraph[targetId]
+	if !exists || len(pairs) == 0 || remainingLimit <= 0 {
+		node.PossibleRecipes = 1
+		return node
+	}
+
 	tierTarget := metaMap[targetId].Tier
 
-	for i, pair := range pairs {
-		if len(trees) >= limit {
+	for _, pair := range pairs {
+		if node.PossibleRecipes >= remainingLimit {
 			break
 		}
 
 		tier1 := metaMap[pair.Element1].Tier
 		tier2 := metaMap[pair.Element2].Tier
 
-		if tier1 < tierTarget && tier2 < tierTarget {
-			left := BuildDFSTree(pair.Element1, recipeGraph, metaMap)
-			right := BuildDFSTree(pair.Element2, recipeGraph, metaMap)
+		if tier1 >= tierTarget || tier2 >= tierTarget {
+			continue
+		}
 
-			node := &models.DFSNode{
-				ElementId:   targetId,
-				RecipeIndex: i,
-				RecipeCount: len(pairs),
-				LeftChild:   left,
-				RightChild:  right,
-				NodeCount:   1 + left.NodeCount + right.NodeCount,
+		left := buildLimitedDFSTreeHelper(pair.Element1, recipeGraph, metaMap, remainingLimit, append(visited, pair.Element1), node)
+		right := buildLimitedDFSTreeHelper(pair.Element2, recipeGraph, metaMap, remainingLimit, append(visited, pair.Element2), node)
+
+		count1 := left.PossibleRecipes
+		if count1 == 0 {
+			count1 = 1
+		}
+		count2 := right.PossibleRecipes
+		if count2 == 0 {
+			count2 = 1
+		}
+		newComb := count1 * count2
+
+		if node.PossibleRecipes+newComb > remainingLimit {
+			newComb = remainingLimit - node.PossibleRecipes
+			if newComb <= 0 {
+				break
 			}
-			trees = append(trees, node)
 		}
+
+		node.Children = append(node.Children, &models.PairNode{
+			Element1: left,
+			Element2: right,
+		})
+		node.PossibleRecipes += newComb
 	}
 
-	if len(trees) == 0 {
-		return []*models.DFSNode{
-			{
-				ElementId:   targetId,
-				RecipeIndex: -1,
-				RecipeCount: len(pairs),
-				NodeCount:   1,
-			},
-		}
+	if len(node.Children) == 0 {
+		node.PossibleRecipes = 1
 	}
 
-	return trees
+	return node
 }
