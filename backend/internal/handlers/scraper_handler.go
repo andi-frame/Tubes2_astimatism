@@ -59,6 +59,7 @@ func ScrapeHandler(ctx *gin.Context) {
 	var recipes []models.RecipeType
 	mapTier := make(map[string]int)
 	mapId := make(map[string]int)
+	mapImgUrl := make(map[string]string)
 
 	c := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	tableIndex := 0
@@ -73,11 +74,6 @@ func ScrapeHandler(ctx *gin.Context) {
 			return
 		}
 
-		// // ? testing
-		// if elementCounter >= 10 {
-		// 	return
-		// }
-
 		// each element generated
 		table.ForEach("tbody tr", func(_ int, h *colly.HTMLElement) {
 			element := strings.TrimSpace(h.ChildText("td:first-of-type a"))
@@ -85,15 +81,22 @@ func ScrapeHandler(ctx *gin.Context) {
 				return
 			}
 
+			elementImgUrl := ""
+			if imgTag := h.DOM.Find("td:first-of-type span img"); imgTag.Length() > 0 {
+				elementImgUrl, _ = imgTag.Attr("data-src")
+			}
+
 			elementCounter++
 			mapTier[element] = tier
 			mapId[element] = elementCounter
+			mapImgUrl[element] = elementImgUrl
 			fmt.Printf("\nElement[%v]: %-10s | %v\n", elementCounter, element, tier)
 
 			if element == "Earth" {
 				r := models.RecipeType{
 					ElementId: elementCounter,
 					Element:   element,
+					ImgUrl:    elementImgUrl,
 					Tier:      tier,
 				}
 				recipes = append(recipes, r)
@@ -134,6 +137,7 @@ func ScrapeHandler(ctx *gin.Context) {
 				r := models.RecipeType{
 					ElementId:     elementCounter,
 					Element:       element,
+					ImgUrl:        mapImgUrl[element],
 					ImgUrl1:       img1,
 					ImgUrl2:       img2,
 					IngredientId1: ingId1,
@@ -146,9 +150,9 @@ func ScrapeHandler(ctx *gin.Context) {
 
 				// Testing
 				fmt.Printf("Recipe[%v]: %s + %s\n", recipeCounter, r.Ingredient1, r.Ingredient2)
+				fmt.Printf("ImgUrl: %s\n", r.ImgUrl)
 				fmt.Printf("ImgUrl1: %s\n", r.ImgUrl1)
 				fmt.Printf("ImgUrl2: %s\n", r.ImgUrl2)
-
 			})
 		})
 	})
@@ -166,24 +170,33 @@ func ScrapeHandler(ctx *gin.Context) {
 		fmt.Print(err.Error())
 	}
 
-	// Filter tier
-	filteredRecipes := make([]models.RecipeType, 0, len(recipes))
-	for _, recipe := range recipes {
-		if recipe.Ingredient1 == "" && recipe.Ingredient2 == "" {
-			filteredRecipes = append(filteredRecipes, recipe)
-			continue
+	// Check and fix any missing ingredient IDs
+	for i := range recipes {
+		// Check IngredientId1
+		if recipes[i].IngredientId1 == 0 && recipes[i].Ingredient1 != "" {
+			if id, exists := mapId[recipes[i].Ingredient1]; exists {
+				recipes[i].IngredientId1 = id
+				fmt.Printf("Fixed missing ID for ingredient: %s = %d\n", recipes[i].Ingredient1, id)
+			} else {
+				elementCounter++
+				mapId[recipes[i].Ingredient1] = elementCounter
+				recipes[i].IngredientId1 = elementCounter
+				fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient1, elementCounter)
+			}
 		}
-
-		tier1, ok1 := mapTier[recipe.Ingredient1]
-		tier2, ok2 := mapTier[recipe.Ingredient2]
-
-		if !ok1 || !ok2 {
-			continue
+		
+		// Check IngredientId2
+		if recipes[i].IngredientId2 == 0 && recipes[i].Ingredient2 != "" {
+			if id, exists := mapId[recipes[i].Ingredient2]; exists {
+				recipes[i].IngredientId2 = id
+				fmt.Printf("Fixed missing ID for ingredient: %s = %d\n", recipes[i].Ingredient2, id)
+			} else {
+				elementCounter++
+				mapId[recipes[i].Ingredient2] = elementCounter
+				recipes[i].IngredientId2 = elementCounter
+				fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient2, elementCounter)
+			}
 		}
-		if tier1 >= recipe.Tier || tier2 >= recipe.Tier {
-			continue
-		}
-		filteredRecipes = append(filteredRecipes, recipe)
 	}
 
 	// Save to JSON file
@@ -193,7 +206,7 @@ func ScrapeHandler(ctx *gin.Context) {
 	}
 
 	filePath := "data/recipes.json"
-	if err := os.WriteFile(filePath, utils.ToJSON(filteredRecipes), 0644); err != nil {
+	if err := os.WriteFile(filePath, utils.ToJSON(recipes), 0644); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save recipes"})
 		return
 	}
