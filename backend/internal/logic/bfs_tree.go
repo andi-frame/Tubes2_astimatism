@@ -19,6 +19,7 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 
 	queue := []*models.TreeNode{root}
 	targetCount := 0
+	var targetTrees []*models.RecipeNode
 
 	for len(queue) > 0 && targetCount < limit {
 		currentNode := queue[0]
@@ -29,7 +30,6 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 			currentElements = append(currentElements, recipeNode.Element)
 		}
 
-		// All combinations
 		n := len(currentElements)
 		for i := range n {
 			for j := i; j < n; j++ {
@@ -46,8 +46,8 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 					continue
 				}
 
-				tierA, tierAExists := tierMap[a]
-				tierB, tierBExists := tierMap[b]
+				tierA, tierAExists := tierMap[pair.Element1]
+				tierB, tierBExists := tierMap[pair.Element2]
 				tierResult, tierResultExists := tierMap[resultId]
 
 				if !tierAExists || !tierBExists || !tierResultExists {
@@ -59,8 +59,8 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 				}
 
 				child := &models.TreeNode{}
-				ingredient1 := findNodeById(currentNode.Elements, a)
-				ingredient2 := findNodeById(currentNode.Elements, b)
+				ingredient1 := findNodeById(currentNode.Elements, pair.Element1)
+				ingredient2 := findNodeById(currentNode.Elements, pair.Element2)
 
 				node := &models.RecipeNode{
 					Element:     resultId,
@@ -69,15 +69,14 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 				}
 
 				child.Elements = append(child.Elements, node)
-
 				child.Elements = append(child.Elements, currentNode.Elements...)
 
 				if resultId == targetId {
 					targetCount++
+					targetTrees = append(targetTrees, node)
+
 					if targetCount >= limit {
-						child.Children = []*models.TreeNode{}
-						currentNode.Children = append(currentNode.Children, child)
-						return root
+						break
 					}
 				}
 
@@ -85,6 +84,14 @@ func BuildLimitedBFSTree(targetId int, graph map[models.PairElement]int, tierMap
 				queue = append(queue, child)
 			}
 		}
+	}
+
+	// Merge all target trees under a new root node
+	if len(targetTrees) > 0 {
+		merged := &models.TreeNode{
+			Elements: targetTrees,
+		}
+		return merged
 	}
 
 	return root
