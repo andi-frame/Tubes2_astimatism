@@ -19,15 +19,28 @@ func BuildGraphDFS(recipes []models.RecipeType) map[int][]models.PairElement {
 	return result
 }
 
+// Bottom-Up Version:
+// func BuildGraph(recipes []models.RecipeType) map[models.PairElement]int {
+// 	result := make(map[models.PairElement]int)
+// 	for _, r := range recipes {
+// 		pair := models.PairElement{
+// 			Element1: r.IngredientId1,
+// 			Element2: r.IngredientId2,
+// 		}
+// 		result[pair] = r.ElementId
+// 	}
+// 	return result
+// }
 
-func BuildGraph(recipes []models.RecipeType) map[models.PairElement]int {
-	result := make(map[models.PairElement]int)
+// Top-Down Version:
+func BuildGraph(recipes []models.RecipeType) map[int][]models.PairElement {
+	result := make(map[int][]models.PairElement)
 	for _, r := range recipes {
 		pair := models.PairElement{
 			Element1: r.IngredientId1,
 			Element2: r.IngredientId2,
 		}
-		result[pair] = r.ElementId
+		result[r.ElementId] = append(result[r.ElementId], pair)
 	}
 	return result
 }
@@ -53,4 +66,24 @@ func IsBaseElement(id int) bool {
 		1: true, 2: true, 3: true, 4: true,
 	}
 	return base[id]
+}
+
+func BuildTierMap(recipes []models.RecipeType) map[int]int {
+	tierMap := make(map[int]int)
+
+	for _, recipe := range recipes {
+		tierMap[recipe.ElementId] = recipe.Tier
+	}
+
+	return tierMap
+}
+
+func BuildIdMap(recipes []models.RecipeType) map[string]int {
+	idMap := make(map[string]int)
+
+	for _, recipe := range recipes {
+		idMap[recipe.Element] = recipe.ElementId
+	}
+
+	return idMap
 }

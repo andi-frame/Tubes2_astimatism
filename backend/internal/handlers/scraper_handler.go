@@ -97,7 +97,7 @@ func ScrapeHandler(ctx *gin.Context) {
 		fmt.Printf("Error scraping Myths and Monsters: %s\n", err.Error())
 	}
 		
-	// STEP 2: Scrape main elements, ignore Myths and Monsters
+	// Scrape main elements, ignore Myths and Monsters
 	mainCollector := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	tableIndex := 0
 

@@ -1,77 +1,22 @@
 package logic
 
-import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+import (
+	"slices"
 
-func BuildBFSTree(target string, elementsGraph map[string][]models.RecipeType) *models.TreeNode {
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+)
+
+func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit int) *models.TreeNode {
+
 	root := &models.TreeNode{
-		Element: target,
+		Element: targetId,
+		Visited: []int{targetId},
 	}
-
-	visited := make(map[string]bool)
-	visited[target] = true
 
 	queue := []*models.TreeNode{root}
 
-	for len(queue) > 0 {
-		curr := queue[0]
-		queue = queue[1:]
-
-		if IsBaseElement(curr.Element) {
-			continue
-		}
-
-		recipes := elementsGraph[curr.Element]
-		for _, recipe := range recipes {
-			// Group recipe
-			recipeNode := &models.TreeNode{
-				Element: curr.Element,
-				Parent:  curr,
-			}
-
-			// First ingredient
-			child1 := &models.TreeNode{
-				Element: recipe.Ingredient1,
-				Parent:  recipeNode,
-			}
-			recipeNode.Children = append(recipeNode.Children, child1)
-
-			// Second ingredient
-			child2 := &models.TreeNode{
-				Element: recipe.Ingredient2,
-				Parent:  recipeNode,
-			}
-			recipeNode.Children = append(recipeNode.Children, child2)
-
-			curr.Children = append(curr.Children, recipeNode)
-
-			// Only queue unvisited non-base elements
-			if !visited[recipe.Ingredient1] && !IsBaseElement(recipe.Ingredient1) {
-				visited[recipe.Ingredient1] = true
-				queue = append(queue, child1)
-			}
-			if !visited[recipe.Ingredient2] && !IsBaseElement(recipe.Ingredient2) {
-				visited[recipe.Ingredient2] = true
-				queue = append(queue, child2)
-			}
-		}
-	}
-
-	return root
-}
-
-func BuildLimitedBFSTree(target string, elementsGraph map[string][]models.RecipeType, limit int) *models.TreeNode {
-	root := &models.TreeNode{
-		Element: target,
-	}
-
-	visited := make(map[string]bool)
-	visited[target] = true
-	countPaths := 0
-
-	queue := []*models.TreeNode{root}
-	
 	// Visit each node
-	for len(queue) > 0 && countPaths < limit {
+	for len(queue) > 0 && root.PossibleRecipes < limit {
 		curr := queue[0]
 		queue = queue[1:]
 
@@ -80,44 +25,54 @@ func BuildLimitedBFSTree(target string, elementsGraph map[string][]models.Recipe
 		}
 
 		recipes := elementsGraph[curr.Element]
+		currTier := tierMap[curr.Element]
+
 		for _, recipe := range recipes {
-			// Group recipe
-			recipeNode := &models.TreeNode{
-				Element: curr.Element,
-				Parent:  curr,
+			// Check Tier
+			if currTier <= tierMap[recipe.Element1] || currTier <= tierMap[recipe.Element2] {
+				continue
+			}
+
+			// Check infinite loop
+			if slices.Contains(curr.Visited, recipe.Element1) || slices.Contains(curr.Visited, recipe.Element2) {
+				continue
 			}
 
 			// First ingredient
 			child1 := &models.TreeNode{
-				Element: recipe.Ingredient1,
-				Parent:  recipeNode,
+				Parent:  curr,
+				Element: recipe.Element1,
+				Visited: append(slices.Clone(curr.Visited), recipe.Element1),
 			}
-			recipeNode.Children = append(recipeNode.Children, child1)
+			if IsBaseElement(recipe.Element1) {
+				child1.PossibleRecipes = 1
+			}
 
 			// Second ingredient
 			child2 := &models.TreeNode{
-				Element: recipe.Ingredient2,
-				Parent:  recipeNode,
+				Parent:  curr,
+				Element: recipe.Element2,
+				Visited: append(slices.Clone(curr.Visited), recipe.Element2),
 			}
-			recipeNode.Children = append(recipeNode.Children, child2)
+			if IsBaseElement(recipe.Element2) {
+				child2.PossibleRecipes = 1
+			}
 
-			curr.Children = append(curr.Children, recipeNode)
+			curr.Children = append(curr.Children, &models.PairNode{
+				Element1: child1,
+				Element2: child2,
+			})
 
 			isChild1Base := IsBaseElement(child1.Element)
 			isChild2Base := IsBaseElement(child2.Element)
 
 			if isChild1Base && isChild2Base {
-				countPaths++
-				if countPaths >= limit {
-					break
-				}
+				calculatePossibleRecipes(curr)
 			} else {
-				if !visited[child1.Element] && !isChild1Base {
-					visited[child1.Element] = true
+				if !isChild1Base {
 					queue = append(queue, child1)
 				}
-				if !visited[child2.Element] && !isChild2Base {
-					visited[child2.Element] = true
+				if !isChild2Base {
 					queue = append(queue, child2)
 				}
 			}
@@ -125,4 +80,24 @@ func BuildLimitedBFSTree(target string, elementsGraph map[string][]models.Recipe
 	}
 
 	return root
+}
+
+func calculatePossibleRecipes(node *models.TreeNode) {
+	if node == nil {
+		return
+	}
+
+	if len(node.Children) == 0 {
+		node.PossibleRecipes = 1
+		return
+	}
+
+	total := 0
+	for _, pair := range node.Children {
+		total += pair.Element1.PossibleRecipes * pair.Element2.PossibleRecipes
+	}
+
+	node.PossibleRecipes = total
+
+	calculatePossibleRecipes(node.Parent)
 }
