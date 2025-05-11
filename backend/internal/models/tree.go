@@ -2,13 +2,12 @@ package models
 
 // Top-Down Version: (DFS)
 type DFSNode struct {
-	ElementId     int              
-	RecipeIndex   int		// indeks resep yang digunakan (dari 0 sampai RecipeCount-1)
-	RecipeCount   int       // total jumlah resep untuk elemen ini              
-	LeftChild     *DFSNode         
-	RightChild    *DFSNode         
-	NodeCount int
-	
+	ElementId   int
+	RecipeIndex int // indeks resep yang digunakan (dari 0 sampai RecipeCount-1)
+	RecipeCount int // total jumlah resep untuk elemen ini
+	LeftChild   *DFSNode
+	RightChild  *DFSNode
+	NodeCount   int
 }
 
 type TreeNode struct {
@@ -37,7 +36,18 @@ type RecipeNode struct {
 }
 
 type ElementMeta struct {
-	Name   string			
+	Name   string
 	ImgUrl string
-	Tier   int				
+	Tier   int
+}
+
+type TreeResult struct {
+	Element  string
+	ImgUrl   string
+	Children []*PairResult
+}
+
+type PairResult struct {
+	Element1 *TreeResult
+	Element2 *TreeResult
 }

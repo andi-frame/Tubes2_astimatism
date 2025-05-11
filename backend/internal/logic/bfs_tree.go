@@ -79,6 +79,7 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 		}
 	}
 
+	PruneTree(root)
 	return root
 }
 
@@ -100,4 +101,23 @@ func calculatePossibleRecipes(node *models.TreeNode) {
 	node.PossibleRecipes = total
 
 	calculatePossibleRecipes(node.Parent)
+}
+
+func PruneTree(node *models.TreeNode) {
+	if node == nil || len(node.Children) == 0 {
+		return
+	}
+
+	// Recursively prune
+	prunedChildren := make([]*models.PairNode, 0)
+	for _, pair := range node.Children {
+		PruneTree(pair.Element1)
+		PruneTree(pair.Element2)
+
+		if pair.Element1.PossibleRecipes > 0 && pair.Element2.PossibleRecipes > 0 {
+			prunedChildren = append(prunedChildren, pair)
+		}
+	}
+
+	node.Children = prunedChildren
 }
