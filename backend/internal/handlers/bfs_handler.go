@@ -62,7 +62,6 @@ func LimitedBFSTree(ctx *gin.Context) {
 		return
 	}
 
-	// Testing id
 	tree := logic.BuildLimitedBFSTree(targetId, graph, tierMap, limit)
 
 	ctx.JSON(http.StatusOK, gin.H{

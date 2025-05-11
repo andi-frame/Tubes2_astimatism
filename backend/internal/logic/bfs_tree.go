@@ -1,197 +1,103 @@
 package logic
 
-// import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+import (
+	"slices"
 
-// func BuildBFSTreeTopDown(target string, elementsGraph map[string][]models.RecipeType) *models.TreeNode {
-// 	root := &models.TreeNode{
-// 		Element: target,
-// 	}
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+)
 
-// 	visited := make(map[string]bool)
-// 	visited[target] = true
+func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit int) *models.TreeNode {
 
-// 	queue := []*models.TreeNode{root}
+	root := &models.TreeNode{
+		Element: targetId,
+		Visited: []int{targetId},
+	}
 
-// 	for len(queue) > 0 {
-// 		curr := queue[0]
-// 		queue = queue[1:]
+	queue := []*models.TreeNode{root}
 
-// 		if IsBaseElement(curr.Element) {
-// 			continue
-// 		}
+	// Visit each node
+	for len(queue) > 0 && root.PossibleRecipes < limit {
+		curr := queue[0]
+		queue = queue[1:]
 
-// 		recipes := elementsGraph[curr.Element]
-// 		for _, recipe := range recipes {
-// 			// Group recipe
-// 			recipeNode := &models.TreeNode{
-// 				Element: curr.Element,
-// 				Parent:  curr,
-// 			}
+		if IsBaseElement(curr.Element) {
+			continue
+		}
 
-// 			// First ingredient
-// 			child1 := &models.TreeNode{
-// 				Element: recipe.Ingredient1,
-// 				Parent:  recipeNode,
-// 			}
-// 			recipeNode.Children = append(recipeNode.Children, child1)
+		recipes := elementsGraph[curr.Element]
+		currTier := tierMap[curr.Element]
 
-// 			// Second ingredient
-// 			child2 := &models.TreeNode{
-// 				Element: recipe.Ingredient2,
-// 				Parent:  recipeNode,
-// 			}
-// 			recipeNode.Children = append(recipeNode.Children, child2)
+		for _, recipe := range recipes {
+			// Check Tier
+			if currTier <= tierMap[recipe.Element1] || currTier <= tierMap[recipe.Element2] {
+				continue
+			}
 
-// 			curr.Children = append(curr.Children, recipeNode)
+			// Check infinite loop
+			if slices.Contains(curr.Visited, recipe.Element1) || slices.Contains(curr.Visited, recipe.Element2) {
+				continue
+			}
 
-// 			// Only queue unvisited non-base elements
-// 			if !visited[recipe.Ingredient1] && !IsBaseElement(recipe.Ingredient1) {
-// 				visited[recipe.Ingredient1] = true
-// 				queue = append(queue, child1)
-// 			}
-// 			if !visited[recipe.Ingredient2] && !IsBaseElement(recipe.Ingredient2) {
-// 				visited[recipe.Ingredient2] = true
-// 				queue = append(queue, child2)
-// 			}
-// 		}
-// 	}
+			// First ingredient
+			child1 := &models.TreeNode{
+				Parent:  curr,
+				Element: recipe.Element1,
+				Visited: append(slices.Clone(curr.Visited), recipe.Element1),
+			}
+			if IsBaseElement(recipe.Element1) {
+				child1.PossibleRecipes = 1
+			}
 
-// 	return root
-// }
+			// Second ingredient
+			child2 := &models.TreeNode{
+				Parent:  curr,
+				Element: recipe.Element2,
+				Visited: append(slices.Clone(curr.Visited), recipe.Element2),
+			}
+			if IsBaseElement(recipe.Element2) {
+				child2.PossibleRecipes = 1
+			}
 
-// func BuildLimitedBFSTreeV1TopDown(target string, elementsGraph map[string][]models.RecipeType, limit int) *models.TreeNode {
-// 	root := &models.TreeNode{
-// 		Element: target,
-// 	}
+			curr.Children = append(curr.Children, &models.PairNode{
+				Element1: child1,
+				Element2: child2,
+			})
 
-// 	visited := make(map[string]bool)
-// 	visited[target] = true
-// 	countPaths := 0
+			isChild1Base := IsBaseElement(child1.Element)
+			isChild2Base := IsBaseElement(child2.Element)
 
-// 	queue := []*models.TreeNode{root}
+			if isChild1Base && isChild2Base {
+				calculatePossibleRecipes(curr)
+			} else {
+				if !isChild1Base {
+					queue = append(queue, child1)
+				}
+				if !isChild2Base {
+					queue = append(queue, child2)
+				}
+			}
+		}
+	}
 
-// 	// Visit each node
-// 	for len(queue) > 0 && countPaths < limit {
-// 		curr := queue[0]
-// 		queue = queue[1:]
+	return root
+}
 
-// 		if IsBaseElement(curr.Element) {
-// 			continue
-// 		}
+func calculatePossibleRecipes(node *models.TreeNode) {
+	if node == nil {
+		return
+	}
 
-// 		recipes := elementsGraph[curr.Element]
-// 		for _, recipe := range recipes {
-// 			// Group recipe
-// 			recipeNode := &models.TreeNode{
-// 				Element: curr.Element,
-// 				Parent:  curr,
-// 			}
+	if len(node.Children) == 0 {
+		node.PossibleRecipes = 1
+		return
+	}
 
-// 			// First ingredient
-// 			child1 := &models.TreeNode{
-// 				Element: recipe.Ingredient1,
-// 				Parent:  recipeNode,
-// 			}
-// 			recipeNode.Children = append(recipeNode.Children, child1)
+	total := 0
+	for _, pair := range node.Children {
+		total += pair.Element1.PossibleRecipes * pair.Element2.PossibleRecipes
+	}
 
-// 			// Second ingredient
-// 			child2 := &models.TreeNode{
-// 				Element: recipe.Ingredient2,
-// 				Parent:  recipeNode,
-// 			}
-// 			recipeNode.Children = append(recipeNode.Children, child2)
+	node.PossibleRecipes = total
 
-// 			curr.Children = append(curr.Children, recipeNode)
-
-// 			isChild1Base := IsBaseElement(child1.Element)
-// 			isChild2Base := IsBaseElement(child2.Element)
-
-// 			if isChild1Base && isChild2Base {
-// 				countPaths++
-// 				if countPaths >= limit {
-// 					break
-// 				}
-// 			} else {
-// 				if !visited[child1.Element] && !isChild1Base {
-// 					visited[child1.Element] = true
-// 					queue = append(queue, child1)
-// 				}
-// 				if !visited[child2.Element] && !isChild2Base {
-// 					visited[child2.Element] = true
-// 					queue = append(queue, child2)
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	return root
-// }
-
-// func BuildLimitedBFSTreeTopDown(target string, elementsGraph map[string][]models.RecipeType, limit int) *models.TreeNode {
-
-// 	root := &models.TreeNode{
-// 		Element:     target,
-// 		IsGroupNode: true,
-// 	}
-
-// 	visited := make(map[string]bool)
-// 	visited[target] = true
-// 	countPaths := 0
-
-// 	queue := []*models.TreeNode{root}
-
-// 	// Visit each node
-// 	for len(queue) > 0 && countPaths < limit {
-// 		curr := queue[0]
-// 		queue = queue[1:]
-
-// 		if IsBaseElement(curr.Element) {
-// 			continue
-// 		}
-
-// 		recipes := elementsGraph[curr.Element]
-// 		for _, recipe := range recipes {
-// 			// Group recipe
-// 			recipeNode := &models.TreeNode{
-// 				Element: curr.Element,
-// 				Parent:  curr,
-// 			}
-
-// 			// First ingredient
-// 			child1 := &models.TreeNode{
-// 				Element: recipe.Ingredient1,
-// 				Parent:  recipeNode,
-// 			}
-
-// 			// Second ingredient
-// 			child2 := &models.TreeNode{
-// 				Element: recipe.Ingredient2,
-// 				Parent:  recipeNode,
-// 			}
-// 			recipeNode.Children = append(recipeNode.Children, child1, child2)
-
-// 			curr.Children = append(curr.Children, recipeNode)
-
-// 			isChild1Base := IsBaseElement(child1.Element)
-// 			isChild2Base := IsBaseElement(child2.Element)
-
-// 			if isChild1Base && isChild2Base {
-// 				countPaths++
-// 				if countPaths >= limit {
-// 					break
-// 				}
-// 			} else {
-// 				if !visited[child1.Element] && !isChild1Base {
-// 					visited[child1.Element] = true
-// 					queue = append(queue, child1)
-// 				}
-// 				if !visited[child2.Element] && !isChild2Base {
-// 					visited[child2.Element] = true
-// 					queue = append(queue, child2)
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	return root
-// }
+	calculatePossibleRecipes(node.Parent)
+}
