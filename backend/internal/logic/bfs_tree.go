@@ -2,6 +2,7 @@ package logic
 
 import (
 	"sync"
+	"sync/atomic"
 
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 )
@@ -19,7 +20,8 @@ var pairNodePool = sync.Pool{
 	},
 }
 
-func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit uint64) *models.TreeNode {
+func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit uint64) *models.ResultType {
+	var accessedNodes uint64 = 0
 	root := treeNodePool.Get().(*models.TreeNode)
 	*root = models.TreeNode{
 		Element: targetId,
@@ -43,6 +45,8 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 		newNodesChan := make(chan *models.TreeNode, 100)
 
 		for _, curr := range batch {
+			atomic.AddUint64(&accessedNodes, 1)
+
 			if IsBaseElement(curr.Element) {
 				continue
 			}
@@ -157,7 +161,11 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 	PruneTree(root)
 	mu.Unlock()
 
-	return root
+	return &models.ResultType{
+		Tree:          root,
+		AccessedNodes: accessedNodes,
+		Time:          0,
+	}
 }
 
 func HasVisited(path *models.VisitedPath, id int) bool {
