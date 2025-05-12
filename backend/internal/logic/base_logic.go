@@ -138,6 +138,9 @@ func BuildMetaMapFromRecipes(recipes []models.RecipeType) models.MetaMapType {
 	sort.Ints(ids)
 
 	for _, id := range ids {
+		if id == 0 {
+			continue
+		}
 		meta.ElementList = append(meta.ElementList, meta.IdNameMap[id])
 	}
 

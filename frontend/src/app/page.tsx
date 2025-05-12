@@ -25,7 +25,7 @@ export default function Home() {
   // TODO: implement toaster
   // TODO: change loading animation
 
-  // Scraper store
+  // Scraper and Meta Map store
   const scrapData = useScraperStore((state) => state.scrapData);
   const setScrapData = useScraperStore((state) => state.setScrapData);
   const metaMap = useMetaMapStore((state) => state.metaMap);
