@@ -1,8 +1,8 @@
 package logic
 
 import (
-	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 	"time"
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 )
 
 func BuildLimitedDFSTree(
@@ -14,14 +14,21 @@ func BuildLimitedDFSTree(
 	start := time.Now()
 
 	var accessed uint64 = 0
-	tree := buildLimitedDFSTreeHelper(targetId, recipeGraph, metaMap, limit, nil, &accessed)
+	var tree *models.TreeNode
+	done := make(chan *models.TreeNode, 1)
+
+	go func() {
+		tree = buildLimitedDFSTreeHelper(targetId, recipeGraph, metaMap, limit, nil, &accessed)
+		done <- tree
+	}()
+	<-done
 
 	duration := time.Since(start)
 
 	return models.ResultType{
 		Tree:          tree,
 		AccessedNodes: accessed,
-		Time:          uint64(duration.Milliseconds()),
+		Time:          uint64(duration.Nanoseconds()),
 	}
 }
 
