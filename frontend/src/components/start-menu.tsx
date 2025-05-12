@@ -204,20 +204,24 @@ export default function StartMenu({ isOpen, onClose }) {
         <div>
           <p className="text-xs text-white/70 mb-1">Recipe Mode</p>
           <div className="flex items-center">
-            <label className="flex items-center cursor-pointer select-none">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMultiple(!isMultiple);
+
+                if (isMultiple) {
+                  setLimit(1);
+                }
+              }}
+              className="flex items-center cursor-pointer select-none"
+            >
               <div className={`w-12 h-6 rounded-full flex items-center p-0.5 ${isMultiple ? 'bg-blue-600' : 'bg-white/30'}`}>
                 <div className={`w-5 h-5 rounded-full bg-white transform transition-transform ${isMultiple ? 'translate-x-6' : ''}`}></div>
               </div>
               <span className="ml-2 text-sm">
-                {isMultiple ? 'Multiple Recipes' : 'Single Recipe'}
+                {'Multiple Recipes'}
               </span>
-            </label>
-            <input 
-              type="checkbox" 
-              className="sr-only"
-              checked={isMultiple}
-              onChange={() => setIsMultiple(!isMultiple)}
-            />
+            </button>
           </div>
         </div>
 
@@ -228,7 +232,7 @@ export default function StartMenu({ isOpen, onClose }) {
             <input
               type="number"
               min="1"
-              max="10"
+              // max="10" // Uncomment this if want limit
               value={limit}
               onChange={(e) => setLimit(parseInt(e.target.value) || 1)}
               disabled={!isMultiple}
