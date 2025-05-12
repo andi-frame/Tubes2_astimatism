@@ -105,12 +105,20 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 
 					// Add children to current node
 					mu.Lock()
+					originalLen := len(currentNode.Children)
 					currentNode.Children = append(currentNode.Children, pairNode)
 					mu.Unlock()
 
 					if isChild1Base && isChild2Base {
 						mu.Lock()
-						calculatePossibleRecipes(currentNode)
+
+						success := calculatePossibleRecipes(currentNode, limit)
+
+						if !success {
+							currentNode.Children = currentNode.Children[:originalLen]
+							calculatePossibleRecipes(currentNode, limit)
+						}
+
 						mu.Unlock()
 					} else {
 						if !isChild1Base {
@@ -161,14 +169,18 @@ func HasVisited(path *models.VisitedPath, id int) bool {
 	return false
 }
 
-func calculatePossibleRecipes(node *models.TreeNode) {
+func calculatePossibleRecipes(node *models.TreeNode, limit uint64) bool {
+	if node.PossibleRecipes >= limit {
+		return false
+	}
+
 	if node == nil {
-		return
+		return true
 	}
 
 	if len(node.Children) == 0 {
 		node.PossibleRecipes = 1
-		return
+		return true
 	}
 
 	var total uint64 = 0
@@ -179,8 +191,10 @@ func calculatePossibleRecipes(node *models.TreeNode) {
 	node.PossibleRecipes = total
 
 	if node.Parent != nil {
-		calculatePossibleRecipes(node.Parent)
+		return calculatePossibleRecipes(node.Parent, limit)
 	}
+
+	return true // ?
 }
 
 func PruneTree(node *models.TreeNode) {
