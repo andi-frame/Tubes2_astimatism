@@ -1,48 +1,10 @@
 package logic
 
-
-import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
-
-// func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMap map[int]models.ElementMeta) *models.DFSNode {
-// 	pairs, exists := recipeGraph[targetId]
-// 	if !exists || len(pairs) == 0 {
-// 		return &models.DFSNode{
-// 			ElementId:   targetId,
-// 			RecipeIndex: -1,
-// 			RecipeCount: 0,
-// 			NodeCount:   1,
-// 		}
-// 	}
-
-// 	tierTarget := metaMap[targetId].Tier
-
-// 	for i, pair := range pairs {
-// 		tier1 := metaMap[pair.Element1].Tier
-// 		tier2 := metaMap[pair.Element2].Tier
-
-// 		if tier1 < tierTarget && tier2 < tierTarget {
-// 			left := BuildDFSTree(pair.Element1, recipeGraph, metaMap)
-// 			right := BuildDFSTree(pair.Element2, recipeGraph, metaMap)
-
-// 			return &models.DFSNode{
-// 				ElementId:   targetId,
-// 				RecipeIndex: i,
-// 				RecipeCount: len(pairs),
-// 				LeftChild:   left,
-// 				RightChild:  right,
-// 				NodeCount:   1 + left.NodeCount + right.NodeCount,
-// 			}
-// 		}
-// 	}
-
-// 	return &models.DFSNode{
-// 		ElementId:   targetId,
-// 		RecipeIndex: -1,
-// 		RecipeCount: len(pairs),
-// 		NodeCount:   1,
-// 	}
-// }
-
+import (
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+	"fmt"
+	"time"
+)
 
 func BuildLimitedDFSTree(
 	targetId int,
@@ -50,11 +12,25 @@ func BuildLimitedDFSTree(
 	metaMap map[int]models.ElementMeta,
 	limit int,
 ) *models.TreeNode {
-	return buildLimitedDFSTreeHelper(targetId, recipeGraph, metaMap, limit, nil)
+	start := time.Now()
+
+	result := buildLimitedDFSTreeHelper(targetId, recipeGraph, metaMap, limit, nil)
+
+	duration := time.Since(start)
+	fmt.Printf("DFS tree construction took %s\n", duration)
+
+	return result
 }
 
-func buildLimitedDFSTreeHelper(targetId int, recipeGraph map[int][]models.PairElement, 
-	metaMap map[int]models.ElementMeta,remainingLimit int, parent *models.TreeNode) *models.TreeNode {
+func buildLimitedDFSTreeHelper(
+	targetId int,
+	recipeGraph map[int][]models.PairElement,
+	metaMap map[int]models.ElementMeta,
+	remainingLimit int,
+	parent *models.TreeNode,
+) *models.TreeNode {
+	fmt.Printf("-> Enter DFS: Element %d | remainingLimit: %d\n", targetId, remainingLimit)
+
 	node := &models.TreeNode{
 		Element: targetId,
 		Parent:  parent,
@@ -69,8 +45,8 @@ func buildLimitedDFSTreeHelper(targetId int, recipeGraph map[int][]models.PairEl
 	tierTarget := metaMap[targetId].Tier
 
 	for _, pair := range pairs {
-		if node.PossibleRecipes >= remainingLimit {
-			break
+		if (remainingLimit <= 0) {
+			break;
 		}
 
 		tier1 := metaMap[pair.Element1].Tier
@@ -81,25 +57,14 @@ func buildLimitedDFSTreeHelper(targetId int, recipeGraph map[int][]models.PairEl
 		}
 
 		left := buildLimitedDFSTreeHelper(pair.Element1, recipeGraph, metaMap, remainingLimit, node)
-		right := buildLimitedDFSTreeHelper(pair.Element2, recipeGraph, metaMap, remainingLimit, node)
+		remaining := (remainingLimit + left.PossibleRecipes - 1) / left.PossibleRecipes
+		right := buildLimitedDFSTreeHelper(pair.Element2, recipeGraph, metaMap, remaining, node)
 
-		count1 := left.PossibleRecipes
-		if count1 == 0 {
-			count1 = 1
-		}
-		count2 := right.PossibleRecipes
-		if count2 == 0 {
-			count2 = 1
-		}
-		newComb := count1 * count2
+		leftCount := left.PossibleRecipes
+		rightCount := right.PossibleRecipes
+		newComb := leftCount * rightCount
 
-		if node.PossibleRecipes+newComb > remainingLimit {
-			newComb = remainingLimit - node.PossibleRecipes
-			if newComb <= 0 {
-				break
-			}
-		}
-
+		remainingLimit -= newComb
 		node.Children = append(node.Children, &models.PairNode{
 			Element1: left,
 			Element2: right,
@@ -110,6 +75,5 @@ func buildLimitedDFSTreeHelper(targetId int, recipeGraph map[int][]models.PairEl
 	if len(node.Children) == 0 {
 		node.PossibleRecipes = 1
 	}
-
 	return node
 }
