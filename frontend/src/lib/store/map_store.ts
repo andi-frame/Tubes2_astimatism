@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 type MetaMapType = {
+  ElementList: string[];
   IdNameMap: Record<number, string>;
   NameIdMap: Record<string, number>;
   NameImgMap: Record<string, string>;

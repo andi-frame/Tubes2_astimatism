@@ -25,6 +25,7 @@ type ResultType struct {
 }
 
 type MetaMapType struct {
+	ElementList []string          `json:"ElementList"`
 	IdNameMap   map[int]string    `json:"IdNameMap"`
 	NameIdMap   map[string]int    `json:"NameIdMap"`
 	NameImgMap  map[string]string `json:"NameImgMap"`

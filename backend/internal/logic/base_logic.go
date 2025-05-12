@@ -1,11 +1,15 @@
 package logic
 
-import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+import (
+	"sort"
+
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+)
 
 /*
-	Graph used for Depth First Search
-	Output is
-	map<id, vector<pair<id,id>>
+Graph used for Depth First Search
+Output is
+map<id, vector<pair<id,id>>
 */
 func BuildGraphDFS(recipes []models.RecipeType) map[int][]models.PairElement {
 	result := make(map[int][]models.PairElement)
@@ -88,6 +92,7 @@ func BuildIdMap(recipes []models.RecipeType) map[string]int {
 
 func BuildMetaMapFromRecipes(recipes []models.RecipeType) models.MetaMapType {
 	meta := models.MetaMapType{
+		ElementList: make([]string, 0),
 		IdNameMap:   make(map[int]string),
 		NameIdMap:   make(map[string]int),
 		NameImgMap:  make(map[string]string),
@@ -124,6 +129,16 @@ func BuildMetaMapFromRecipes(recipes []models.RecipeType) models.MetaMapType {
 			meta.NameImgMap[recipe.Ingredient2] = recipe.ImgUrl2
 			meta.IdImgMap[recipe.IngredientId2] = recipe.ImgUrl2
 		}
+	}
+
+	ids := make([]int, 0, len(meta.IdNameMap))
+	for id := range meta.IdNameMap {
+		ids = append(ids, id)
+	}
+	sort.Ints(ids)
+
+	for _, id := range ids {
+		meta.ElementList = append(meta.ElementList, meta.IdNameMap[id])
 	}
 
 	return meta
