@@ -6,6 +6,11 @@ import StartMenu from "@/components/start-menu";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchFocus = () => {
+    setIsMenuOpen(true);
+  };
 
   return (
     <div 
@@ -27,6 +32,10 @@ export default function Home() {
           <input 
             type="text"
             placeholder="Search elements..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onClick={handleSearchFocus}
+            onFocus={handleSearchFocus}
             className="pl-3 pr-8 py-1.5 rounded-full bg-white/10 border border-white/20 text-white w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20"
           />
           <svg 
@@ -41,7 +50,13 @@ export default function Home() {
       </div>
 
       {/* This is to open the control panel (The start menu-like component) */}
-      <StartMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <StartMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        initialSearchTerm={searchQuery}
+        onSearchChange={(term) => setSearchQuery(term)}
+        focusSearchOnOpen={true}
+      />
       
       {/* This is actually the default footer for credits. But it blocks the start menu and I have another idea */}
       {/* We can create a component that looks like an app on the desktop. If clicked, it will show a window for credits */}
