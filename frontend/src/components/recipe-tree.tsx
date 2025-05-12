@@ -225,7 +225,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 							},
 							() => {
 								console.error(
-									"Failed to load image: ${node.icon}"
+									`Failed to load image: ${node.icon}`
 								);
 							}
 						);
