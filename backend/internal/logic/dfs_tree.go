@@ -21,7 +21,7 @@ func BuildLimitedDFSTree(
 	return models.ResultType{
 		Tree:          tree,
 		AccessedNodes: accessed,
-		Time:          uint64(duration.Milliseconds()),
+		Time:          uint64(duration.Nanoseconds()),
 	}
 }
 
