@@ -160,7 +160,7 @@ func ScrapeHandler(ctx *gin.Context) {
 
 				// Skip Myths and Monsters
 				if mapMythMonster[ingredient1] || mapMythMonster[ingredient2] {
-					fmt.Printf("Skipping recipe with Myth/Monster ingredients: %s + %s\n", ingredient1, ingredient2)
+					// fmt.Printf("Skipping recipe with Myth/Monster ingredients: %s + %s\n", ingredient1, ingredient2)
 					return
 				}
 
@@ -216,20 +216,18 @@ func ScrapeHandler(ctx *gin.Context) {
 		return
 	}
 
-	// Fix missing ingredient IDs
-	fmt.Println("\nStep 3: Fixing missing ingredient IDs...")
-	
+	// Fix missing ingredient IDs	
 	for i := range recipes {
 		// Check IngredientId1
 		if recipes[i].IngredientId1 == 0 && recipes[i].Ingredient1 != "" {
 			if id, exists := mapId[recipes[i].Ingredient1]; exists {
 				recipes[i].IngredientId1 = id
-				fmt.Printf("Fixed missing ID for ingredient: %s = %d\n", recipes[i].Ingredient1, id)
+				// fmt.Printf("Fixed missing ID for ingredient: %s = %d\n", recipes[i].Ingredient1, id)
 			} else {
 				elementCounter++
 				mapId[recipes[i].Ingredient1] = elementCounter
 				recipes[i].IngredientId1 = elementCounter
-				fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient1, elementCounter)
+				// fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient1, elementCounter)
 			}
 		}
 		
@@ -237,12 +235,12 @@ func ScrapeHandler(ctx *gin.Context) {
 		if recipes[i].IngredientId2 == 0 && recipes[i].Ingredient2 != "" {
 			if id, exists := mapId[recipes[i].Ingredient2]; exists {
 				recipes[i].IngredientId2 = id
-				fmt.Printf("Fixed missing ID for ingredient: %s = %d\n", recipes[i].Ingredient2, id)
+				// fmt.Printf("Fixed missing ID for ingredient: %s = %d\n", recipes[i].Ingredient2, id)
 			} else {
 				elementCounter++
 				mapId[recipes[i].Ingredient2] = elementCounter
 				recipes[i].IngredientId2 = elementCounter
-				fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient2, elementCounter)
+				// fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient2, elementCounter)
 			}
 		}
 	}
