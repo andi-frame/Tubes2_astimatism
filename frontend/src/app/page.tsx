@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, ChangeEvent, useEffect } from "react";
-import Image from "next/image";
 import StartMenu from "@/components/start-menu";
 import Window from "@/components/window";
 import { fetchScraperData } from "@/lib/api/scrapper";
@@ -19,6 +18,8 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [fullLoading, setFullLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  // TODO: implement toaster
 
   // Scraper store
   const scrapData = useScraperStore((state) => state.scrapData);
