@@ -45,26 +45,8 @@ export default function Window({
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
-      const windowElement = windowRef.current;
-      if (windowElement) {
-        // windowElement.style.transform = "scale(0.9) translate(-50%, -50%)";
-        windowElement.style.opacity = "0";
-
-        setTimeout(() => {
-          // windowElement.style.transform = "scale(1) translate(-50%, -50%)";
-          windowElement.style.opacity = "1";
-        }, 10000000000);
-      }
     } else {
-      const windowElement = windowRef.current;
-      if (windowElement) {
-        // windowElement.style.transform = "scale(0.9) translate(-50%, -50%)";
-        windowElement.style.opacity = "0";
-
-        setTimeout(() => {
-          setIsVisible(false);
-        }, 20000000000000);
-      }
+      setIsVisible(false);
     }
   }, [isOpen]);
 
@@ -177,7 +159,6 @@ export default function Window({
         transform: 'translate(-50%, -50%)',
         width: `${size.width}px`,
         height: `${size.height}px`,
-        transition: isResizing || isDragging ? 'none' : 'transform 0.2s, opacity 0.2s'
       }}
     >
       {/* Window title bar */}
@@ -212,23 +193,23 @@ export default function Window({
         {children}
       </div>
 
-      {/* Resize handles - only show when not maximized */}
+      {/* Resize handles */}
       {!isMaximized && (
         <>
           <div 
-            className="absolute top-0 right-0 w-8 h-8 cursor-ne-resize z-50" 
+            className="absolute top-0 right-0 w-4 h-4 cursor-ne-resize z-50" 
             onMouseDown={(e) => handleResizeStart(e, 'ne')} 
           />
           <div 
-            className="absolute bottom-0 right-0 w-8 h-8 cursor-se-resize z-50" 
+            className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize z-50" 
             onMouseDown={(e) => handleResizeStart(e, 'se')} 
           />
           <div 
-            className="absolute bottom-0 left-0 w-8 h-8 cursor-sw-resize z-50" 
+            className="absolute bottom-0 left-0 w-4 h-4 cursor-sw-resize z-50" 
             onMouseDown={(e) => handleResizeStart(e, 'sw')} 
           />
           <div 
-            className="absolute top-0 left-0 w-8 h-8 cursor-nw-resize z-50" 
+            className="absolute top-0 left-0 w-4 h-4 cursor-nw-resize z-50" 
             onMouseDown={(e) => handleResizeStart(e, 'nw')} 
           />
           <div 
