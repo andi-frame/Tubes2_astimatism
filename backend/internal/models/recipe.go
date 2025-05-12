@@ -17,3 +17,9 @@ type PairElement struct {
 	Element1 int
 	Element2 int
 }
+
+type ResultType struct {
+ Tree          *TreeNode `json:"Tree"`
+ AccessedNodes uint64    `json:"AccessedNodes"`
+ Time          uint64    `json:"Time"`
+}
