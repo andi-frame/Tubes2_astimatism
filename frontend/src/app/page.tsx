@@ -93,8 +93,10 @@ export default function Home() {
           title={`Recipe Tree for ${targetElement}`}
           isOpen={showTreeWindow}
           onClose={() => setShowTreeWindow(false)}
-          width={650}
-          height="auto"
+          width={800}
+          height={600}
+          minWidth={400}
+          minHeight={300}
         >
           <div className="min-h-[400px]">
             {loading ? (
