@@ -65,11 +65,18 @@ func (s *Server) websocketHandler(c *gin.Context) {
 	socketCtx := socket.CloseRead(ctx)
 
 	for {
-		payload := fmt.Sprintf("server timestamp: %d", time.Now().UnixNano())
-		err := socket.Write(socketCtx, websocket.MessageText, []byte(payload))
-		if err != nil {
-			break
+		select {
+		case <-socketCtx.Done():
+			log.Println("Client closed the connection")
+			return
+		default:
+			payload := fmt.Sprintf("server timestamp: %d", time.Now().UnixNano())
+			err := socket.Write(socketCtx, websocket.MessageText, []byte(payload))
+			if err != nil {
+				log.Printf("Write failed: %v", err)
+				return
+			}
+			time.Sleep(2 * time.Second)
 		}
-		time.Sleep(time.Second * 2)
 	}
 }
