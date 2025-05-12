@@ -31,15 +31,20 @@ export default function StartMenu({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       setIsRendered(true);
-      requestAnimationFrame(() => {
+
+      const timer = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             setIsAnimating(true);
-        })
-      })
+        });
+      });
+
+      return () => cancelAnimationFrame(timer);
     } else {
+      setIsAnimating(false);
+
       const timer = setTimeout(() => {
         setIsRendered(false);
-      }, 300); // 300 is animation duration
+      }, 300);
 
       return () => clearTimeout(timer);
     }
@@ -84,17 +89,17 @@ export default function StartMenu({ isOpen, onClose }) {
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && event.target === document.documentElement) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.documentElement.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.documentElement.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
