@@ -3,7 +3,7 @@ package logic
 import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 
 /*
-	Graph used for Depth First Search 
+	Graph used for Depth First Search
 	Output is
 	map<id, vector<pair<id,id>>
 */
@@ -84,4 +84,47 @@ func BuildIdMap(recipes []models.RecipeType) map[string]int {
 	}
 
 	return idMap
+}
+
+func BuildMetaMapFromRecipes(recipes []models.RecipeType) models.MetaMapType {
+	meta := models.MetaMapType{
+		IdNameMap:   make(map[int]string),
+		NameIdMap:   make(map[string]int),
+		NameImgMap:  make(map[string]string),
+		IdImgMap:    make(map[int]string),
+		NameTierMap: make(map[string]int),
+		IdTierMap:   make(map[int]int),
+	}
+
+	for _, recipe := range recipes {
+		// Element
+		if _, exists := meta.IdNameMap[recipe.ElementId]; !exists {
+			meta.IdNameMap[recipe.ElementId] = recipe.Element
+			meta.NameIdMap[recipe.Element] = recipe.ElementId
+			meta.NameImgMap[recipe.Element] = recipe.ImgUrl
+			meta.IdImgMap[recipe.ElementId] = recipe.ImgUrl
+			meta.NameTierMap[recipe.Element] = recipe.Tier
+			meta.IdTierMap[recipe.ElementId] = recipe.Tier
+		}
+	}
+
+	for _, recipe := range recipes {
+		// Ingredient 1
+		if _, exists := meta.IdNameMap[recipe.IngredientId1]; !exists {
+			meta.IdNameMap[recipe.IngredientId1] = recipe.Ingredient1
+			meta.NameIdMap[recipe.Ingredient1] = recipe.IngredientId1
+			meta.NameImgMap[recipe.Ingredient1] = recipe.ImgUrl1
+			meta.IdImgMap[recipe.IngredientId1] = recipe.ImgUrl1
+		}
+
+		// Ingredient 2
+		if _, exists := meta.IdNameMap[recipe.IngredientId2]; !exists {
+			meta.IdNameMap[recipe.IngredientId2] = recipe.Ingredient2
+			meta.NameIdMap[recipe.Ingredient2] = recipe.IngredientId2
+			meta.NameImgMap[recipe.Ingredient2] = recipe.ImgUrl2
+			meta.IdImgMap[recipe.IngredientId2] = recipe.ImgUrl2
+		}
+	}
+
+	return meta
 }
