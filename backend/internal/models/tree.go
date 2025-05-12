@@ -11,16 +11,21 @@ type DFSNode struct {
 }
 
 type TreeNode struct {
-	Parent          *TreeNode   `json:"-"`
-	Element         int         `json:"element"`
-	Visited         []int       `json:"-"`
-	Children        []*PairNode `json:"children,omitempty"`
-	PossibleRecipes uint64      `json:"-"`
+	Parent          *TreeNode    `json:"-"`
+	Element         int          `json:"element"`
+	Visited         *VisitedPath `json:"-"`
+	Children        []*PairNode  `json:"children,omitempty"`
+	PossibleRecipes uint64       `json:"possible"`
 }
 
 type PairNode struct {
 	Element1 *TreeNode `json:"element1"`
 	Element2 *TreeNode `json:"element2"`
+}
+
+type VisitedPath struct {
+	Val  int
+	Prev *VisitedPath
 }
 
 // Bottom-Up Version: (unfinished)

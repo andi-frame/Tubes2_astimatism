@@ -1,20 +1,32 @@
 package logic
 
 import (
-	"slices"
 	"sync"
 
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 )
 
+// Memory pools
+var treeNodePool = sync.Pool{
+	New: func() any {
+		return new(models.TreeNode)
+	},
+}
+
+var pairNodePool = sync.Pool{
+	New: func() any {
+		return new(models.PairNode)
+	},
+}
+
 func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit uint64) *models.TreeNode {
-	root := &models.TreeNode{
+	root := treeNodePool.Get().(*models.TreeNode)
+	*root = models.TreeNode{
 		Element: targetId,
-		Visited: []int{targetId},
+		Visited: &models.VisitedPath{Val: targetId, Prev: nil},
 	}
 
 	queue := []*models.TreeNode{root}
-
 	var mu sync.Mutex
 
 	// Visit each node
@@ -52,8 +64,8 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 
 					// Check infinite loop
 					mu.Lock()
-					hasLoop := slices.Contains(currentNode.Visited, recipe.Element1) ||
-						slices.Contains(currentNode.Visited, recipe.Element2)
+					hasLoop := HasVisited(currentNode.Visited, recipe.Element1) ||
+						HasVisited(currentNode.Visited, recipe.Element2)
 					mu.Unlock()
 
 					if hasLoop {
@@ -61,10 +73,11 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 					}
 
 					// First ingredient
-					child1 := &models.TreeNode{
+					child1 := treeNodePool.Get().(*models.TreeNode)
+					*child1 = models.TreeNode{
 						Parent:  currentNode,
 						Element: recipe.Element1,
-						Visited: append(slices.Clone(currentNode.Visited), recipe.Element1),
+						Visited: &models.VisitedPath{Val: recipe.Element1, Prev: currentNode.Visited},
 					}
 					isChild1Base := IsBaseElement(child1.Element)
 					if isChild1Base {
@@ -72,10 +85,11 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 					}
 
 					// Second ingredient
-					child2 := &models.TreeNode{
+					child2 := treeNodePool.Get().(*models.TreeNode)
+					*child2 = models.TreeNode{
 						Parent:  currentNode,
 						Element: recipe.Element2,
-						Visited: append(slices.Clone(currentNode.Visited), recipe.Element2),
+						Visited: &models.VisitedPath{Val: recipe.Element2, Prev: currentNode.Visited},
 					}
 					isChild2Base := IsBaseElement(child2.Element)
 					if isChild2Base {
@@ -83,7 +97,8 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 					}
 
 					// Create pair node
-					pairNode := &models.PairNode{
+					pairNode := pairNodePool.Get().(*models.PairNode)
+					*pairNode = models.PairNode{
 						Element1: child1,
 						Element2: child2,
 					}
@@ -133,7 +148,17 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 	mu.Lock()
 	PruneTree(root)
 	mu.Unlock()
+
 	return root
+}
+
+func HasVisited(path *models.VisitedPath, id int) bool {
+	for p := path; p != nil; p = p.Prev {
+		if p.Val == id {
+			return true
+		}
+	}
+	return false
 }
 
 func calculatePossibleRecipes(node *models.TreeNode) {
@@ -171,6 +196,11 @@ func PruneTree(node *models.TreeNode) {
 
 		if pair.Element1.PossibleRecipes > 0 && pair.Element2.PossibleRecipes > 0 {
 			prunedChildren = append(prunedChildren, pair)
+		} else {
+			// Return unused nodes to pool
+			treeNodePool.Put(pair.Element1)
+			treeNodePool.Put(pair.Element2)
+			pairNodePool.Put(pair)
 		}
 	}
 
