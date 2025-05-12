@@ -3,6 +3,7 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import StartMenu from "@/components/start-menu";
 import Window from "@/components/window";
+import RecipeTree from "@/components/recipe-tree";
 import { fetchScraperData } from "@/lib/api/scrapper";
 import { useScraperStore } from "@/lib/store/scraper_store";
 import FullPageLoader from "@/components/FullPageLoader";
@@ -139,8 +140,10 @@ export default function Home() {
             title={`Recipe Tree for ${targetElement}`}
             isOpen={showTreeWindow}
             onClose={() => setShowTreeWindow(false)}
-            width={650}
-            height="auto">
+            width={800}
+            height={600}
+            minWidth={400}
+            minHeight={300}>
             <div className="min-h-[400px]">
               {loading ? (
                 <div className="flex justify-center items-center h-64">
@@ -150,12 +153,13 @@ export default function Home() {
                 <div className="text-red-500 text-center py-4">{error}</div>
               ) : (
                 <div className="text-center">
+                  <h1 className="text-4xl font-bold mb-8">Recipe Tree Visualizer</h1>
+                  <div className="w-full h-[600px] flex justify-center">
+                    <RecipeTree />
+                  </div>
                   <p className="text-xl font-semibold mb-6">{targetElement}</p>
                   <p className="text-gray-600 mb-4">
                     Recipe tree visualization for {targetElement} using {algorithm.toUpperCase()}.
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    {isMultiple ? `Finding up to ${limit} recipe paths...` : "Finding a single recipe path..."}
                   </p>
                 </div>
               )}
