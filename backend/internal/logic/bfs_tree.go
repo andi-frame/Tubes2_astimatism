@@ -3,6 +3,7 @@ package logic
 import (
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
 )
@@ -21,6 +22,7 @@ var pairNodePool = sync.Pool{
 }
 
 func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElement, tierMap map[int]int, limit uint64) *models.ResultType {
+	start := time.Now()
 	var accessedNodes uint64 = 0
 	root := treeNodePool.Get().(*models.TreeNode)
 	*root = models.TreeNode{
@@ -161,10 +163,12 @@ func BuildLimitedBFSTree(targetId int, elementsGraph map[int][]models.PairElemen
 	PruneTree(root)
 	mu.Unlock()
 
+	elapsed := time.Since(start)
+
 	return &models.ResultType{
 		Tree:          root,
 		AccessedNodes: accessedNodes,
-		Time:          0,
+		Time:          uint64(elapsed.Milliseconds()),
 	}
 }
 
