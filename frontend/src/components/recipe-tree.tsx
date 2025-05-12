@@ -146,48 +146,48 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
   const imagesLoaded = useRef<{[key: string]: boolean}>({});
   const p5Instance = useRef<p5Types | null>(null);
 
-  const getTreeDimensions = (tree: any) => {
-    const getDimensions = (node: any, depth: number = 0): { maxDepth: number; maxBreadth: number; leafPairs: number } => {
-      if (!node) return { maxDepth: 0, maxBreadth: 0, leafPairs: 0 };
+  const getTreeDimension = (tree: any) => {
+    const breadthByLevel: number[] = [];
+    
+    const countNodesAtLevel = (node: any, depth = 0) => {
+      if (!node) return;
 
-      if (!node.children) {
-        return { maxDepth: depth, maxBreadth: 1, leafPairs: 0 };
+      if (breadthByLevel.length <= depth) {
+        breadthByLevel[depth] = 0;
       }
 
-      let maxChildDepth = depth;
-      let totalLeaves = 0;
-      let totalLeafPairs = 0;
+      breadthByLevel[depth]++;
 
-      for (const child of node.children) {
-        const dim1 = getDimensions(child.element1, depth + 1);
-        const dim2 = getDimensions(child.element2, depth + 1);
-
-        maxChildDepth = Math.max(maxChildDepth, dim1.maxDepth, dim2.maxDepth);
-        totalLeaves += dim1.maxBreadth + dim2.maxBreadth;
-        if (!child.element1.children && !child.element2.children) {
-          totalLeafPairs += 1;
+      if (node.children) {
+        for (const child of node.children) {
+          countNodesAtLevel(child.element1, depth + 1);
+          countNodesAtLevel(child.element2, depth + 1);
         }
       }
-
-      return { 
-        maxDepth: maxChildDepth,
-        maxBreadth: Math.max(1, totalLeaves), 
-        leafPairs: totalLeafPairs
-      };
     };
+    
+    countNodesAtLevel(tree);
 
-    const { maxDepth, maxBreadth, leafPairs } = getDimensions(tree);
+    const maxBreadthCount = Math.max(...breadthByLevel);
+
     return {
-      width: (nodeWidth * maxBreadth) + (maxBreadth * horizontalSpacing) + (outerPadding * 2),
-      height: (nodeHeight * (maxDepth + 1)) + (verticalSpacing * maxDepth) + (outerPadding * 2)
+      maxBreadth: maxBreadthCount,
+      maxDepth: breadthByLevel.length - 1,
+      breadthByLevel
     };
   };
 
-  const dimensions = getTreeDimensions(data.tree);
+  const dimension = getTreeDimension(data.tree);
+  const canvasWidth = (nodeWidth * dimension.maxBreadth) + 
+                      ((dimension.maxBreadth - 1) * horizontalSpacing) + 
+                      (outerPadding * 2);
+  const canvasHeight = (nodeHeight * (dimension.maxDepth + 1)) + 
+                       (verticalSpacing * dimension.maxDepth) + 
+                       (outerPadding * 2);
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     p5Instance.current = p5;
-    p5.createCanvas(dimensions.width, dimensions.height).parent(canvasParentRef);
+    p5.createCanvas(canvasWidth, canvasHeight).parent(canvasParentRef);
     p5.textAlign(p5.CENTER, p5.CENTER);
     p5.strokeWeight(2);
     p5.imageMode(p5.CENTER);
@@ -249,23 +249,6 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
     }
 
     const nodeMap = new Map();
-    let maxDepth = 0;
-
-    const calculateBreadth = (node: any, depth = 0): number => {
-        if (!node) return 0;
-        maxDepth = Math.max(maxDepth, depth);
-
-        if (!node.children) return 1;
-
-        let totalBreadth = 0;
-        for (const child of node.children) {
-          const breadth1 = calculateBreadth(child.element1, depth + 1);
-          const breadth2 = calculateBreadth(child.element2, depth + 1);
-          totalBreadth += breadth1 + breadth2;
-        }
-
-        return Math.max(1, totalBreadth);
-    };
 
     const assignPositions = (node: any, depth = 0, index = 0) => {
         if (!node) return;
@@ -290,7 +273,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
         for (let level = 0; level < nodesByLevel.length; level++) {
             const nodes = nodesByLevel[level];
             const levelWidth = nodes.length * (nodeWidth + horizontalSpacing) - horizontalSpacing;
-            const startX = (dimensions.width - levelWidth) / 2;
+            const startX = (canvasWidth - levelWidth) / 2;
 
             nodes.forEach((node, index) => {
                 const xPosition = startX + index * (nodeWidth + horizontalSpacing);
