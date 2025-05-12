@@ -59,8 +59,6 @@ func BuildElementMetaMap(recipes []models.RecipeType) map[int]models.ElementMeta
 	return meta
 }
 
-
-
 func IsBaseElement(id int) bool {
 	base := map[int]bool{
 		1: true, 2: true, 3: true, 4: true,

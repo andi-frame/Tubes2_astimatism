@@ -2,26 +2,30 @@ package models
 
 // Top-Down Version: (DFS)
 type DFSNode struct {
-	ElementId     int              
-	RecipeIndex   int		// indeks resep yang digunakan (dari 0 sampai RecipeCount-1)
-	RecipeCount   int       // total jumlah resep untuk elemen ini              
-	LeftChild     *DFSNode         
-	RightChild    *DFSNode         
-	NodeCount int
-	
+	ElementId   int
+	RecipeIndex int // indeks resep yang digunakan (dari 0 sampai RecipeCount-1)
+	RecipeCount int // total jumlah resep untuk elemen ini
+	LeftChild   *DFSNode
+	RightChild  *DFSNode
+	NodeCount   int
 }
 
 type TreeNode struct {
-	Parent          *TreeNode   `json:"-"`
-	Element         int         `json:"element"`
-	Visited         []int       `json:"-"`
-	Children        []*PairNode `json:"children"`
-	PossibleRecipes int         `json:"possible_recipes"`
+	Parent          *TreeNode    `json:"-"`
+	Element         int          `json:"element"`
+	Visited         *VisitedPath `json:"-"`
+	Children        []*PairNode  `json:"children,omitempty"`
+	PossibleRecipes uint64       `json:"possible"`
 }
 
 type PairNode struct {
 	Element1 *TreeNode `json:"element1"`
 	Element2 *TreeNode `json:"element2"`
+}
+
+type VisitedPath struct {
+	Val  int
+	Prev *VisitedPath
 }
 
 // Bottom-Up Version: (unfinished)
@@ -37,7 +41,18 @@ type RecipeNode struct {
 }
 
 type ElementMeta struct {
-	Name   string			
+	Name   string
 	ImgUrl string
-	Tier   int				
+	Tier   int
+}
+
+type TreeResult struct {
+	Element  string
+	ImgUrl   string
+	Children []*PairResult
+}
+
+type PairResult struct {
+	Element1 *TreeResult
+	Element2 *TreeResult
 }

@@ -67,9 +67,7 @@ func ScrapeHandler(ctx *gin.Context) {
 	elementCounter := 0
 	recipeCounter := 0
 
-	// Scrape Myths and Monsters
-	fmt.Println("Step 1: Scraping Myths and Monsters elements...")
-	
+	// Scrape Myths and Monsters	
 	mythCollector := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	
 	mythCollector.OnHTML("table.list-table", func(table *colly.HTMLElement) {
@@ -81,7 +79,6 @@ func ScrapeHandler(ctx *gin.Context) {
 			}
 
 			mapMythMonster[element] = true
-			// fmt.Printf("Found Myth/Monster element: %s\n", element)
 		})
 	})
 
