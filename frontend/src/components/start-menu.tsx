@@ -137,7 +137,7 @@ export default function StartMenu({ isOpen, onClose }) {
       </div>
 
       {/* Elements Area */}
-      <div className="h-[400px] overflow-auto p-4">
+      <div className="h-[400px] overflow-auto p-4 styled-scrollbar">
         {/* Element grid */}
         {filteredElements.length > 0 ? (
           <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-4">
