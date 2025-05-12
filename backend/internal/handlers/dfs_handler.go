@@ -42,7 +42,7 @@ func DFSTree(ctx *gin.Context) {
 		return
 	}
 
-	tree := logic.BuildDFSTree(targetId, graph, metaMap)
+	tree := logic.BuildLimitedDFSTree(targetId, graph, metaMap, 1)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"tree": tree,
