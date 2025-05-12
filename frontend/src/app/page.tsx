@@ -108,17 +108,12 @@ export default function Home() {
             ) : (
               <div className="text-center">
                 <h1 className="text-4xl font-bold mb-8">Recipe Tree Visualizer</h1>
-                <div className="w-full h-[600px]">
+                <div className="w-full h-[600px] flex justify-center">
                   <RecipeTree />
                 </div>
                 <p className="text-xl font-semibold mb-6">{targetElement}</p>
                 <p className="text-gray-600 mb-4">
                   Recipe tree visualization for {targetElement} using {algorithm.toUpperCase()}.
-                </p>
-                <p className="text-gray-500 text-sm">
-                  {isMultiple 
-                    ? `Finding up to ${limit} recipe paths...` 
-                    : 'Finding a single recipe path...'}
                 </p>
               </div>
             )}

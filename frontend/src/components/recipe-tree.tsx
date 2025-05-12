@@ -333,7 +333,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
     };
 
   return (
-    <div className="recipe-tree-container">
+    <div className="flex justify-center items-center w-full h-full">
       <Sketch setup={setup} draw={draw} />
     </div>
   );
