@@ -6,5 +6,5 @@ import (
 )
 
 func MetaMapRoute(r *gin.Engine) {
-	r.GET("/meta-map", handlers.MetaMap)
+	r.POST("/meta-map", handlers.MetaMap)
 }

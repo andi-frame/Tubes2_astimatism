@@ -6,6 +6,8 @@ import Window from "@/components/window";
 import { fetchScraperData } from "@/lib/api/scrapper";
 import { useScraperStore } from "@/lib/store/scraper_store";
 import FullPageLoader from "@/components/FullPageLoader";
+import { useMetaMapStore } from "@/lib/store/map_store";
+import { fetchMetaMap } from "@/lib/api/meta_map";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -20,18 +22,21 @@ export default function Home() {
   const [error, setError] = useState<string>("");
 
   // TODO: implement toaster
+  // TODO: change loading animation
 
   // Scraper store
   const scrapData = useScraperStore((state) => state.scrapData);
   const setScrapData = useScraperStore((state) => state.setScrapData);
+  const metaMap = useMetaMapStore((state) => state.metaMap);
+  const setMetaMap = useMetaMapStore((state) => state.setMetaMap);
 
   useEffect(() => {
     const getData = async () => {
       try {
         if (scrapData === null) {
           setFullLoading(true);
-          const data = await fetchScraperData();
-          setScrapData(data);
+          const res = await fetchScraperData();
+          setScrapData(res.data);
           setFullLoading(false);
         }
       } catch (err) {
@@ -41,7 +46,23 @@ export default function Home() {
     };
 
     getData();
-  }, [scrapData, setScrapData]);
+  }, [metaMap, scrapData, setMetaMap, setScrapData]);
+
+  useEffect(() => {
+    const getMap = async () => {
+      try {
+        if (metaMap === null && scrapData !== null) {
+          const res = await fetchMetaMap(scrapData);
+          setMetaMap(res.data);
+        }
+      } catch (err) {
+        console.error("Error fetching meta map data");
+        console.error(err);
+      }
+    };
+
+    getMap();
+  }, [metaMap, scrapData, setMetaMap]);
 
   const handleSearchFocus = (): void => {
     setIsMenuOpen(true);

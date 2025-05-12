@@ -1,7 +1,7 @@
 // lib/store/scraperStore.ts
 import { create } from "zustand";
 
-interface RecipeType {
+export interface RecipeType {
   ElementId: number;
   Element: string;
   ImgUrl: string;
