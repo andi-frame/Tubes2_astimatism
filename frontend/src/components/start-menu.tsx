@@ -11,7 +11,13 @@ const sampleElements = [
   "Mud", "Pressure", "Puddle", "Smoke", "Steam"
 ];
 
-export default function StartMenu({ isOpen, onClose }) {
+export default function StartMenu({
+  isOpen,
+  onClose,
+  initialSearchTerm = "",
+  onSearchChange,
+  focusSearchOnOpen = false
+}) {
   // States
   const [searchTerm, setSearchTerm] = useState("");
   const [targetElement, setTargetElement] = useState(null);
@@ -26,6 +32,15 @@ export default function StartMenu({ isOpen, onClose }) {
 
   // For click detection
   const menuRef = useRef(null);
+  const searchInputRef = useRef(null);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (onSearchChange) {
+      onSearchChange(value);
+    }
+  };
 
   // Animation state
   useEffect(() => {
@@ -34,7 +49,17 @@ export default function StartMenu({ isOpen, onClose }) {
 
       const timer = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            setIsAnimating(true);
+          setIsAnimating(true);
+
+          if (focusSearchOnOpen) {
+            const focusTimer = setTimeout(() => {
+              if (searchInputRef.current) {
+                searchInputRef.current.focus();
+              }
+            }, 300);
+
+            return () => clearTimeout(focusTimer);
+          }
         });
       });
 
@@ -48,7 +73,7 @@ export default function StartMenu({ isOpen, onClose }) {
 
       return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+  }, [isOpen, focusSearchOnOpen]);
 
   // Search functionality
   const filteredElements = sampleElements.filter(element => 
@@ -119,9 +144,10 @@ export default function StartMenu({ isOpen, onClose }) {
       <div className="p-4 border-b border-white/10">
         <div className="relative">
           <input
+            ref={searchInputRef}
             type="text"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
             placeholder="Search elements..."
             className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
