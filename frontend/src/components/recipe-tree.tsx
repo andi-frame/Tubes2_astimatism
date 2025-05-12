@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import p5Types from 'p5';
 
-// Import p5 on client-side only
 const Sketch = dynamic(() => import('react-p5').then((mod) => mod.default), {
   ssr: false,
 });
+
+const imageCache: {[key: string]: any} = {};
 
 // Sample data for testing
 const sampleData = {
   "tree": {
     "element": 32,
+    "name": "Test name",
+    "icon": "https://cdn-icons-png.flaticon.com/512/684/684809.png",
     "children": [
       {
         "element1": {
@@ -128,142 +131,223 @@ const sampleData = {
   }
 };
 
-// Node spacing settings
+// Tree settings
 const nodeWidth = 60;
 const nodeHeight = 40;
-const horizontalSpacing = 150;
-const verticalSpacing = 80;
+const outerPadding = 50;
+const verticalSpacing = 100;
+const horizontalSpacing = 50;
 
 interface RecipeTreeProps {
-  data?: any; // Recipe tree data
+  data?: any;
 }
 
 const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
-  // Calculate the height and width required for the canvas based on tree depth and breadth
+  const imagesLoaded = useRef<{[key: string]: boolean}>({});
+  const p5Instance = useRef<p5Types | null>(null);
+
   const getTreeDimensions = (tree: any) => {
-    const getDimensions = (node: any, depth: number = 0): { maxDepth: number; maxBreadth: number; leaves: number } => {
-      if (!node) return { maxDepth: 0, maxBreadth: 0, leaves: 0 };
-      
-      // Handle leaf nodes
+    const getDimensions = (node: any, depth: number = 0): { maxDepth: number; maxBreadth: number; leafPairs: number } => {
+      if (!node) return { maxDepth: 0, maxBreadth: 0, leafPairs: 0 };
+
       if (!node.children) {
-        return { maxDepth: depth, maxBreadth: 1, leaves: 1 };
+        return { maxDepth: depth, maxBreadth: 1, leafPairs: 0 };
       }
-      
-      // Process children
+
       let maxChildDepth = depth;
       let totalLeaves = 0;
-      
+      let totalLeafPairs = 0;
+
       for (const child of node.children) {
-        // Handle the special structure with element1 and element2
-        if (child.element1 && child.element2) {
-          const dim1 = getDimensions(child.element1, depth + 1);
-          const dim2 = getDimensions(child.element2, depth + 1);
-          
-          maxChildDepth = Math.max(maxChildDepth, dim1.maxDepth, dim2.maxDepth);
-          totalLeaves += dim1.leaves + dim2.leaves;
-        } else {
-          const dim = getDimensions(child, depth + 1);
-          maxChildDepth = Math.max(maxChildDepth, dim.maxDepth);
-          totalLeaves += dim.leaves;
+        const dim1 = getDimensions(child.element1, depth + 1);
+        const dim2 = getDimensions(child.element2, depth + 1);
+
+        maxChildDepth = Math.max(maxChildDepth, dim1.maxDepth, dim2.maxDepth);
+        totalLeaves += dim1.maxBreadth + dim2.maxBreadth;
+        if (!child.element1.children && !child.element2.children) {
+          totalLeafPairs += 1;
         }
       }
-      
+
       return { 
-        maxDepth: maxChildDepth, 
+        maxDepth: maxChildDepth,
         maxBreadth: Math.max(1, totalLeaves), 
-        leaves: Math.max(1, totalLeaves) 
+        leafPairs: totalLeafPairs
       };
     };
-    
-    const { maxDepth, maxBreadth } = getDimensions(tree);
+
+    const { maxDepth, maxBreadth, leafPairs } = getDimensions(tree);
     return {
-      width: (maxDepth + 1) * horizontalSpacing + 100,
-      height: maxBreadth * verticalSpacing + 100
+      width: (nodeWidth * maxBreadth) + (maxBreadth * horizontalSpacing) + (outerPadding * 2),
+      height: (nodeHeight * (maxDepth + 1)) + (verticalSpacing * maxDepth) + (outerPadding * 2)
     };
   };
 
   const dimensions = getTreeDimensions(data.tree);
 
-  // p5.js setup function
   const setup = (p5: p5Types, canvasParentRef: Element) => {
+    p5Instance.current = p5;
     p5.createCanvas(dimensions.width, dimensions.height).parent(canvasParentRef);
     p5.textAlign(p5.CENTER, p5.CENTER);
     p5.strokeWeight(2);
+    p5.imageMode(p5.CENTER);
   };
-  
-  // p5.js draw function
+
   const draw = (p5: p5Types) => {
-    p5.background(240);
-    
-    // Calculate node positions and draw the tree
-    const drawTree = (
-      node: any,
-      x: number,
-      y: number,
-      availableWidth: number
-    ): { nodeX: number; nodeY: number; width: number } => {
-      if (!node) return { nodeX: x, nodeY: y, width: 0 };
-      
-      // Draw the current node
-      p5.fill(255);
-      p5.stroke(0);
-      p5.rect(x - nodeWidth / 2, y - nodeHeight / 2, nodeWidth, nodeHeight, 8);
-      p5.fill(0);
-      p5.noStroke();
-      p5.text(node.element || 0, x, y);
-      
-      if (!node.children) {
-        return { nodeX: x, nodeY: y, width: nodeWidth };
-      }
-      
-      // Calculate positions for children
-      const childrenY: number[] = [];
-      let childrenTotalHeight = 0;
-      
-      // Draw connections and calculate positions for children
-      const nextX = x + horizontalSpacing;
-      let currentY = y - (node.children.length * verticalSpacing) / 2 + verticalSpacing / 2;
-      
-      for (const child of node.children) {
-        if (child.element1 && child.element2) {
-          // Draw element1
-          const e1Result = drawTree(child.element1, nextX, currentY, availableWidth / node.children.length);
-          childrenY.push(e1Result.nodeY);
-          
-          // Draw connector line from parent to element1
-          p5.stroke(0);
-          p5.line(x + nodeWidth / 2, y, e1Result.nodeX - nodeWidth / 2, e1Result.nodeY);
-          
-          currentY += verticalSpacing;
-          
-          // Draw element2
-          const e2Result = drawTree(child.element2, nextX, currentY, availableWidth / node.children.length);
-          childrenY.push(e2Result.nodeY);
-          
-          // Draw connector line from parent to element2
-          p5.stroke(0);
-          p5.line(x + nodeWidth / 2, y, e2Result.nodeX - nodeWidth / 2, e2Result.nodeY);
-          
-          currentY += verticalSpacing;
+    p5.background(26, 56, 66);
+
+    const drawNode = (p5: p5Types, node: any, x: number, y: number) => {
+        p5.fill(255);
+        p5.stroke(0);
+        p5.rect(x - nodeWidth / 2, y - nodeHeight / 2, nodeWidth, nodeHeight, 8);
+
+        const iconSize = Math.floor(nodeHeight * 0.7);
+        const iconY = y - iconSize / 4;
+
+        // Draw Icon
+        if (node.icon) {
+            if (!imageCache[node.icon]) {
+                if (!imagesLoaded.current[node.icon]) {
+                    imagesLoaded.current[node.icon] = true;
+                    imageCache[node.icon] = p5.loadImage(node.icon,
+                        () => {
+                            if (p5Instance.current) p5Instance.current.redraw();
+                        },
+                        () => {
+                            console.error("Failed to load image: ${node.icon}");
+                        }
+                    );
+                }
+            } else {
+                p5.image(
+                    imageCache[node.icon],
+                    x - iconSize / 2,
+                    iconY - iconSize / 2,
+                    iconSize,
+                    iconSize
+                );
+            }
         } else {
-          // Handle regular nodes
-          const childResult = drawTree(child, nextX, currentY, availableWidth / node.children.length);
-          childrenY.push(childResult.nodeY);
-          
-          // Draw connector
-          p5.stroke(0);
-          p5.line(x + nodeWidth / 2, y, childResult.nodeX - nodeWidth / 2, childResult.nodeY);
-          
-          currentY += verticalSpacing;
+            p5.fill(0);
+            p5.noStroke();
+            p5.textSize(16);
+            p5.text(node.element || 0, x, iconY);
         }
-      }
-      
-      return { nodeX: x, nodeY: y, width: nodeWidth };
+
+        // Draw Name
+        if (node.name) {
+            p5.fill(0);
+            p5.noStroke();
+            p5.textSize(12);
+            p5.text(node.name, x, y + nodeHeight/2 - 10);
+        } else {
+            p5.fill(0);
+            p5.noStroke();
+            p5.textSize(12);
+            p5.text(`#${node.element || 0}`, x, y + nodeHeight/2 - 10);
+        }
+    }
+
+    const nodeMap = new Map();
+    let maxDepth = 0;
+
+    const calculateBreadth = (node: any, depth = 0): number => {
+        if (!node) return 0;
+        maxDepth = Math.max(maxDepth, depth);
+
+        if (!node.children) return 1;
+
+        let totalBreadth = 0;
+        for (const child of node.children) {
+          const breadth1 = calculateBreadth(child.element1, depth + 1);
+          const breadth2 = calculateBreadth(child.element2, depth + 1);
+          totalBreadth += breadth1 + breadth2;
+        }
+
+        return Math.max(1, totalBreadth);
     };
-    
-    // Start drawing the tree at the center of the canvas
-    drawTree(data.tree, horizontalSpacing, dimensions.height / 2, dimensions.width - horizontalSpacing * 2);
-  };
+
+    const assignPositions = (node: any, depth = 0, index = 0) => {
+        if (!node) return;
+
+        const nodesByLevel: any[][] = [];
+        const collectNodesByLevel = (node: any, depth = 0) => {
+            if (!node) return;
+
+            if (!nodesByLevel[depth]) nodesByLevel[depth] = [];
+            nodesByLevel[depth].push(node);
+
+            if (node.children) {
+                for (const child of node.children) {
+                    collectNodesByLevel(child.element1, depth + 1);
+                    collectNodesByLevel(child.element2, depth + 1);
+                }
+            }
+        };
+
+        collectNodesByLevel(data.tree);
+
+        for (let level = 0; level < nodesByLevel.length; level++) {
+            const nodes = nodesByLevel[level];
+            const levelWidth = nodes.length * (nodeWidth + horizontalSpacing) - horizontalSpacing;
+            const startX = (dimensions.width - levelWidth) / 2;
+
+            nodes.forEach((node, index) => {
+                const xPosition = startX + index * (nodeWidth + horizontalSpacing);
+                nodeMap.set(node, {
+                    x: xPosition + nodeWidth/2,
+                    y: outerPadding + level * verticalSpacing
+                });
+            });
+        }
+    };
+
+    assignPositions(data.tree);
+
+    const drawTree = (node: any) => {
+        if (!node) return;
+
+        const pos = nodeMap.get(node);
+        drawNode(p5, node, pos.x, pos.y);
+
+        if (node.children) {
+            for (const child of node.children) {
+                const childPos1 = nodeMap.get(child.element1);
+                const childPos2 = nodeMap.get(child.element2);
+                const midPairPointX = (childPos1.x + childPos2.x) / 2
+
+                p5.stroke(0);
+                p5.line(
+                    pos.x,
+                    pos.y + nodeHeight / 2,
+                    midPairPointX,
+                    pos.y + verticalSpacing * 0.75
+                );
+
+                p5.stroke(0);
+                p5.line(
+                    midPairPointX,
+                    pos.y + verticalSpacing * 0.75,
+                    midPairPointX,
+                    childPos2.y
+                );
+
+                p5.stroke(0);
+                p5.line(
+                    childPos1.x + nodeWidth / 2,
+                    childPos1.y,
+                    childPos2.x - nodeWidth / 2,
+                    childPos2.y
+                );
+
+                drawTree(child.element1);
+                drawTree(child.element2);
+            }
+        }
+    };
+
+    drawTree(data.tree);
+    };
 
   return (
     <div className="recipe-tree-container">
