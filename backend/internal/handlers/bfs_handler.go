@@ -60,9 +60,9 @@ func LimitedBFSTree(ctx *gin.Context) {
 		return
 	}
 
-	tree := logic.BuildLimitedBFSTree(targetId, graph, tierMap, limit)
+	result := logic.BuildLimitedBFSTree(targetId, graph, tierMap, limit)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"tree": tree,
+		"data": result,
 	})
 }
