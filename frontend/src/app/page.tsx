@@ -5,6 +5,7 @@ import Image from "next/image";
 import StartMenu from "@/components/start-menu";
 import Window from "@/components/window";
 import { fetchScraperData } from "@/lib/api/scrapper";
+import { useScraperStore } from "@/lib/store/scraper_store";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -17,18 +18,26 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
+  // Scraper store
+  const { scrapData, setScrapData } = useScraperStore((state) => ({
+    scrapData: state.scrapData,
+    setScrapData: state.setScrapData,
+  }));
+
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await fetchScraperData();
-        console.log("Scraper data:", data);
+        setScrapData(data);
       } catch (err) {
         console.error("Error fetching scraper data");
         console.error(err);
       }
     };
-    getData();
-  }, []);
+    if (scrapData === null) {
+      getData();
+    }
+  }, [scrapData, setScrapData]);
 
   const handleSearchFocus = (): void => {
     setIsMenuOpen(true);
