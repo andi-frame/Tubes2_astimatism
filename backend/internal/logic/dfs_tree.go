@@ -1,98 +1,90 @@
 package logic
 
-import "github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+import (
+	"time"
+	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
+)
 
-func BuildDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMap map[int]models.ElementMeta) *models.DFSNode {
-	pairs, exists := recipeGraph[targetId]
-	if !exists || len(pairs) == 0 {
-		return &models.DFSNode{
-			ElementId:   targetId,
-			RecipeIndex: -1,
-			RecipeCount: 0,
-			NodeCount:   1,
-		}
-	}
+func BuildLimitedDFSTree(
+	targetId int,
+	recipeGraph map[int][]models.PairElement,
+	metaMap map[int]models.ElementMeta,
+	limit int,
+) models.ResultType {
+	start := time.Now()
 
-	tierTarget := metaMap[targetId].Tier
+	var accessed uint64 = 0
+	var tree *models.TreeNode
+	done := make(chan *models.TreeNode, 1)
 
-	for i, pair := range pairs {
-		tier1 := metaMap[pair.Element1].Tier
-		tier2 := metaMap[pair.Element2].Tier
+	go func() {
+		tree = buildLimitedDFSTreeHelper(targetId, recipeGraph, metaMap, limit, nil, &accessed)
+		done <- tree
+	}()
+	<-done
 
-		if tier1 < tierTarget && tier2 < tierTarget {
-			left := BuildDFSTree(pair.Element1, recipeGraph, metaMap)
-			right := BuildDFSTree(pair.Element2, recipeGraph, metaMap)
+	duration := time.Since(start)
 
-			return &models.DFSNode{
-				ElementId:   targetId,
-				RecipeIndex: i,
-				RecipeCount: len(pairs),
-				LeftChild:   left,
-				RightChild:  right,
-				NodeCount:   1 + left.NodeCount + right.NodeCount,
-			}
-		}
-	}
-
-	return &models.DFSNode{
-		ElementId:   targetId,
-		RecipeIndex: -1,
-		RecipeCount: len(pairs),
-		NodeCount:   1,
+	return models.ResultType{
+		Tree:          tree,
+		AccessedNodes: accessed,
+		Time:          uint64(duration.Nanoseconds()),
 	}
 }
 
+func buildLimitedDFSTreeHelper(
+	targetId int,
+	recipeGraph map[int][]models.PairElement,
+	metaMap map[int]models.ElementMeta,
+	remainingLimit int,
+	parent *models.TreeNode,
+	accessed *uint64,
+) *models.TreeNode {
+	*accessed++
 
-func BuildLimitedDFSTree(targetId int, recipeGraph map[int][]models.PairElement, metaMap map[int]models.ElementMeta, limit int) []*models.DFSNode {
-	pairs, exists := recipeGraph[targetId]
-	if !exists || len(pairs) == 0 {
-		return []*models.DFSNode{
-			{
-				ElementId:   targetId,
-				RecipeIndex: -1,
-				RecipeCount: 0,
-				NodeCount:   1,
-			},
-		}
+	node := &models.TreeNode{
+		Element: targetId,
+		Parent:  parent,
 	}
 
-	var trees []*models.DFSNode
+	pairs, exists := recipeGraph[targetId]
+	if !exists || len(pairs) == 0 || remainingLimit <= 0 {
+		node.PossibleRecipes = 1
+		return node
+	}
+
 	tierTarget := metaMap[targetId].Tier
 
-	for i, pair := range pairs {
-		if len(trees) >= limit {
+	for _, pair := range pairs {
+		if remainingLimit <= 0 {
 			break
 		}
 
 		tier1 := metaMap[pair.Element1].Tier
 		tier2 := metaMap[pair.Element2].Tier
-
-		if tier1 < tierTarget && tier2 < tierTarget {
-			left := BuildDFSTree(pair.Element1, recipeGraph, metaMap)
-			right := BuildDFSTree(pair.Element2, recipeGraph, metaMap)
-
-			node := &models.DFSNode{
-				ElementId:   targetId,
-				RecipeIndex: i,
-				RecipeCount: len(pairs),
-				LeftChild:   left,
-				RightChild:  right,
-				NodeCount:   1 + left.NodeCount + right.NodeCount,
-			}
-			trees = append(trees, node)
+		if tier1 >= tierTarget || tier2 >= tierTarget {
+			continue
 		}
+
+		left := buildLimitedDFSTreeHelper(pair.Element1, recipeGraph, metaMap, remainingLimit, node, accessed)
+		remaining := (remainingLimit + left.PossibleRecipes - 1) / left.PossibleRecipes
+		right := buildLimitedDFSTreeHelper(pair.Element2, recipeGraph, metaMap, remaining, node, accessed)
+
+		leftCount := left.PossibleRecipes
+		rightCount := right.PossibleRecipes
+		newComb := leftCount * rightCount
+
+		remainingLimit -= newComb
+		node.Children = append(node.Children, &models.PairNode{
+			Element1: left,
+			Element2: right,
+		})
+		node.PossibleRecipes += newComb
 	}
 
-	if len(trees) == 0 {
-		return []*models.DFSNode{
-			{
-				ElementId:   targetId,
-				RecipeIndex: -1,
-				RecipeCount: len(pairs),
-				NodeCount:   1,
-			},
-		}
+	if len(node.Children) == 0 {
+		node.PossibleRecipes = 1
 	}
 
-	return trees
+	return node
 }
