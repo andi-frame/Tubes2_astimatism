@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import Image from "next/image";
 import StartMenu from "@/components/start-menu";
 import Window from "@/components/window";
+import { fetchScraperData } from "@/lib/api/scrapper";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -16,16 +17,24 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await fetchScraperData();
+        console.log("Scraper data:", data);
+      } catch (err) {
+        console.error("Error fetching scraper data");
+        console.error(err);
+      }
+    };
+    getData();
+  }, []);
+
   const handleSearchFocus = (): void => {
     setIsMenuOpen(true);
   };
 
-  const handleShowRecipeTree = (
-    element: string, 
-    algorithm: string, 
-    multiple: boolean, 
-    resultLimit: number
-  ): void => {
+  const handleShowRecipeTree = (element: string, algorithm: string, multiple: boolean, resultLimit: number): void => {
     setTargetElement(element);
     setAlgorithm(algorithm);
     setIsMultiple(multiple);
@@ -40,23 +49,21 @@ export default function Home() {
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen bg-cover bg-center flex flex-col relative overflow-hidden"
-      style={{ backgroundImage: "url('/wallpaper.jpg')" }}
-    >
+      style={{ backgroundImage: "url('/wallpaper.jpg')" }}>
       {/* windows taskbar */}
       <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full shadow-lg">
         {/* Logo/Button */}
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)} 
-          className="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-all transform hover:scale-110"
-        >
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-all transform hover:scale-110">
           <span className="text-white font-bold text-xl">A</span>
         </button>
 
         {/* Search Bar */}
         <div className="relative">
-          <input 
+          <input
             type="text"
             placeholder="Search elements..."
             value={searchQuery}
@@ -65,12 +72,11 @@ export default function Home() {
             onFocus={handleSearchFocus}
             className="pl-3 pr-8 py-1.5 rounded-full bg-white/10 border border-white/20 text-white w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20"
           />
-          <svg 
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
+          <svg
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
@@ -93,8 +99,7 @@ export default function Home() {
           isOpen={showTreeWindow}
           onClose={() => setShowTreeWindow(false)}
           width={650}
-          height="auto"
-        >
+          height="auto">
           <div className="min-h-[400px]">
             {loading ? (
               <div className="flex justify-center items-center h-64">
@@ -109,9 +114,7 @@ export default function Home() {
                   Recipe tree visualization for {targetElement} using {algorithm.toUpperCase()}.
                 </p>
                 <p className="text-gray-500 text-sm">
-                  {isMultiple 
-                    ? `Finding up to ${limit} recipe paths...` 
-                    : 'Finding a single recipe path...'}
+                  {isMultiple ? `Finding up to ${limit} recipe paths...` : "Finding a single recipe path..."}
                 </p>
               </div>
             )}
