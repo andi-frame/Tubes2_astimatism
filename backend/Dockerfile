@@ -25,11 +25,10 @@ COPY go.sum ./
 RUN --mount=type=cache,id=s/1b291e95-6239-4a5e-91e2-4682b9936512-/go/pkg/mod/,target=/go/pkg/mod/ \
     go mod download -x
     
-COPY . .
-
 # This is the architecture you're building for, which is passed in by the builder.
 # Placing it here allows the previous steps to be cached across architectures.
 ARG TARGETARCH
+COPY . .
 
 # Build the application.
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
@@ -76,6 +75,12 @@ USER appuser
 
 # Copy the executable from the "build" stage.
 COPY --from=build /bin/server /bin/
+
+# Copy the data directory
+COPY --from=build /src/data /app/data
+
+# To ensure relative paths work
+WORKDIR /app
 
 # Expose the port that the application listens on.
 # EXPOSE 8080
