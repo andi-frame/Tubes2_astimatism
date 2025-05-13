@@ -9,7 +9,7 @@ func BuildLimitedDFSTree(
 	targetId int,
 	recipeGraph map[int][]models.PairElement,
 	metaMap map[int]models.ElementMeta,
-	limit int,
+	limit uint64,
 ) models.ResultType {
 	start := time.Now()
 
@@ -36,7 +36,7 @@ func buildLimitedDFSTreeHelper(
 	targetId int,
 	recipeGraph map[int][]models.PairElement,
 	metaMap map[int]models.ElementMeta,
-	remainingLimit int,
+	remainingLimit uint64,
 	parent *models.TreeNode,
 	accessed *uint64,
 ) *models.TreeNode {

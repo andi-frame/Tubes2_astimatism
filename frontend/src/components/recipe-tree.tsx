@@ -1,135 +1,31 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import p5Types from "p5";
+import { fetchBFSSearch } from "@/lib/api/bfs_search";
+import { useMetaMapStore } from "@/lib/store/map_store";
+import { fetchDFSSearch } from "@/lib/api/dfs_search";
 
 const Sketch = dynamic(() => import("react-p5").then((mod) => mod.default), {
 	ssr: false,
 });
 
-const imageCache: { [key: string]: any } = {};
+const imageCache: { [key: string]: p5Types.Image } = {};
 
-// Sample data for testing
-const sampleData = {
-	tree: {
-		element: 32,
-		name: "Test name",
-		icon: "https://cdn-icons-png.flaticon.com/512/684/684809.png",
-		children: [
-			{
-				element1: {
-					element: 3,
-				},
-				element2: {
-					element: 25,
-					children: [
-						{
-							element1: {
-								element: 2,
-							},
-							element2: {
-								element: 11,
-								children: [
-									{
-										element1: {
-											element: 1,
-										},
-										element2: {
-											element: 1,
-										},
-									},
-								],
-							},
-						},
-						{
-							element1: {
-								element: 1,
-							},
-							element2: {
-								element: 8,
-								children: [
-									{
-										element1: {
-											element: 2,
-										},
-										element2: {
-											element: 3,
-										},
-									},
-								],
-							},
-						},
-					],
-				},
-			},
-			{
-				element1: {
-					element: 22,
-					children: [
-						{
-							element1: {
-								element: 1,
-							},
-							element2: {
-								element: 6,
-								children: [
-									{
-										element1: {
-											element: 3,
-										},
-										element2: {
-											element: 3,
-										},
-									},
-								],
-							},
-						},
-					],
-				},
-				element2: {
-					element: 25,
-					children: [
-						{
-							element1: {
-								element: 2,
-							},
-							element2: {
-								element: 11,
-								children: [
-									{
-										element1: {
-											element: 1,
-										},
-										element2: {
-											element: 1,
-										},
-									},
-								],
-							},
-						},
-						{
-							element1: {
-								element: 1,
-							},
-							element2: {
-								element: 8,
-								children: [
-									{
-										element1: {
-											element: 2,
-										},
-										element2: {
-											element: 3,
-										},
-									},
-								],
-							},
-						},
-					],
-				},
-			},
-		],
-	},
-};
+
+// Tree type
+export interface TreeNode {
+    element: number;
+    children?: PairNode[];
+}
+
+export interface PairNode {
+    element1: TreeNode;
+    element2: TreeNode;
+}
+
+const emptyTree = {
+    element: 0,   
+}
 
 // Tree settings
 const nodeWidth = 60;
@@ -139,17 +35,47 @@ const verticalSpacing = 100;
 const horizontalSpacing = 50;
 
 interface RecipeTreeProps {
-	data?: any;
+    targetElement: string;
+    limit: number;
+    isMultiple: boolean;
+    algorithm: string;
 }
 
-const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
+const RecipeTree: React.FC<RecipeTreeProps> = ({targetElement, limit = 1, isMultiple, algorithm }) => {
 	const imagesLoaded = useRef<{ [key: string]: boolean }>({});
 	const p5Instance = useRef<p5Types | null>(null);
+    const [tree, setTree] = useState<TreeNode>(emptyTree);
 
-	const getTreeDimension = (tree: any) => {
+    const metaMap = useMetaMapStore((state) => state.metaMap)
+
+    useEffect(() => {
+        const getTree = async () => {
+            try{
+                if (isMultiple && limit == 1){
+                    console.log("Error: limit should be more than one for multiple")
+                    return
+                }
+
+                if (algorithm == "bfs") {
+                    const res = await fetchBFSSearch(metaMap?.NameIdMap[targetElement] || 0, limit)
+                    setTree(res.data.Tree)
+                } else {
+                    const res = await fetchDFSSearch(metaMap?.NameIdMap[targetElement] || 0, limit)
+                    setTree(res.data.Tree)
+                }
+            } catch (err) {
+                console.error("Error fetching BFS search");
+                console.error(err);
+            }
+        }
+
+        getTree()
+    }, [algorithm, isMultiple, limit, metaMap?.NameIdMap, targetElement])
+
+	const getTreeDimension = (tree: TreeNode) => {
 		const breadthByLevel: number[] = [];
 
-		const countNodesAtLevel = (node: any, depth = 0) => {
+		const countNodesAtLevel = (node: TreeNode, depth = 0) => {
 			if (!node) return;
 
 			if (breadthByLevel.length <= depth) {
@@ -177,7 +103,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 		};
 	};
 
-	const dimension = getTreeDimension(data.tree);
+	const dimension = getTreeDimension(tree);
 	const canvasWidth =
 		nodeWidth * dimension.maxBreadth +
 		(dimension.maxBreadth - 1) * horizontalSpacing +
@@ -198,7 +124,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 	const draw = (p5: p5Types) => {
 		p5.background(26, 56, 66);
 
-		const drawNode = (p5: p5Types, node: any, x: number, y: number) => {
+		const drawNode = (p5: p5Types, node: TreeNode, x: number, y: number) => {
 			p5.fill(255);
 			p5.stroke(0);
 			p5.rect(
@@ -213,26 +139,27 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 			const iconY = y - iconSize / 4;
 
 			// Draw Icon
-			if (node.icon) {
-				if (!imageCache[node.icon]) {
-					if (!imagesLoaded.current[node.icon]) {
-						imagesLoaded.current[node.icon] = true;
-						imageCache[node.icon] = p5.loadImage(
-							node.icon,
+            const iconUrl = metaMap?.IdImgMap[node.element];
+			if (iconUrl) {
+				if (!imageCache[iconUrl]) {
+					if (!imagesLoaded.current[iconUrl]) {
+						imagesLoaded.current[iconUrl] = true;
+						imageCache[iconUrl] = p5.loadImage(
+							iconUrl,
 							() => {
 								if (p5Instance.current)
 									p5Instance.current.redraw();
 							},
 							() => {
 								console.error(
-									`Failed to load image: ${node.icon}`
+									`Failed to load image: ${iconUrl}`
 								);
 							}
 						);
 					}
 				} else {
 					p5.image(
-						imageCache[node.icon],
+						imageCache[iconUrl],
 						x - iconSize / 2,
 						iconY - iconSize / 2,
 						iconSize,
@@ -247,11 +174,12 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 			}
 
 			// Draw Name
-			if (node.name) {
+            const iconName = metaMap?.IdNameMap[node.element]
+			if (iconName) {
 				p5.fill(0);
 				p5.noStroke();
 				p5.textSize(12);
-				p5.text(node.name, x, y + nodeHeight / 2 - 10);
+				p5.text(iconName, x, y + nodeHeight / 2 - 10);
 			} else {
 				p5.fill(0);
 				p5.noStroke();
@@ -262,11 +190,11 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 
 		const nodeMap = new Map();
 
-		const assignPositions = (node: any, depth = 0, index = 0) => {
+		const assignPositions = (node: TreeNode) => {
 			if (!node) return;
 
-			const nodesByLevel: any[][] = [];
-			const collectNodesByLevel = (node: any, depth = 0) => {
+			const nodesByLevel: TreeNode[][] = [];
+			const collectNodesByLevel = (node: TreeNode, depth = 0) => {
 				if (!node) return;
 
 				if (!nodesByLevel[depth]) nodesByLevel[depth] = [];
@@ -280,7 +208,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 				}
 			};
 
-			collectNodesByLevel(data.tree);
+			collectNodesByLevel(tree);
 
 			for (let level = 0; level < nodesByLevel.length; level++) {
 				const nodes = nodesByLevel[level];
@@ -300,9 +228,9 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 			}
 		};
 
-		assignPositions(data.tree);
+		assignPositions(tree);
 
-		const drawTree = (node: any) => {
+		const drawTree = (node: TreeNode) => {
 			if (!node) return;
 
 			const pos = nodeMap.get(node);
@@ -344,7 +272,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({ data = sampleData }) => {
 			}
 		};
 
-		drawTree(data.tree);
+		drawTree(tree);
 	};
 
 	return (

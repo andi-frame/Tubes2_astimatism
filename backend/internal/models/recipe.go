@@ -19,7 +19,17 @@ type PairElement struct {
 }
 
 type ResultType struct {
- Tree          *TreeNode `json:"Tree"`
- AccessedNodes uint64    `json:"AccessedNodes"`
- Time          uint64    `json:"Time"`
+	Tree          *TreeNode `json:"Tree"`
+	AccessedNodes uint64    `json:"AccessedNodes"`
+	Time          uint64    `json:"Time"`
+}
+
+type MetaMapType struct {
+	ElementList []string          `json:"ElementList"`
+	IdNameMap   map[int]string    `json:"IdNameMap"`
+	NameIdMap   map[string]int    `json:"NameIdMap"`
+	NameImgMap  map[string]string `json:"NameImgMap"`
+	IdImgMap    map[int]string    `json:"IdImgMap"`
+	NameTierMap map[string]int    `json:"NameTierMap"`
+	IdTierMap   map[int]int       `json:"IdTierMap"`
 }

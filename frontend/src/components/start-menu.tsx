@@ -1,8 +1,8 @@
 "use client";
 
+import { useMetaMapStore } from "@/lib/store/map_store";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
-import axios from "axios";
-import Window from "./window";
+import Image from "next/image";
 
 interface StartMenuProps {
 	isOpen: boolean;
@@ -18,27 +18,10 @@ interface StartMenuProps {
 	) => void;
 }
 
-interface RecipeResult {
-	paths: string[][];
-	executionTime: number;
-}
-
-const sampleElements: string[] = [
-	"Air",
-	"Earth",
-	"Fire",
-	"Water",
-	"Dust",
-	"Energy",
-	"Land",
-	"Lava",
-	"Mist",
-	"Mud",
-	"Pressure",
-	"Puddle",
-	"Smoke",
-	"Steam",
-];
+// interface RecipeResult {
+// 	paths: string[][];
+// 	executionTime: number;
+// }
 
 export default function StartMenu({
 	isOpen,
@@ -53,15 +36,18 @@ export default function StartMenu({
 	const [isMultiple, setIsMultiple] = useState<boolean>(false);
 	const [limit, setLimit] = useState<number>(1);
 	const [algorithm, setAlgorithm] = useState<string>("bfs");
-	const [loading, setLoading] = useState<boolean>(false);
-	const [results, setResults] = useState<RecipeResult | null>(null);
-	const [error, setError] = useState<string>("");
+	// const [loading, setLoading] = useState<boolean>(false);
+	// const [results, setResults] = useState<RecipeResult | null>(null);
+	// const [error, setError] = useState<string>("");
 	const [isRendered, setIsRendered] = useState<boolean>(false);
 	const [isAnimating, setIsAnimating] = useState<boolean>(false);
-	const [showTreeWindow, setShowTreeWindow] = useState<boolean>(false);
+	// const [showTreeWindow, setShowTreeWindow] = useState<boolean>(false);
 
 	const menuRef = useRef<HTMLDivElement>(null);
 	const searchInputRef = useRef<HTMLInputElement>(null);
+
+    // All Elements
+    const metaMap = useMetaMapStore((state) => state.metaMap)
 
 	useEffect(() => {
 		setSearchTerm(initialSearchTerm);
@@ -107,7 +93,8 @@ export default function StartMenu({
 		}
 	}, [isOpen, focusSearchOnOpen]);
 
-	const filteredElements = sampleElements.filter((element) =>
+    // Filter elements
+	const filteredElements = metaMap?.ElementList.filter((element) =>
 		element.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
@@ -116,42 +103,6 @@ export default function StartMenu({
 		onShowRecipeTree(element, algorithm, isMultiple, limit);
 	};
 
-	// Find recipe, but no connection to backend
-	const findRecipe = async (targetElement: string) => {
-		if (!targetElement) return;
-
-		setLoading(true);
-		setError("");
-
-		// Mock data loading
-		setTimeout(() => {
-			setLoading(false);
-			// Mock success
-			setResults({
-				paths: [["element1", "element2"]],
-				executionTime: 120,
-			});
-		}, 1000);
-
-		/*
-    try {
-      const response = await axios.get(`http://localhost:8080/${algorithm}`, {
-        params: {
-          target: targetElement,
-          multiple: isMultiple,
-          limit: isMultiple ? limit : 1,
-          algorithmType: algorithm
-        },
-      });
-      setResults(response.data);
-    } catch (err) {
-      console.error("Error fetching recipe path:", err);
-      setError("Failed to find recipe path.");
-    } finally {
-      setLoading(false);
-    }
-    */
-	};
 
 	// Outside click detection
 	useEffect(() => {
@@ -218,7 +169,7 @@ export default function StartMenu({
 					{/* Elements Area */}
 					<div className="h-[400px] overflow-auto p-4 styled-scrollbar">
 						{/* Element grid */}
-						{filteredElements.length > 0 ? (
+						{filteredElements && filteredElements.length > 0 ? (
 							<div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-4">
 								{filteredElements.map((element) => (
 									<button
@@ -233,9 +184,7 @@ export default function StartMenu({
 										}`}
 									>
 										<div className="w-10 h-10 mb-2 rounded-md bg-white/20 flex items-center justify-center">
-											<span className="text-xl">
-												{element[0]}
-											</span>
+                                        <Image src={metaMap?.NameImgMap[element] || ""} alt={element + " image"} width={10} height={10} className="w-2/3" />
 										</div>
 										<span className="text-xs text-center">
 											{element}
