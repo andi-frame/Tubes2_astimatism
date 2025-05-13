@@ -26,11 +26,11 @@ interface RecipeTreeProps {
 }
 
 // Tree settings
-const nodeWidth = 60;
-const nodeHeight = 40;
-const outerPadding = 50;
-const verticalSpacing = 100;
-const horizontalSpacing = 50;
+const nodeWidth = 80;
+const nodeHeight = 60;
+const outerPadding = 100;
+const verticalSpacing = 200;
+const horizontalSpacing = 100;
 
 const RecipeTree: React.FC<RecipeTreeProps> = ({
 	targetElement,
@@ -135,6 +135,29 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 		const nodeGroup = zoomContainer.append("g").attr("class", "nodes");
 		const linkGroup = zoomContainer.append("g").attr("class", "links");
 
+		if (d3.select("#line-glow").empty()) {
+			const defs = svg.append("defs");
+
+			const glowGradient = defs
+				.append("radialGradient")
+				.attr("id", "line-glow-gradient")
+				.attr("cx", "50%")
+				.attr("cy", "50%")
+				.attr("r", "50%");
+
+			glowGradient
+				.append("stop")
+				.attr("offset", "0%")
+				.attr("stop-color", "#4e9aff")
+				.attr("stop-opacity", 1);
+
+			glowGradient
+				.append("stop")
+				.attr("offset", "100%")
+				.attr("stop-color", "#4e9aff")
+				.attr("stop-opacity", 0);
+		}
+
 		zoomBehaviorRef.current = d3
 			.zoom<SVGSVGElement, unknown>()
 			.scaleExtent([0.1, 4])
@@ -220,32 +243,71 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 				const childPos2 = nodeMap.get(child.element2);
 				const midPairPointX = (childPos1.x + childPos2.x) / 2;
 
+				// Main stem glow
 				linkGroup
 					.append("line")
 					.attr("x1", pos.x)
 					.attr("y1", pos.y + nodeHeight / 2)
 					.attr("x2", midPairPointX)
 					.attr("y2", pos.y + verticalSpacing * 0.75)
-					.attr("stroke", "black")
-					.attr("stroke-width", 2);
+					.attr("stroke", "rgba(78, 154, 255, 0.4)") // Semi-transparent blue
+					.attr("stroke-width", 8) // Much wider for glow effect
+					.attr("stroke-linecap", "round");
 
+				// Middle vertical glow
 				linkGroup
 					.append("line")
 					.attr("x1", midPairPointX)
 					.attr("y1", pos.y + verticalSpacing * 0.75)
 					.attr("x2", midPairPointX)
-					.attr("y2", childPos1.y)
-					.attr("stroke", "black")
-					.attr("stroke-width", 2);
+					.attr("y2", childPos1.y) // Stop at node edge
+					.attr("stroke", "rgba(78, 154, 255, 0.4)")
+					.attr("stroke-width", 8)
+					.attr("stroke-linecap", "round");
 
+				// Horizontal connector glow
 				linkGroup
 					.append("line")
 					.attr("x1", childPos1.x + nodeWidth / 2)
 					.attr("y1", childPos1.y)
 					.attr("x2", childPos2.x - nodeWidth / 2)
 					.attr("y2", childPos2.y)
-					.attr("stroke", "black")
-					.attr("stroke-width", 2);
+					.attr("stroke", "rgba(78, 154, 255, 0.4)")
+					.attr("stroke-width", 8)
+					.attr("stroke-linecap", "round");
+
+				// Main stem
+				linkGroup
+					.append("line")
+					.attr("x1", pos.x)
+					.attr("y1", pos.y + nodeHeight / 2)
+					.attr("x2", midPairPointX)
+					.attr("y2", pos.y + verticalSpacing * 0.75)
+					.attr("stroke", "#4e9aff") // Solid blue
+					.attr("stroke-width", 2) // Thinner, crisp line
+					.attr("stroke-linecap", "round");
+
+				// Middle vertical part
+				linkGroup
+					.append("line")
+					.attr("x1", midPairPointX)
+					.attr("y1", pos.y + verticalSpacing * 0.75)
+					.attr("x2", midPairPointX)
+					.attr("y2", childPos1.y)
+					.attr("stroke", "#4e9aff")
+					.attr("stroke-width", 2)
+					.attr("stroke-linecap", "round");
+
+				// Horizontal connector
+				linkGroup
+					.append("line")
+					.attr("x1", childPos1.x + nodeWidth / 2)
+					.attr("y1", childPos1.y)
+					.attr("x2", childPos2.x - nodeWidth / 2)
+					.attr("y2", childPos2.y)
+					.attr("stroke", "#4e9aff")
+					.attr("stroke-width", 2)
+					.attr("stroke-linecap", "round");
 
 				drawConnections(child.element1);
 				drawConnections(child.element2);
@@ -273,12 +335,15 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 				.append("rect")
 				.attr("width", nodeWidth)
 				.attr("height", nodeHeight)
-				.attr("rx", 8)
-				.attr("fill", "white")
-				.attr("stroke", "black");
+				.attr("rx", 12)
+				.attr("fill", "rgba(0, 0, 0, 0.65)")
+				.attr("stroke", "rgba(78, 154, 255, 1)")
+				.attr("stroke-width", 2.5)
+				.attr("filter", "url(#line-glow)")
+				.attr("class", "backdrop-blur-sm");
 
 			const iconSize = Math.floor(nodeHeight * 0.7);
-			const iconY = nodeHeight / 2 - iconSize / 4;
+			const iconY = nodeHeight - iconSize / 1.5;
 
 			const patternExists = document.getElementById(
 				`element-pattern-${node.element}`
@@ -287,11 +352,12 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 			if (patternExists) {
 				nodeElement
 					.append("rect")
-					.attr("x", nodeWidth / 2 - iconSize / 2)
+					.attr("x", nodeWidth / 2 - iconSize / 3)
 					.attr("y", iconY - iconSize / 2)
 					.attr("width", iconSize)
 					.attr("height", iconSize)
-					.attr("fill", `url(#element-pattern-${node.element})`);
+					.attr("fill", `url(#element-pattern-${node.element})`)
+					.attr("rx", 4);
 			} else {
 				nodeElement
 					.append("text")
@@ -299,7 +365,9 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 					.attr("y", iconY)
 					.attr("text-anchor", "middle")
 					.attr("alignment-baseline", "middle")
+					.attr("fill", "rgba(255, 255, 255, 0.9)")
 					.attr("font-size", 16)
+					.attr("font-weight", 500)
 					.text(node.element || 0);
 			}
 
@@ -307,10 +375,12 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 			nodeElement
 				.append("text")
 				.attr("x", nodeWidth / 2)
-				.attr("y", nodeHeight - 10)
+				.attr("y", nodeHeight - 8) // Better positioning
 				.attr("text-anchor", "middle")
 				.attr("alignment-baseline", "middle")
-				.attr("font-size", 12)
+				.attr("fill", "rgba(255, 255, 255, 0.85)") // Better contrast
+				.attr("font-size", 11)
+				.attr("font-weight", 400) // Regular weight
 				.text(iconName || `#${node.element || 0}`);
 
 			if (node.children) {
@@ -382,7 +452,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 				ref={svgRef}
 				width="100%"
 				height="100%"
-				className="bg-[#1a3842] cursor-move"
+				className="bg-black/80 backdrop-blur-md cursor-move"
 				style={{ touchAction: "none" }}
 			/>
 
