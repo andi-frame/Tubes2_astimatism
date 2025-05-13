@@ -1,2 +1,2 @@
-export const BACKEND_URL = "astimatism-be.up.railway.app";
+export const BACKEND_URL = "https://astimatism-be.up.railway.app";
 
