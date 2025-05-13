@@ -40,6 +40,8 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 }) => {
 	const [tree, setTree] = useState<TreeNode>(emptyTree);
 	const svgRef = useRef<SVGSVGElement>(null);
+    const [node, setNode] = useState<number>(0);
+    const [time, setTime] = useState<number>(0);
 	// const imageCache = useRef<{ [key: string]: boolean }>({});
 	const zoomBehaviorRef = useRef<d3.ZoomBehavior<
 		SVGSVGElement,
@@ -64,12 +66,16 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 						limit
 					);
 					setTree(res.data.Tree);
+                    setNode(res.data.AccessedNodes);
+                    setTime(res.data.Time);
 				} else {
 					const res = await fetchDFSSearch(
 						metaMap?.NameIdMap[targetElement] || 0,
 						limit
 					);
 					setTree(res.data.Tree);
+                    setNode(res.data.AccessedNodes);
+                    setTime(res.data.Time);
 				}
 			} catch (err) {
 				console.error("Error fetching search");
@@ -458,6 +464,10 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 
 			{/* Zoom Controls */}
 			<div className="absolute bottom-4 right-4 flex flex-col gap-2">
+                <div>
+                    Node: {node}
+                </div>
+                <div>Time: {time}</div>
 				<button
 					className="p-2 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30"
 					onClick={handleZoomIn}
