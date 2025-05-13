@@ -82,9 +82,6 @@ COPY --from=build /src/data /app/data
 # To ensure relative paths work
 WORKDIR /app
 
-# Ensure write file permission
-RUN chown -R appuser:appuser /app
-
 # Expose the port that the application listens on.
 # EXPOSE 8080
 
