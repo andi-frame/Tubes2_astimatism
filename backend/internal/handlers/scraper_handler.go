@@ -3,11 +3,9 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/andi-frame/Tubes2_astimatism/backend/internal/models"
-	"github.com/andi-frame/Tubes2_astimatism/backend/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly"
 )
@@ -57,19 +55,19 @@ func getTier(index int) int {
 func ScrapeHandler(ctx *gin.Context) {
 	mainURL := "https://little-alchemy.fandom.com/wiki/Elements_(Little_Alchemy_2)"
 	mythsURL := "https://little-alchemy.fandom.com/wiki/Elements_(Myths_and_Monsters)"
-	
+
 	var recipes []models.RecipeType
 	mapTier := make(map[string]int)
 	mapId := make(map[string]int)
 	mapImgUrl := make(map[string]string)
 	mapMythMonster := make(map[string]bool)
-	
+
 	elementCounter := 0
 	recipeCounter := 0
 
-	// Scrape Myths and Monsters	
+	// Scrape Myths and Monsters
 	mythCollector := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
-	
+
 	mythCollector.OnHTML("table.list-table", func(table *colly.HTMLElement) {
 		// each element
 		table.ForEach("tbody tr", func(_ int, h *colly.HTMLElement) {
@@ -93,7 +91,7 @@ func ScrapeHandler(ctx *gin.Context) {
 	if err := mythCollector.Visit(mythsURL); err != nil {
 		fmt.Printf("Error scraping Myths and Monsters: %s\n", err.Error())
 	}
-		
+
 	// Scrape main elements, ignore Myths and Monsters
 	mainCollector := colly.NewCollector(colly.AllowedDomains("little-alchemy.fandom.com"))
 	tableIndex := 0
@@ -165,7 +163,7 @@ func ScrapeHandler(ctx *gin.Context) {
 				}
 
 				recipeCounter++
-				
+
 				ingId1 := mapId[ingredient1]
 				ingId2 := mapId[ingredient2]
 				ing1 := ingredient1
@@ -216,7 +214,7 @@ func ScrapeHandler(ctx *gin.Context) {
 		return
 	}
 
-	// Fix missing ingredient IDs	
+	// Fix missing ingredient IDs
 	for i := range recipes {
 		// Check IngredientId1
 		if recipes[i].IngredientId1 == 0 && recipes[i].Ingredient1 != "" {
@@ -230,7 +228,7 @@ func ScrapeHandler(ctx *gin.Context) {
 				// fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient1, elementCounter)
 			}
 		}
-		
+
 		// Check IngredientId2
 		if recipes[i].IngredientId2 == 0 && recipes[i].Ingredient2 != "" {
 			if id, exists := mapId[recipes[i].Ingredient2]; exists {
@@ -243,18 +241,6 @@ func ScrapeHandler(ctx *gin.Context) {
 				// fmt.Printf("Assigned new ID for ingredient: %s = %d\n", recipes[i].Ingredient2, elementCounter)
 			}
 		}
-	}
-
-	// Save to JSON file	
-	if err := os.MkdirAll("data", 0755); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create data directory"})
-		return
-	}
-
-	filePath := "data/recipes.json"
-	if err := os.WriteFile(filePath, utils.ToJSON(recipes), 0644); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save recipes"})
-		return
 	}
 
 	// Set cookie for 1 day

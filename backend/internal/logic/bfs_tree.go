@@ -214,16 +214,17 @@ func PruneTree(node *models.TreeNode) {
 		return
 	}
 
-	// Recursively prune
 	prunedChildren := make([]*models.PairNode, 0)
 	for _, pair := range node.Children {
 		PruneTree(pair.Element1)
 		PruneTree(pair.Element2)
 
-		if pair.Element1.PossibleRecipes > 0 && pair.Element2.PossibleRecipes > 0 {
+		isE1Valid := IsBaseElement(pair.Element1.Element) || len(pair.Element1.Children) > 0
+		isE2Valid := IsBaseElement(pair.Element2.Element) || len(pair.Element2.Children) > 0
+
+		if isE1Valid && isE2Valid {
 			prunedChildren = append(prunedChildren, pair)
 		} else {
-			// Return unused nodes to pool
 			treeNodePool.Put(pair.Element1)
 			treeNodePool.Put(pair.Element2)
 			pairNodePool.Put(pair)
