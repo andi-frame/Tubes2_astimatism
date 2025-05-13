@@ -1,10 +1,9 @@
 import axios from "axios";
-import { BACKEND_URL } from "../constants";
 import type { RecipeType } from "../store/scraper_store";
 
 export async function fetchMetaMap(recipes: RecipeType[]) {
   try {
-    const response = await axios.post(`${BACKEND_URL}/meta-map`, {
+    const response = await axios.post(`https://astimatism-be.up.railway.app/meta-map`, {
       recipes: recipes,
     });
     return response.data;

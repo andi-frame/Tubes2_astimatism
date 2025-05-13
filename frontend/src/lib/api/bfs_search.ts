@@ -1,9 +1,8 @@
 import axios from "axios";
-import { BACKEND_URL } from "../constants";
 
 export async function fetchBFSSearch(elementId: number, limit: number) {
   try {
-    const response = await axios.get(`${BACKEND_URL}/bfs-limited-tree?target=${elementId}&limit=${limit}`);
+    const response = await axios.get(`https://astimatism-be.up.railway.app/bfs-limited-tree?target=${elementId}&limit=${limit}`);
     return response.data;
   } catch (error: unknown) {
     if (error instanceof Error) {
