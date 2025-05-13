@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent, useEffect, JSX } from "react";
 import Image from "next/image";
 import StartMenu from "@/components/start-menu";
 import Window from "@/components/window";
@@ -11,6 +11,18 @@ import FullPageLoader from "@/components/FullPageLoader";
 import { useMetaMapStore } from "@/lib/store/map_store";
 import { fetchMetaMap } from "@/lib/api/meta_map";
 import { useImagePreloader } from "@/components/image-preloader";
+import CreditsApp from "@/components/credits";
+import YouTubeApp from "@/components/video";
+import IDontKnow from "@/components/idontknow";
+import DesktopIcon from "@/components/desktop-icon";
+import RickApp from "@/components/rick";
+
+type WindowType = {
+	id: string;
+	title: string;
+	component: JSX.Element;
+	isOpen: boolean;
+};
 
 export default function Home() {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -34,6 +46,44 @@ export default function Home() {
 	const setMetaMap = useMetaMapStore((state) => state.setMetaMap);
 	const { loaded: imagesLoaded, progress: imageLoadProgress } =
 		useImagePreloader();
+	const [windows, setWindows] = useState<WindowType[]>([
+		{
+			id: "credits",
+			title: "Credits",
+			component: <CreditsApp />,
+			isOpen: false,
+		},
+		{
+			id: "youtube",
+			title: "Video Showcase",
+			component: <YouTubeApp />,
+			isOpen: false,
+		},
+		{
+			id: "idk",
+			title: "???",
+			component: <IDontKnow />,
+			isOpen: false,
+		},
+		{
+			id: "rickroll",
+			title: "You have been rick rolled",
+			component: <RickApp />,
+			isOpen: false,
+		},
+	]);
+
+	const handleLaunchApp = (id: string) => {
+		setWindows((prev) =>
+			prev.map((win) => (win.id === id ? { ...win, isOpen: true } : win))
+		);
+	};
+
+	const handleCloseWindow = (id: string) => {
+		setWindows((prev) =>
+			prev.map((win) => (win.id === id ? { ...win, isOpen: false } : win))
+		);
+	};
 
 	useEffect(() => {
 		const getData = async () => {
@@ -108,6 +158,33 @@ export default function Home() {
 				className="min-h-screen bg-cover bg-center flex flex-col relative overflow-hidden"
 				style={{ backgroundImage: "url('/lantern.jpg')" }}
 			>
+				{/* Desktop Icons */}
+				<div className="grid grid-cols-1 gap-6 p-8 absolute top-0 left-0">
+					<DesktopIcon
+						id="credits"
+						icon="/credits.svg"
+						label="Credits"
+						onLaunch={handleLaunchApp}
+					/>
+					<DesktopIcon
+						id="youtube"
+						icon="/youtube.svg"
+						label="Video"
+						onLaunch={handleLaunchApp}
+					/>
+					<DesktopIcon
+						id="idk"
+						icon="/idk.jpeg"
+						label="???"
+						onLaunch={handleLaunchApp}
+					/>
+					<DesktopIcon
+						id="rickroll"
+						icon="/youtube.svg"
+						label="video?"
+						onLaunch={handleLaunchApp}
+					/>
+				</div>
 				{/* windows taskbar */}
 				<div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-black/60 backdrop-blur-md px-2 py-2 rounded-full shadow-lg">
 					{/* Logo/Button */}
@@ -161,6 +238,31 @@ export default function Home() {
 					focusSearchOnOpen={true}
 					onShowRecipeTree={handleShowRecipeTree}
 				/>
+
+				{/* App windows */}
+				{windows.map(
+					(win) =>
+						win.isOpen && (
+							<Window
+								key={win.id}
+								title={win.title}
+								isOpen={win.isOpen}
+								onClose={() => handleCloseWindow(win.id)}
+								width={800}
+								height={600}
+								initialPosition={{
+									x:
+										window.innerWidth / 2 +
+										(Math.random() * 100 - 50),
+									y:
+										window.innerHeight / 2 +
+										(Math.random() * 100 - 50),
+								}}
+							>
+								{win.component}
+							</Window>
+						)
+				)}
 
 				{/* Recipe Tree Window*/}
 				{showTreeWindow && targetElement && (

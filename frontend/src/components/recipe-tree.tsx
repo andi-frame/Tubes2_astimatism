@@ -51,7 +51,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 	useEffect(() => {
 		const getTree = async () => {
 			try {
-				if (isMultiple && limit == 1) {
+				if (isMultiple && limit < 1) {
 					console.log(
 						"Error: limit should be more than one for multiple"
 					);
@@ -250,8 +250,8 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 					.attr("y1", pos.y + nodeHeight / 2)
 					.attr("x2", midPairPointX)
 					.attr("y2", pos.y + verticalSpacing * 0.75)
-					.attr("stroke", "rgba(78, 154, 255, 0.4)") // Semi-transparent blue
-					.attr("stroke-width", 8) // Much wider for glow effect
+					.attr("stroke", "rgba(78, 154, 255, 0.4)")
+					.attr("stroke-width", 8)
 					.attr("stroke-linecap", "round");
 
 				// Middle vertical glow
@@ -260,7 +260,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 					.attr("x1", midPairPointX)
 					.attr("y1", pos.y + verticalSpacing * 0.75)
 					.attr("x2", midPairPointX)
-					.attr("y2", childPos1.y) // Stop at node edge
+					.attr("y2", childPos1.y)
 					.attr("stroke", "rgba(78, 154, 255, 0.4)")
 					.attr("stroke-width", 8)
 					.attr("stroke-linecap", "round");
@@ -283,8 +283,8 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 					.attr("y1", pos.y + nodeHeight / 2)
 					.attr("x2", midPairPointX)
 					.attr("y2", pos.y + verticalSpacing * 0.75)
-					.attr("stroke", "#4e9aff") // Solid blue
-					.attr("stroke-width", 2) // Thinner, crisp line
+					.attr("stroke", "#4e9aff")
+					.attr("stroke-width", 2)
 					.attr("stroke-linecap", "round");
 
 				// Middle vertical part
@@ -375,12 +375,12 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 			nodeElement
 				.append("text")
 				.attr("x", nodeWidth / 2)
-				.attr("y", nodeHeight - 8) // Better positioning
+				.attr("y", nodeHeight - 8)
 				.attr("text-anchor", "middle")
 				.attr("alignment-baseline", "middle")
-				.attr("fill", "rgba(255, 255, 255, 0.85)") // Better contrast
+				.attr("fill", "rgba(255, 255, 255, 0.85)")
 				.attr("font-size", 11)
-				.attr("font-weight", 400) // Regular weight
+				.attr("font-weight", 400)
 				.text(iconName || `#${node.element || 0}`);
 
 			if (node.children) {
