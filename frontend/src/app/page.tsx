@@ -305,6 +305,12 @@ export default function Home() {
 										{targetElement} using{" "}
 										{algorithm.toUpperCase()}.
 									</p>
+									<p className="text-gray-600 mb-4">
+										Node: .
+									</p>
+									<p className="text-gray-600 mb-4">
+										Completed In:  ms.
+									</p>
 								</div>
 							)}
 						</div>
