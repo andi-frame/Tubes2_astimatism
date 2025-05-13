@@ -12,11 +12,11 @@ import (
 )
 
 func DFSTree(ctx *gin.Context) {
-	hasScraped, err := ctx.Cookie("scraped")
-	if err != nil || hasScraped != "true" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
-		return
-	}
+	// hasScraped, err := ctx.Cookie("scraped")
+	// if err != nil || hasScraped != "true" {
+	// 	ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
+	// 	return
+	// }
 
 	fileBytes, err := os.ReadFile("data/recipes.json")
 	if err != nil {

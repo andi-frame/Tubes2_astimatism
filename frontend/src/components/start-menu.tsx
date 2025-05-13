@@ -18,10 +18,10 @@ interface StartMenuProps {
 	) => void;
 }
 
-interface RecipeResult {
-	paths: string[][];
-	executionTime: number;
-}
+// interface RecipeResult {
+// 	paths: string[][];
+// 	executionTime: number;
+// }
 
 export default function StartMenu({
 	isOpen,
@@ -36,12 +36,12 @@ export default function StartMenu({
 	const [isMultiple, setIsMultiple] = useState<boolean>(false);
 	const [limit, setLimit] = useState<number>(1);
 	const [algorithm, setAlgorithm] = useState<string>("bfs");
-	const [loading, setLoading] = useState<boolean>(false);
-	const [results, setResults] = useState<RecipeResult | null>(null);
-	const [error, setError] = useState<string>("");
+	// const [loading, setLoading] = useState<boolean>(false);
+	// const [results, setResults] = useState<RecipeResult | null>(null);
+	// const [error, setError] = useState<string>("");
 	const [isRendered, setIsRendered] = useState<boolean>(false);
 	const [isAnimating, setIsAnimating] = useState<boolean>(false);
-	const [showTreeWindow, setShowTreeWindow] = useState<boolean>(false);
+	// const [showTreeWindow, setShowTreeWindow] = useState<boolean>(false);
 
 	const menuRef = useRef<HTMLDivElement>(null);
 	const searchInputRef = useRef<HTMLInputElement>(null);
@@ -103,42 +103,6 @@ export default function StartMenu({
 		onShowRecipeTree(element, algorithm, isMultiple, limit);
 	};
 
-	// Find recipe, but no connection to backend
-	const findRecipe = async (targetElement: string) => {
-		if (!targetElement) return;
-
-		setLoading(true);
-		setError("");
-
-		// Mock data loading
-		setTimeout(() => {
-			setLoading(false);
-			// Mock success
-			setResults({
-				paths: [["element1", "element2"]],
-				executionTime: 120,
-			});
-		}, 1000);
-
-		/*
-    try {
-      const response = await axios.get(`http://localhost:8080/${algorithm}`, {
-        params: {
-          target: targetElement,
-          multiple: isMultiple,
-          limit: isMultiple ? limit : 1,
-          algorithmType: algorithm
-        },
-      });
-      setResults(response.data);
-    } catch (err) {
-      console.error("Error fetching recipe path:", err);
-      setError("Failed to find recipe path.");
-    } finally {
-      setLoading(false);
-    }
-    */
-	};
 
 	// Outside click detection
 	useEffect(() => {
