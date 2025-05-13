@@ -40,7 +40,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 }) => {
 	const [tree, setTree] = useState<TreeNode>(emptyTree);
 	const svgRef = useRef<SVGSVGElement>(null);
-	const imageCache = useRef<{ [key: string]: boolean }>({});
+	// const imageCache = useRef<{ [key: string]: boolean }>({});
 	const zoomBehaviorRef = useRef<d3.ZoomBehavior<
 		SVGSVGElement,
 		unknown
