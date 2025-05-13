@@ -58,6 +58,9 @@ export default function Home() {
 			try {
 				if (metaMap === null && scrapData !== null) {
 					const res = await fetchMetaMap(scrapData);
+                    if (res.error) {
+                        setError(res.error.message)
+                    }
 					setMetaMap(res.data);
 				}
 			} catch (err) {
