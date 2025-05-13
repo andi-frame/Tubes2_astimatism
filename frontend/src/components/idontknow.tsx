@@ -38,7 +38,7 @@ export default function IDontKnow() {
 				if (audioRef.current) {
 					audioRef.current
 						.play()
-						.catch((e) => console.log("Audio play prevented"));
+						.catch(() => console.log("Audio play prevented"));
 				}
 			}, prankDelay);
 			return () => clearTimeout(timer);
