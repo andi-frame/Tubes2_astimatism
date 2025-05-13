@@ -9,7 +9,7 @@ const FullPageLoader: React.FC<FullPageLoaderProps> = ({ progress = 0 }) => {
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center z-50">
-      <div className="w-24 h-24 border-t-4 border-b-4 border-white rounded-full animate-spin mb-4"></div>
+      <div className="w-24 h-24 border-t-4 border-b-0 border-white rounded-full animate-spin mb-4"></div>
       <div className="text-white text-xl">Loading...</div>
       
       {progress > 0 && progress < 1 && (
