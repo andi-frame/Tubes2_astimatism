@@ -45,16 +45,16 @@ func DFSTree(ctx *gin.Context) {
 	tree := logic.BuildLimitedDFSTree(targetId, graph, metaMap, 1)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"tree": tree,
+		"data": tree,
 	})
 }
 
 func LimitedDFSTree(ctx *gin.Context) {
-	hasScraped, err := ctx.Cookie("scraped")
-	if err != nil || hasScraped != "true" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
-		return
-	}
+	// hasScraped, err := ctx.Cookie("scraped")
+	// if err != nil || hasScraped != "true" {
+	// 	ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
+	// 	return
+	// }
 
 	fileBytes, err := os.ReadFile("data/recipes.json")
 	if err != nil {
@@ -92,6 +92,6 @@ func LimitedDFSTree(ctx *gin.Context) {
 	trees := logic.BuildLimitedDFSTree(targetId, graph, metaMap, limit)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"trees": trees,
+		"data": trees,
 	})
 }
