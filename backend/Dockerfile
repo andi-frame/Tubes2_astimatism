@@ -21,8 +21,6 @@ WORKDIR /src
 # Leverage bind mounts to go.sum and go.mod to avoid having to copy them into
 # the container.
 RUN --mount=type=cache,id=s/1b291e95-6239-4a5e-91e2-4682b9936512-/go/pkg/mod/,target=/go/pkg/mod/ \
-    --mount=type=bind,source=go.sum,target=go.sum \
-    --mount=type=bind,source=go.mod,target=go.mod \
     go mod download -x
 
 # This is the architecture you're building for, which is passed in by the builder.
@@ -34,7 +32,6 @@ ARG TARGETARCH
 # Leverage a bind mount to the current directory to avoid having to copy the
 # source code into the container.
 RUN --mount=type=cache,id=s/1b291e95-6239-4a5e-91e2-4682b9936512-/go/pkg/mod/,target=/go/pkg/mod/ \
-    --mount=type=bind,target=. \
     CGO_ENABLED=0 GOARCH=$TARGETARCH go build -o /bin/server ./cmd/api
 
 ################################################################################
