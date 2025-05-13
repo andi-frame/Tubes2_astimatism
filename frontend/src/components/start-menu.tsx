@@ -41,13 +41,14 @@ export default function StartMenu({
 	// const [error, setError] = useState<string>("");
 	const [isRendered, setIsRendered] = useState<boolean>(false);
 	const [isAnimating, setIsAnimating] = useState<boolean>(false);
+	const [limitInputValue, setLimitInputValue] = useState<string>("1");
 	// const [showTreeWindow, setShowTreeWindow] = useState<boolean>(false);
 
 	const menuRef = useRef<HTMLDivElement>(null);
 	const searchInputRef = useRef<HTMLInputElement>(null);
 
-    // All Elements
-    const metaMap = useMetaMapStore((state) => state.metaMap)
+	// All Elements
+	const metaMap = useMetaMapStore((state) => state.metaMap);
 
 	useEffect(() => {
 		setSearchTerm(initialSearchTerm);
@@ -93,7 +94,7 @@ export default function StartMenu({
 		}
 	}, [isOpen, focusSearchOnOpen]);
 
-    // Filter elements
+	// Filter elements
 	const filteredElements = metaMap?.ElementList.filter((element) =>
 		element.toLowerCase().includes(searchTerm.toLowerCase())
 	);
@@ -102,7 +103,6 @@ export default function StartMenu({
 		setTargetElement(element);
 		onShowRecipeTree(element, algorithm, isMultiple, limit);
 	};
-
 
 	// Outside click detection
 	useEffect(() => {
@@ -184,7 +184,17 @@ export default function StartMenu({
 										}`}
 									>
 										<div className="w-10 h-10 mb-2 rounded-md bg-white/20 flex items-center justify-center">
-                                        <Image src={metaMap?.NameImgMap[element] || ""} alt={element + " image"} width={50} height={50} className="w-2/3" />
+											<Image
+												src={
+													metaMap?.NameImgMap[
+														element
+													] || ""
+												}
+												alt={element + " image"}
+												width={50}
+												height={50}
+												className="w-2/3"
+											/>
 										</div>
 										<span className="text-xs text-center">
 											{element}
@@ -213,8 +223,9 @@ export default function StartMenu({
 										const newIsMultiple = !isMultiple;
 										setIsMultiple(newIsMultiple);
 
-										if (isMultiple) {
+										if (!newIsMultiple) {
 											setLimit(1);
+											setLimitInputValue("1");
 										}
 									}}
 									className="flex items-center cursor-pointer select-none"
@@ -251,12 +262,17 @@ export default function StartMenu({
 									type="number"
 									min="1"
 									max="10"
-									value={limit}
+									value={limitInputValue}
 									onChange={(
 										e: ChangeEvent<HTMLInputElement>
-									) =>
-										setLimit(parseInt(e.target.value) || 1)
-									}
+									) => {
+										const value = e.target.value;
+										setLimitInputValue(value);
+										const numValue = parseInt(value);
+										if (!isNaN(numValue)) {
+											setLimit(numValue);
+										}
+									}}
 									disabled={!isMultiple}
 									className={`w-16 px-2 py-1 rounded bg-white/10 border border-white/20 text-white focus:outline-none ${
 										!isMultiple
