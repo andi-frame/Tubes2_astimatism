@@ -13,11 +13,11 @@ import (
 
 func LimitedBFSTree(ctx *gin.Context) {
 	// If user already scraped recipes
-	hasScraped, err := ctx.Cookie("scraped")
-	if err != nil || hasScraped != "true" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
-		return
-	}
+	// hasScraped, err := ctx.Cookie("scraped")
+	// if err != nil || hasScraped != "true" {
+	// 	ctx.JSON(http.StatusUnauthorized, gin.H{"error": "You must scrape the data first"})
+	// 	return
+	// }
 
 	// Read recipes from JSON file
 	filePath := "data/recipes.json"

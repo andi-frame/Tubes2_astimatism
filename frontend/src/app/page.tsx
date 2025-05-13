@@ -155,7 +155,7 @@ export default function Home() {
                 <div className="text-center">
                   <h1 className="text-4xl font-bold mb-8">Recipe Tree Visualizer</h1>
                   <div className="w-full h-[600px] flex justify-center">
-                    <RecipeTree />
+                    <RecipeTree targetElement={targetElement} limit={limit} isMultiple={isMultiple} algorithm={algorithm} />
                   </div>
                   <p className="text-xl font-semibold mb-6">{targetElement}</p>
                   <p className="text-gray-600 mb-4">
