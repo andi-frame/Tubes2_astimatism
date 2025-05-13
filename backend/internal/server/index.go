@@ -46,6 +46,9 @@ func (s *Server) HelloWorldHandler(c *gin.Context) {
 }
 
 func (s *Server) healthHandler(c *gin.Context) {
+	resp := make(map[string]string)
+	resp["message"] = "All Good"
+	c.JSON(http.StatusOK, resp)
 }
 
 func (s *Server) websocketHandler(c *gin.Context) {
