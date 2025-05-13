@@ -10,14 +10,17 @@
 # Create a stage for building the application.
 ARG GO_VERSION=1.24.0
 ARG RAILWAY_SERVICE_ID
+
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
+ENV RAILWAY_SERVICE_ID=$RAILWAY_SERVICE_ID
+
 WORKDIR /src
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
 # Leverage bind mounts to go.sum and go.mod to avoid having to copy them into
 # the container.
-RUN --mount=type=cache,id=s/${RAILWAY_SERVICE_ID}-go/pkg/mod,target=/go/pkg/mod/ \
+RUN --mount=type=cache,id=s/1b291e95-6239-4a5e-91e2-4682b9936512-go/pkg/mod,target=/go/pkg/mod/ \
     --mount=type=bind,source=go.sum,target=go.sum \
     --mount=type=bind,source=go.mod,target=go.mod \
     go mod download -x
@@ -30,7 +33,7 @@ ARG TARGETARCH
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
 # Leverage a bind mount to the current directory to avoid having to copy the
 # source code into the container.
-RUN --mount=type=cache,id=s/${RAILWAY_SERVICE_ID}-go/pkg/mod,target=/go/pkg/mod/ \
+RUN --mount=type=cache,id=s/1b291e95-6239-4a5e-91e2-4682b9936512-go/pkg/mod,target=/go/pkg/mod/ \
     --mount=type=bind,target=. \
     CGO_ENABLED=0 GOARCH=$TARGETARCH go build -o /bin/server ./cmd/api
 
@@ -50,7 +53,7 @@ ARG RAILWAY_SERVICE_ID
 
 # Install any runtime dependencies that are needed to run your application.
 # Leverage a cache mount to /var/cache/apk/ to speed up subsequent builds.
-RUN --mount=type=cache,id=s/${RAILWAY_SERVICE_ID}-var/cache/apk,target=/var/cache/apk \
+RUN --mount=type=cache,id=s/1b291e95-6239-4a5e-91e2-4682b9936512-var/cache/apk,target=/var/cache/apk \
     apk --update add \
         ca-certificates \
         tzdata \
