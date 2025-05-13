@@ -174,7 +174,7 @@ export default function Window({
 	return (
 		<div
 			ref={windowRef}
-			className={`fixed z-50 bg-white rounded-lg shadow-2xl overflow-hidden ${className}`}
+			className={`fixed z-50 bg-black/80 backdrop-blur-xl text-white rounded-xl shadow-2xl overflow-hidden border border-white/10 ${className}`}
 			style={{
 				left: position.x,
 				top: position.y,
@@ -185,24 +185,36 @@ export default function Window({
 		>
 			{/* Window title bar */}
 			<div
-				className="bg-blue-600 text-white px-4 py-2 flex justify-between items-center cursor-move"
+				className="px-4 py-3 flex justify-between items-center cursor-move border-b border-white/10"
 				onMouseDown={handleMouseDown}
 			>
-				<h2 className="font-semibold">{title}</h2>
+				<h2 className="font-medium text-sm">{title}</h2>
 				<div className="window-controls flex items-center space-x-2">
 					<button
 						onClick={handleMaximizeToggle}
-						className="rounded-full w-6 h-6 flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 transition-colors"
+						className="rounded-full w-6 h-6 flex items-center justify-center bg-white/20 hover:bg-white/30 transition-colors"
 						title={isMaximized ? "Restore" : "Maximize"}
 					>
 						{isMaximized ? "□" : "▢"}
 					</button>
 					<button
 						onClick={onClose}
-						className="rounded-full w-6 h-6 flex items-center justify-center bg-red-500 hover:bg-red-600 transition-colors"
+						className="rounded-full w-6 h-6 flex items-center justify-center bg-white/20 hover:bg-white/30 transition-colors"
 						title="Close"
 					>
-						✕
+						<svg
+							className="w-3 h-3"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
 					</button>
 				</div>
 			</div>
