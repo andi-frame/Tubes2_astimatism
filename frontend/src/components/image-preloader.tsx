@@ -31,6 +31,7 @@ export const useImagePreloader = () => {
 	const metaMap = useMetaMapStore((state) => state.metaMap);
 
 	const createFallbackPattern = (
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		defs: d3.Selection<any, unknown, null, undefined>,
 		elementId: string | number
 	) => {
