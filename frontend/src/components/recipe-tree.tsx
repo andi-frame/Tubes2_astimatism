@@ -466,8 +466,8 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 			<div className="absolute bottom-4 right-4 flex flex-col gap-2">
                 <div>
                     Node: {node}
+                    Time: {time} ms
                 </div>
-                <div>Time: {time}</div>
 				<button
 					className="p-2 bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30"
 					onClick={handleZoomIn}
