@@ -9,7 +9,7 @@
 ################################################################################
 # Create a stage for building the application.
 ARG GO_VERSION=1.24.0
-ARG RAILWAY_SERVICE_ID=1
+ARG RAILWAY_SERVICE_ID
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
 WORKDIR /src
 
@@ -46,7 +46,7 @@ RUN --mount=type=cache,id=s/${RAILWAY_SERVICE_ID}-go/pkg/mod,target=/go/pkg/mod/
 # reproducibility is important, consider using a versioned tag
 # (e.g., alpine:3.17.2) or SHA (e.g., alpine@sha256:c41ab5c992deb4fe7e5da09f67a8804a46bd0592bfdf0b1847dde0e0889d2bff).
 FROM alpine:latest AS final
-ARG RAILWAY_SERVICE_ID=1
+ARG RAILWAY_SERVICE_ID
 
 # Install any runtime dependencies that are needed to run your application.
 # Leverage a cache mount to /var/cache/apk/ to speed up subsequent builds.
