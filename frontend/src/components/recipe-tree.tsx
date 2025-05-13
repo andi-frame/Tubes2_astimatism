@@ -234,7 +234,7 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 					.attr("x1", midPairPointX)
 					.attr("y1", pos.y + verticalSpacing * 0.75)
 					.attr("x2", midPairPointX)
-					.attr("y2", childPos1.y - nodeHeight / 2)
+					.attr("y2", childPos1.y)
 					.attr("stroke", "black")
 					.attr("stroke-width", 2);
 
@@ -277,48 +277,21 @@ const RecipeTree: React.FC<RecipeTreeProps> = ({
 				.attr("fill", "white")
 				.attr("stroke", "black");
 
-			const iconUrl = metaMap?.IdImgMap[node.element];
 			const iconSize = Math.floor(nodeHeight * 0.7);
 			const iconY = nodeHeight / 2 - iconSize / 4;
 
-			if (iconUrl) {
-				if (!imageCache.current[iconUrl]) {
-					imageCache.current[iconUrl] = true;
-					const img = new Image();
-					img.onload = () => {
-						const pattern = svg
-							.append("defs")
-							.append("pattern")
-							.attr("id", `img-${node.element}`)
-							.attr("width", 1)
-							.attr("height", 1)
-							.attr("patternUnits", "objectBoundingBox");
+			const patternExists = document.getElementById(
+				`element-pattern-${node.element}`
+			);
 
-						pattern
-							.append("image")
-							.attr("href", iconUrl)
-							.attr("width", iconSize)
-							.attr("height", iconSize)
-							.attr("preserveAspectRatio", "xMidYMid slice");
-
-						nodeElement
-							.append("rect")
-							.attr("x", nodeWidth / 2 - iconSize / 2)
-							.attr("y", iconY - iconSize / 2)
-							.attr("width", iconSize)
-							.attr("height", iconSize)
-							.attr("fill", `url(#img-${node.element})`);
-					};
-					img.src = iconUrl;
-				} else {
-					nodeElement
-						.append("rect")
-						.attr("x", nodeWidth / 2 - iconSize / 2)
-						.attr("y", iconY - iconSize / 2)
-						.attr("width", iconSize)
-						.attr("height", iconSize)
-						.attr("fill", `url(#img-${node.element})`);
-				}
+			if (patternExists) {
+				nodeElement
+					.append("rect")
+					.attr("x", nodeWidth / 2 - iconSize / 2)
+					.attr("y", iconY - iconSize / 2)
+					.attr("width", iconSize)
+					.attr("height", iconSize)
+					.attr("fill", `url(#element-pattern-${node.element})`);
 			} else {
 				nodeElement
 					.append("text")

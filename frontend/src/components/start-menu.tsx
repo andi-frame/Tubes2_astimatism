@@ -184,7 +184,7 @@ export default function StartMenu({
 										}`}
 									>
 										<div className="w-10 h-10 mb-2 rounded-md bg-white/20 flex items-center justify-center">
-                                        <Image src={metaMap?.NameImgMap[element] || ""} alt={element + " image"} width={10} height={10} className="w-2/3" />
+                                        <Image src={metaMap?.NameImgMap[element] || ""} alt={element + " image"} width={50} height={50} className="w-2/3" />
 										</div>
 										<span className="text-xs text-center">
 											{element}
