@@ -276,7 +276,7 @@ export default function StartMenu({
 								Algorithm
 							</p>
 							<div className="flex items-center space-x-2">
-								{["bfs", "dfs", "bidirectional"].map((algo) => (
+								{["bfs", "dfs"].map((algo) => (
 									<button
 										key={algo}
 										onClick={() => setAlgorithm(algo)}
